@@ -94,14 +94,14 @@ function save(a,ks){try{localStorage.setItem('tap27_'+a,JSON.stringify(data[a]))
 if(db){const o={};ks.forEach(k=>o[k]=data[a][k]);const r=db.doc('planning/'+a);r.update({d:o}).catch(()=>r.set({d:data[a]})).catch(e=>$('st').textContent='Enregistrement impossible : '+(e.message||e.code))}}
 AG.forEach(a=>{try{const s=localStorage.getItem('tap27_'+a[0]);if(s)data[a[0]]=JSON.parse(s)}catch(e){}});
 draw();$('st').textContent='Mode local (hors ligne)';
-const CFG={apiKey:"",authDomain:"",projectId:"",appId:""}; // ← à remplir avec votre config Firebase (voir README)
+const CFG={apiKey:"AIzaSyBz7oH7QZPduFLdQqJHr_QN6f6lh_gQM2Y",authDomain:"tap-goussainville.firebaseapp.com",databaseURL:"https://tap-goussainville-default-rtdb.europe-west1.firebasedatabase.app",projectId:"tap-goussainville",storageBucket:"tap-goussainville.firebasestorage.app",messagingSenderId:"214806325624",appId:"1:214806325624:web:46d57c2f96ba8640d7c08d"}; // ← config Firebase (Realtime Database)
 const ld=u=>new Promise((r,j)=>{const e=document.createElement('script');e.src=u;e.onload=r;e.onerror=j;document.head.appendChild(e)});
-(async()=>{if(!CFG.projectId){$('st').textContent='Mode local : saisies enregistrées sur cet appareil uniquement';return}
-try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-firestore-compat.js`);
-firebase.initializeApp(CFG);const fs=firebase.firestore();
-db={doc:p=>({update:o=>fs.doc(p).set(o,{merge:true}),set:o=>fs.doc(p).set(o)})};
+(async()=>{if(!CFG.databaseURL){$('st').textContent='Mode local : saisies enregistrées sur cet appareil uniquement';return}
+try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-database-compat.js`);
+firebase.initializeApp(CFG);const rt=firebase.database();
+db={doc:p=>({update:o=>rt.ref(p+'/d').update(o.d),set:o=>rt.ref(p).set(o)})};
 $('st').textContent='✅ Planning partagé : tout le monde voit les modifications en direct';
-AG.forEach(a=>fs.doc('planning/'+a[0]).onSnapshot(s=>{if(s.exists){data[a[0]]=(s.data()||{}).d||{};draw()}},()=>{$('st').textContent='⚠️ Connexion impossible : saisies locales'}))}
+AG.forEach(a=>rt.ref('planning/'+a[0]+'/d').on('value',s=>{const v=s.val();if(v){const o={};for(const k in v){const x=v[k];o[k]=Array.isArray(x)?[x[0]||'',x[1]||'']:[(x&&x[0])||'',(x&&x[1])||'']}data[a[0]]=o;try{localStorage.setItem('tap27_'+a[0],JSON.stringify(o))}catch(e){}draw()}},()=>{$('st').textContent='⚠️ Connexion impossible : vérifiez les règles Firebase'}))}
 catch(e){$('st').textContent='⚠️ Hors ligne : saisies locales uniquement'}})();
 // ---- Version automatique : 1.0 au premier envoi de index.html sur GitHub, puis 1.1, 1.2... à chaque mise à jour ----
 let cur=null;
