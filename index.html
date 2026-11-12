@@ -45,11 +45,11 @@ td.c:active{outline:2px solid var(--ac)}
 .clr{background:var(--bg)!important;color:var(--ink);border:1px dashed var(--mut)!important}
 input[type=number]{width:66px;padding:6px;font-size:16px!important;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
 #st{font-size:11px;color:var(--mut);padding:0 12px 8px}
-#lk{position:fixed;inset:0;z-index:50;background:var(--hd);display:flex;align-items:center;justify-content:center;padding:24px}#lk .bx{background:var(--card);color:var(--ink);border-radius:22px;padding:26px 22px;width:100%;max-width:340px;text-align:center;box-shadow:0 20px 50px #0005}#lk img{width:72px;height:72px;border-radius:18px;margin-bottom:10px}#lk h2{margin:0 0 4px;font-size:20px}#lk p{margin:0 0 16px;color:var(--mut);font-size:13px}#lk input{width:100%;font-size:26px!important;letter-spacing:12px;text-align:center;padding:12px;border:2px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);-webkit-user-select:text;user-select:text}#lk input:focus{outline:none;border-color:var(--ac)}#lk button{margin-top:14px;width:100%;border:0;border-radius:14px;padding:13px;font-size:16px;font-weight:700;background:var(--ac);color:#fff}#lk .er{color:var(--neg);font-size:13px;min-height:18px;margin-top:8px}.shk{animation:shk .35s}@keyframes shk{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}</style></head><body>
+#lk{position:fixed;inset:0;z-index:50;background:var(--hd);display:flex;align-items:center;justify-content:center;padding:24px}#lk .bx{background:var(--card);color:var(--ink);border-radius:22px;padding:26px 22px;width:100%;max-width:340px;text-align:center;box-shadow:0 20px 50px #0005}#lk img{width:72px;height:72px;border-radius:18px;margin-bottom:10px}#lk h2{margin:0 0 4px;font-size:20px}#lk p{margin:0 0 16px;color:var(--mut);font-size:13px}#lk input{width:100%;font-size:26px!important;letter-spacing:12px;text-align:center;padding:12px;border:2px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);-webkit-user-select:text;user-select:text}#lk input:focus{outline:none;border-color:var(--ac)}#lk button{margin-top:14px;width:100%;border:0;border-radius:14px;padding:13px;font-size:16px;font-weight:700;background:var(--ac);color:#fff}#lk .er{color:var(--neg);font-size:13px;min-height:18px;margin-top:8px}.shk{animation:shk .35s}@keyframes shk{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}#who{position:fixed;inset:0;z-index:49;background:var(--hd);display:none;align-items:center;justify-content:center;padding:20px}#who .bx{background:var(--card);color:var(--ink);border-radius:22px;padding:22px 16px;width:100%;max-width:380px;box-shadow:0 20px 50px #0005}#who h2{margin:0 0 4px;text-align:center;font-size:20px}#who p{margin:0 0 14px;text-align:center;color:var(--mut);font-size:13px}#who button{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:10px 12px;margin-top:8px;font-size:15px;font-weight:600;text-align:left}#hist{margin:4px 10px 24px}#hist .hh{display:flex;justify-content:space-between;align-items:center;margin:6px 4px 8px}#hist .hh b{font-size:15px}#hist .hh a{font-size:12px;color:var(--ac);text-decoration:none;font-weight:600;cursor:pointer}.hi{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:9px 8px 9px 10px;margin-bottom:6px;animation:fd .2s ease}.hi .av{width:32px;height:32px;font-size:11px}.hi .tx{flex:1;font-size:13px;line-height:1.35}.hi .tx small{display:block;color:var(--mut);font-size:11px;margin-top:2px}.hi .cd{display:inline-block;border-radius:5px;padding:0 6px;font-weight:700;font-size:12px}.hi .x{border:0;background:var(--bg);color:var(--mut);width:30px;height:30px;border-radius:50%;font-size:16px;line-height:30px;flex:none;cursor:pointer}.he{color:var(--mut);font-size:13px;text-align:center;padding:16px;border:1px dashed var(--line);border-radius:14px}</style></head><body>
 <div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2>TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1>TAP 2027</h1><span id="ver"></span><button id="th" onclick="tg()" aria-label="Changer de thème"></button></header>
 <div class="tabs" id="tabs"></div>
 <div class="view seg" id="view"></div>
-<div id="main"></div><div id="st"></div>
+<div id="main"></div><div id="hist"></div><div id="st"></div><div id="who"><div class="bx"><h2>Qui êtes-vous ?</h2><p>Choisissez votre nom (une seule fois)</p><div id="wl"></div></div></div>
 <div id="upd" style="display:none;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));background:#e8871e;color:#fff;padding:10px 14px;border-radius:12px;z-index:30;justify-content:space-between;align-items:center;gap:8px"><span id="ut"></span><button onclick="location.reload()" style="border:0;border-radius:8px;padding:6px 12px;font-weight:700">Actualiser</button></div><div id="ov" onclick="closeS()"></div><div id="sh"></div>
 <script>
 const P={CA:['#8cb4e5','#1f2a44','Congés annuel'],RU:['#bcdeed','#2e7d8c','Repos supplémentaire'],RQ:['#8cb4e5','#1f2a44','Repos compensateur'],RN:['#8cb4e5','#1f2a44','Repos comp. de nuit'],RP:['#bcdeed','#2e7d8c','Repos périodique'],VT:['#8cb4e5','#1f2a44','Repos suppl. temps partiel'],RPS:['#bcdeed','#2e7d8c','Repos suppl. (lundi/vendredi) · 10 par an'],F:['#ffc878','#8a4b00','Jour férié'],VM:['#c9c9c9','#404040','Visite médicale'],MN:['#1f3a5f','#fff','Montée de nuit'],N1:['#17375e','#fff','N1'],N2:['#17375e','#fff','N2'],N3:['#17375e','#fff','N3'],N4:['#17375e','#fff','N4'],CS:['#d99694','#7a1f1f','Congés suppl. (mariage, naissance)'],MA:['#d99694','#7a1f1f','Maladie'],AY:['#d99694','#7a1f1f','Congé syndical'],DC:['#d99694','#7a1f1f','Grève journée complète'],DB:['#d99694','#7a1f1f','Grève 1/2 journée'],DA:['#d99694','#7a1f1f','Grève 1h'],AST:['#00ab35','#fff','Astreinte'],FOR:['#ffff69','#5c5c00','Formation']};
@@ -81,7 +81,28 @@ const dk=t?t=='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.datase
 $('th').textContent=dk?'☀️ Clair':'🌙 Sombre';document.querySelector('meta[name=theme-color]').content=dk?'#0e131c':'#4a63e0'}
 function tg(){const n=document.documentElement.dataset.theme=='dark'?'light':'dark';try{localStorage.setItem('tap_theme',n)}catch(e){}th(n);draw()}
 (()=>{let t=null;try{t=localStorage.getItem('tap_theme')}catch(e){}th(t)})();
-function draw(){const w=document.querySelector('.wrap'),sx=w?w.scrollLeft:0,sy=w?w.scrollTop:0,pm=draw.m;draw.m=mo+vw;tabs();vw=='plan'?plan():vw=='cnt'?cnt():leg();const w2=document.querySelector('.wrap');if(w2&&pm===draw.m){w2.style.scrollBehavior='auto';w2.scrollLeft=sx;w2.scrollTop=sy;w2.style.scrollBehavior=''}}
+
+let me=null,H=[],RT=null;try{me=localStorage.getItem('tap_me')}catch(e){}
+const nmA=id=>(AG.find(x=>x[0]==id)||[0,'?'])[1],pre=id=>{const p=nmA(id).split(' ');return p[p.length-1]};
+const iniA=id=>{const p=nmA(id).split(' ');return(p[0][0]+p[p.length-1][0]).toUpperCase()};
+function who(){$('wl').innerHTML=AG.map(a=>`<button onclick="pickMe('${a[0]}')"><span class="av">${iniA(a[0])}</span><span>${name(a)}</span></button>`).join('');$('who').style.display='flex'}
+function pickMe(id){me=id;try{localStorage.setItem('tap_me',id)}catch(e){}$('who').style.display='none';renderH()}
+function fd(k){const m=+k.slice(5,7)-1;return +k.slice(8)+' '+MOIS[m].slice(0,4).toLowerCase()+(MOIS[m].length>4?'.':'')}
+function ago(t){const d=(Date.now()-t)/1000;if(d<60)return"à l'instant";if(d<3600)return'il y a '+Math.floor(d/60)+' min';if(d<86400)return'il y a '+Math.floor(d/3600)+' h';const x=new Date(t);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' à '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
+function logH(a,k0,k1,c,l){const e={by:me||'',ag:a,d0:k0,d1:k1,c:c||'',l:l,t:Date.now()};
+ if(RT)RT.ref('historique').push(e).catch(()=>{});else{H.unshift({id:'L'+e.t,...e});saveLH();renderH()}}
+function saveLH(){try{localStorage.setItem('tap_hist',JSON.stringify(H.slice(0,100)))}catch(e){}}
+function delH(id){if(RT&&id[0]!=='L')RT.ref('historique/'+id).remove().catch(()=>{});else{H=H.filter(x=>x.id!==id);saveLH();renderH()}}
+function renderH(){const el=$('hist');if(vw!=='plan'){el.innerHTML='';return}
+ const top=`<div class="hh"><b>Historique</b>${me?`<a onclick="who()">Vous : ${esc(pre(me))} · changer</a>`:''}</div>`;
+ if(!H.length){el.innerHTML=top+'<div class="he">Aucune modification pour le moment</div>';return}
+ el.innerHTML=top+H.slice(0,60).map(e=>{const p=P[e.c],cd=e.c?`<span class="cd" style="background:${p?p[0]:'#ddd'};color:${p?p[1]:'#000'}">${esc(e.c)}</span>`:'';
+  const qui=e.by?esc(pre(e.by)):'Quelqu’un',pour=e.by===e.ag?'pour lui-même':'pour '+esc(pre(e.ag)),per=e.d0===e.d1?'le '+fd(e.d0):'du '+fd(e.d0)+' au '+fd(e.d1);
+  const act=e.c?`a posé ${cd}`:'a effacé';
+  return`<div class="hi"><span class="av">${e.by?iniA(e.by):'?'}</span><div class="tx"><b>${qui}</b> ${act} ${pour} ${per}${e.l?' (ligne 2)':''}<small>${ago(e.t)}</small></div><button class="x" onclick="delH('${e.id}')" aria-label="Supprimer">×</button></div>`}).join('')}
+try{H=JSON.parse(localStorage.getItem('tap_hist')||'[]')}catch(e){H=[]}
+setInterval(()=>{if(vw==='plan')renderH()},60000);
+function draw(){const w=document.querySelector('.wrap'),sx=w?w.scrollLeft:0,sy=w?w.scrollTop:0,pm=draw.m;draw.m=mo+vw;tabs();vw=='plan'?plan():vw=='cnt'?cnt():leg();renderH();const w2=document.querySelector('.wrap');if(w2&&pm===draw.m){w2.style.scrollBehavior='auto';w2.scrollLeft=sx;w2.scrollTop=sy;w2.style.scrollBehavior=''}}
 function openS(a,k,l){if(ro){$('st').textContent='Lecture seule : vous ne pouvez pas modifier ce planning.';return}if(l!==undefined)line=l;sel=[a,k];const ag=AG.find(x=>x[0]==a),d=+k.slice(8),n=new Date(2027,+k.slice(5,7),0).getDate();
 $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d} ${MOIS[+k.slice(5,7)-1]}</span><button onclick="closeS()">×</button></div>
 <div class="seg"><button class="${line==0?'on':''}" onclick="openS(sel[0],sel[1],0)">Ligne 1</button><button class="${line==1?'on':''}" onclick="openS(sel[0],sel[1],1)">Ligne 2</button><span style="margin-left:auto">jusqu’au <input id="to" type="number" min="${d}" max="${n}" value="${d}"></span></div>
@@ -89,7 +110,7 @@ $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d} ${MOIS[+k.slice(5,7
 function closeS(){$('sh').classList.remove('o');$('ov').classList.remove('o')}
 function setC(c){const[a,k]=sel,m=+k.slice(5,7)-1,d0=+k.slice(8),d1=Math.max(d0,Math.min(+$('to').value||d0,new Date(2027,m+1,0).getDate()));
 const mp=data[a]=data[a]||{},ks=[];for(let d=d0;d<=d1;d++){const kk=iso(m,d),v=get(a,kk).slice();v[line]=c;mp[kk]=v;ks.push(kk)}
-save(a,ks);draw();closeS()}
+save(a,ks);logH(a,ks[0],ks[ks.length-1],c,line);draw();closeS()}
 function save(a,ks){try{localStorage.setItem('tap27_'+a,JSON.stringify(data[a]))}catch(e){}
 if(db){const o={};ks.forEach(k=>o[k]=data[a][k]);const r=db.doc('planning/'+a);r.update({d:o}).catch(()=>r.set({d:data[a]})).catch(e=>$('st').textContent='Enregistrement impossible : '+(e.message||e.code))}}
 AG.forEach(a=>{try{const s=localStorage.getItem('tap27_'+a[0]);if(s)data[a[0]]=JSON.parse(s)}catch(e){}});
@@ -98,7 +119,7 @@ const CFG={apiKey:"AIzaSyBz7oH7QZPduFLdQqJHr_QN6f6lh_gQM2Y",authDomain:"tap-gous
 const ld=u=>new Promise((r,j)=>{const e=document.createElement('script');e.src=u;e.onload=r;e.onerror=j;document.head.appendChild(e)});
 (async()=>{if(!CFG.databaseURL){return}
 try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-database-compat.js`);
-firebase.initializeApp(CFG);const rt=firebase.database();
+firebase.initializeApp(CFG);const rt=firebase.database();RT=rt;H=[];renderH();rt.ref('historique').limitToLast(100).on('value',s=>{const v=s.val()||{};H=Object.entries(v).map(([id,e])=>({id,...e})).sort((x,y)=>y.t-x.t);renderH()},()=>{});
 db={doc:p=>({update:o=>rt.ref(p+'/d').update(o.d),set:o=>rt.ref(p).set(o)})};
 $('st').textContent='';
 AG.forEach(a=>rt.ref('planning/'+a[0]+'/d').on('value',s=>{const v=s.val();if(v){const o={};for(const k in v){const x=v[k];o[k]=Array.isArray(x)?[x[0]||'',x[1]||'']:[(x&&x[0])||'',(x&&x[1])||'']}data[a[0]]=o;try{localStorage.setItem('tap27_'+a[0],JSON.stringify(o))}catch(e){}draw()}},()=>{$('st').textContent='⚠️ Connexion impossible : vérifiez les règles Firebase'}))}
@@ -121,9 +142,9 @@ chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk(
 const PH='d3b14e21250834172dd3a097aa8d7e696799f362fc62fbfe93e4792b62eb9345';
 async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tapgsv:'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 async function unlock(){const v=$('pin').value.trim();let ok=false;try{ok=(await sha(v))===PH}catch(e){}
- if(ok){try{localStorage.setItem('tap_ok',PH)}catch(e){}$('lk').style.display='none'}
+ if(ok){try{localStorage.setItem('tap_ok',PH)}catch(e){}$('lk').style.display='none';if(!me)who()}
  else{$('er').textContent='Code incorrect';$('pin').value='';const b=$('lkb');b.classList.remove('shk');void b.offsetWidth;b.classList.add('shk')}}
-(()=>{let ok=null;try{ok=localStorage.getItem('tap_ok')}catch(e){}if(ok!==PH){$('lk').style.display='flex';setTimeout(()=>$('pin').focus(),300)}})();
+(()=>{let ok=null;try{ok=localStorage.getItem('tap_ok')}catch(e){}if(ok!==PH){$('lk').style.display='flex';setTimeout(()=>$('pin').focus(),300)}else if(!me)who()})();
 ['gesturestart','gesturechange','gestureend'].forEach(e=>document.addEventListener(e,x=>x.preventDefault(),{passive:false}));document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});let lt=0;document.addEventListener('touchend',e=>{const n=Date.now();if(n-lt<300&&!e.target.closest('input'))e.preventDefault();lt=n},{passive:false});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></body></html>
