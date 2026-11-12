@@ -1,11 +1,11 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#3b6fe0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="TAP 2027"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="favicon.png"><title>TAP 2027</title>
-<style>
+<style>html,body{overflow-x:hidden;max-width:100vw}
 :root{color-scheme:light;--bg:#eef2f8;--card:#fff;--ink:#1a2233;--mut:#6b7280;--line:#dfe5ee;--navy:#1f3a5f;--we:#eef3fa;--hol:#fff0d6;--ac:#4a63e0;--hd:linear-gradient(120deg,#5b4bd6,#1fa2ff);--neg:#e11d48;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#0e131c;--card:#171f2c;--ink:#e8eef6;--mut:#93a1b3;--line:#263142;--navy:#0d2038;--we:#1b2535;--hol:#3d2c0e;--ac:#6f86ff;--hd:linear-gradient(120deg,#3a2f9a,#0f6fc0);--neg:#ff6b81}}
 :root[data-theme=dark]{color-scheme:dark;--bg:#0e131c;--card:#171f2c;--ink:#e8eef6;--mut:#93a1b3;--line:#263142;--navy:#0d2038;--we:#1b2535;--hol:#3d2c0e;--ac:#6f86ff;--hd:linear-gradient(120deg,#3a2f9a,#0f6fc0);--neg:#ff6b81}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:pan-x pan-y;overscroll-behavior:none}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}button,td.c,.a,.b{touch-action:manipulation}input{-webkit-user-select:text;user-select:text}.wrap{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scroll-behavior:smooth}button{transition:transform .12s,background .15s}button:active{transform:scale(.96)}#main{animation:fd .18s ease}@keyframes fd{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}#sh{transition:transform .25s cubic-bezier(.2,.8,.2,1)!important}#ov{position:fixed;inset:0;background:#0006;opacity:0;pointer-events:none;transition:opacity .2s;z-index:19}#ov.o{opacity:1;pointer-events:auto}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.3 -apple-system,"Segoe UI",Calibri,sans-serif}
 header{background:var(--hd);color:#fff;padding:14px 14px 12px;display:flex;align-items:center;gap:10px}header h1{flex:1}#th{border:1px solid #ffffff55;background:#ffffff26;color:#fff;border-radius:20px;padding:6px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;backdrop-filter:blur(6px)}#ver{font-size:12px;opacity:.85;font-weight:600}
 h1{margin:0;font-size:18px}header small{opacity:.75}
@@ -30,7 +30,7 @@ td.c:active{outline:2px solid var(--ac)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
 .card h3{margin:0 0 6px;font-size:14px}.kv{display:flex;flex-wrap:wrap;gap:6px}
 .kv span{background:var(--bg);border-radius:8px;padding:5px 9px;font-size:12px}.kv b{font-size:15px}
-.neg{color:var(--neg)!important}.tiles.t4{grid-template-columns:repeat(4,1fr);margin-top:8px}.t4 .tile{padding:7px 8px}.t4 .tv{font-size:22px}.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}.tile{--t:color-mix(in srgb,var(--c) 16%,var(--card));background:var(--t);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);border-radius:14px;padding:8px 10px 9px;position:relative;overflow:hidden}.tile .tl{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}.tile .tl i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}.tile .tv{font-size:26px;font-weight:800;color:var(--c);line-height:1.1;margin-top:3px}.tile .tv small{font-size:12px;font-weight:600;color:var(--mut);margin-left:2px}.tile .bar{height:5px;border-radius:5px;background:color-mix(in srgb,var(--c) 22%,transparent);margin-top:6px;overflow:hidden}.tile .bar i{display:block;height:100%;border-radius:5px;background:var(--c)}.card{border-radius:16px!important;padding:12px!important;box-shadow:0 2px 10px #0000000d}.card h3{display:flex;align-items:center;gap:10px;font-size:15px!important;margin:0 0 10px!important}.av{width:36px;height:36px;border-radius:50%;background:var(--hd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none}.sum{font-size:11px;color:var(--mut);font-weight:500;margin-top:2px}
+.neg{color:var(--neg)!important}.tiles.t4{grid-template-columns:repeat(3,1fr);margin-top:8px}.t4 .tile{padding:7px 8px}.t4 .tv{font-size:22px}.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}.tile{--t:color-mix(in srgb,var(--c) 16%,var(--card));background:var(--t);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);border-radius:14px;padding:8px 10px 9px;position:relative;overflow:hidden}.tile .tl{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}.tile .tl i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}.tile .tv{font-size:26px;font-weight:800;color:var(--c);line-height:1.1;margin-top:3px}.tile .tv small{font-size:12px;font-weight:600;color:var(--mut);margin-left:2px}.tile .bar{height:5px;border-radius:5px;background:color-mix(in srgb,var(--c) 22%,transparent);margin-top:6px;overflow:hidden}.tile .bar i{display:block;height:100%;border-radius:5px;background:var(--c)}.card{border-radius:16px!important;padding:12px!important;box-shadow:0 2px 10px #0000000d}.card h3{display:flex;align-items:center;gap:10px;font-size:15px!important;margin:0 0 10px!important}.av{width:36px;height:36px;border-radius:50%;background:var(--hd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none}.sum{font-size:11px;color:var(--mut);font-weight:500;margin-top:2px}
 .leg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px;padding:0 10px 16px}
 .leg div{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px}
 .chip{display:inline-block;min-width:42px;text-align:center;border-radius:6px;padding:4px 6px;font-weight:700;font-size:12px}
@@ -43,23 +43,23 @@ td.c:active{outline:2px solid var(--ac)}
 .pick button{border:0;border-radius:8px;padding:8px 4px;cursor:pointer;font-size:11px;display:flex;flex-direction:column;gap:2px;align-items:center}
 .pick button b{font-size:14px}
 .clr{background:var(--bg)!important;color:var(--ink);border:1px dashed var(--mut)!important}
-input[type=number]{width:62px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
+input[type=number]{width:66px;padding:6px;font-size:16px!important;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
 #st{font-size:11px;color:var(--mut);padding:0 12px 8px}
 </style></head><body>
 <header><h1>TAP 2027</h1><span id="ver"></span><button id="th" onclick="tg()" aria-label="Changer de thème"></button></header>
 <div class="tabs" id="tabs"></div>
 <div class="view seg" id="view"></div>
 <div id="main"></div><div id="st"></div>
-<div id="upd" style="display:none;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));background:#e8871e;color:#fff;padding:10px 14px;border-radius:12px;z-index:30;justify-content:space-between;align-items:center;gap:8px"><span id="ut"></span><button onclick="location.reload()" style="border:0;border-radius:8px;padding:6px 12px;font-weight:700">Actualiser</button></div><div id="sh"></div>
+<div id="upd" style="display:none;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));background:#e8871e;color:#fff;padding:10px 14px;border-radius:12px;z-index:30;justify-content:space-between;align-items:center;gap:8px"><span id="ut"></span><button onclick="location.reload()" style="border:0;border-radius:8px;padding:6px 12px;font-weight:700">Actualiser</button></div><div id="ov" onclick="closeS()"></div><div id="sh"></div>
 <script>
-const P={CA:['#8cb4e5','#1f2a44','Congés annuel'],RU:['#bcdeed','#2e7d8c','Repos supplémentaire'],RQ:['#8cb4e5','#1f2a44','Repos compensateur'],RN:['#8cb4e5','#1f2a44','Repos comp. de nuit'],RP:['#bcdeed','#2e7d8c','Repos périodique'],VT:['#8cb4e5','#1f2a44','Repos suppl. temps partiel'],RPS:['#bcdeed','#2e7d8c','Repos suppl. (lundi/vendredi)'],F:['#ffc878','#8a4b00','Jour férié'],VM:['#c9c9c9','#404040','Visite médicale'],MN:['#1f3a5f','#fff','Montée de nuit'],N1:['#17375e','#fff','N1'],N2:['#17375e','#fff','N2'],N3:['#17375e','#fff','N3'],N4:['#17375e','#fff','N4'],CS:['#d99694','#7a1f1f','Congés suppl. (mariage, naissance)'],MA:['#d99694','#7a1f1f','Maladie'],AY:['#d99694','#7a1f1f','Congé syndical'],DC:['#d99694','#7a1f1f','Grève journée complète'],DB:['#d99694','#7a1f1f','Grève 1/2 journée'],DA:['#d99694','#7a1f1f','Grève 1h'],AST:['#00ab35','#fff','Astreinte'],FOR:['#ffff69','#5c5c00','Formation']};
+const P={CA:['#8cb4e5','#1f2a44','Congés annuel'],RU:['#bcdeed','#2e7d8c','Repos supplémentaire'],RQ:['#8cb4e5','#1f2a44','Repos compensateur'],RN:['#8cb4e5','#1f2a44','Repos comp. de nuit'],RP:['#bcdeed','#2e7d8c','Repos périodique'],VT:['#8cb4e5','#1f2a44','Repos suppl. temps partiel'],RPS:['#bcdeed','#2e7d8c','Repos suppl. (lundi/vendredi) · 10 par an'],F:['#ffc878','#8a4b00','Jour férié'],VM:['#c9c9c9','#404040','Visite médicale'],MN:['#1f3a5f','#fff','Montée de nuit'],N1:['#17375e','#fff','N1'],N2:['#17375e','#fff','N2'],N3:['#17375e','#fff','N3'],N4:['#17375e','#fff','N4'],CS:['#d99694','#7a1f1f','Congés suppl. (mariage, naissance)'],MA:['#d99694','#7a1f1f','Maladie'],AY:['#d99694','#7a1f1f','Congé syndical'],DC:['#d99694','#7a1f1f','Grève journée complète'],DB:['#d99694','#7a1f1f','Grève 1/2 journée'],DA:['#d99694','#7a1f1f','Grève 1h'],AST:['#00ab35','#fff','Astreinte'],FOR:['#ffff69','#5c5c00','Formation']};
 const AG=[['a0','HOUDAIFA Allan','hmt3','REq'],['a1','ROULLEAU Antony','hmt3'],['a2','GONCALVES FRASCO José','hmt3'],['a3','SOLARZ Christophe','hmt3'],['a4','SIME SANDJON Ethane'],['a5','DUPARC Jimmy']];
 const HOL=['2027-01-01','2027-03-29','2027-05-01','2027-05-06','2027-05-08','2027-05-17','2027-07-14','2027-08-15','2027-11-01','2027-11-11','2027-12-25'];
 const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],JS=['Di','Lu','Ma','Me','Je','Ve','Sa'];
 let data={},mo=new Date().getFullYear()==2027?new Date().getMonth():0,vw='plan',sel=null,line=0,db=null,ro=false;
 const iso=(m,d)=>`2027-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-function get(a,k){const v=(data[a]||{})[k];return v?v:(HOL.includes(k)?['F','']:['','']);}
+function get(a,k){const v=(data[a]||{})[k];if(v)return v;if(HOL.includes(k))return['F',''];const w=new Date(k+'T12:00').getDay();return w==0||w==6?['RP','']:['',''];}
 function chip(c,cls,a,k,l){const h=`onclick="openS('${a}','${k}',${l})"`;if(!c)return`<span class="${cls} e" ${h}></span>`;const p=P[c]||['#ddd','#000'];return`<span class="${cls}" ${h} style="background:${p[0]};color:${p[1]}">${c}</span>`}
 function name(a){return esc(a[1])+(a[2]?` <span class="h3">(${a[2]})</span>`:'')+(a[3]?`<span class="rq">(${a[3]})</span>`:'')}
 function tabs(){$('tabs').innerHTML=MOIS.map((m,i)=>`<button class="${i==mo?'on':''}" onclick="mo=${i};draw()">${m.slice(0,4)}${m.length>4?'.':''}</button>`).join('');$('view').innerHTML=[['plan','Planning'],['cnt','Compteurs'],['leg','Légende']].map(([k,l])=>`<button class="${vw==k?'on':''}" onclick="vw='${k}';draw()">${l}</button>`).join('')}
@@ -70,10 +70,10 @@ $('main').innerHTML=`<div class="wrap"><table><thead>${h}</thead><tbody>${b}</tb
 function cnt(){let o='';const dk=document.documentElement.dataset.theme=='dark';
 const CC={RPS:'#1fa8bf',CA:'#3b7dd8',RU:'#14a3a3',VT:'#5b6fe0',RP:'#2aa4b8',N:dk?'#8f9cff':'#3d4fb8',AST:'#00b347',RQ:'#4a7fe0'};
 const ini=a=>a[1].split(' ').filter(Boolean).map((w,i,ar)=>i==0||i==ar.length-1?w[0]:'').join('').toUpperCase();
-for(const a of AG){const c={};Object.entries(data[a[0]]||{}).forEach(([k,v])=>{if(k.startsWith('2027'))v.forEach(x=>x&&(c[x]=(c[x]||0)+1))});const g=x=>c[x]||0,N=g('N1')+g('N2')+g('N3')+g('N4');
+for(const a of AG){const c={};for(let m=0;m<12;m++)for(let d=1;d<=new Date(2027,m+1,0).getDate();d++)get(a[0],iso(m,d)).forEach(x=>x&&(c[x]=(c[x]||0)+1));const g=x=>c[x]||0,N=g('N1')+g('N2')+g('N3')+g('N4');
 const R=(code,lab,t)=>{const v=t-g(code),p=Math.max(0,Math.min(100,v/t*100));return`<div class="tile" style="--c:${v<0?'var(--neg)':CC[code]}"><div class="tl"><i></i>${lab}</div><div class="tv ${v<0?'neg':''}">${v}<small>/ ${t}</small></div><div class="bar"><i style="width:${p}%"></i></div></div>`};
 const T=(code,lab,v)=>`<div class="tile" style="--c:${CC[code]}"><div class="tl"><i></i>${lab}</div><div class="tv">${v}</div></div>`;
-o+=`<div class="card"><h3><span class="av">${ini(a)}</span><span>${name(a)}</span></h3><div class="tiles">${R('CA','CA',28)}${R('RPS','RPS',10)}${R('RU','RU',8)}${a[0]=='a3'?R('VT','VT',67):''}</div><div class="tiles t4">${T('AST','AST',g('AST'))}${T('N','Nuits',N)}${T('RP','RP',g('RP'))}${T('RQ','RQ',g('RQ'))}</div></div>`}
+o+=`<div class="card"><h3><span class="av">${ini(a)}</span><span>${name(a)}</span></h3><div class="tiles">${R('CA','CA',a[0]=='a3'?20:28)}${R('RPS','RPS',10)}${R('RU','RU',8)}${a[0]=='a3'?R('VT','VT',67):''}</div><div class="tiles t4">${T('AST','AST',g('AST'))}${T('N','Nuits',N)}${T('RQ','RQ',g('RQ'))}</div></div>`}
 $('main').innerHTML=`<div class="cnt">${o}</div>`}
 function leg(){$('main').innerHTML='<div class="leg">'+Object.entries(P).map(([k,p])=>`<div><span class="chip" style="background:${p[0]};color:${p[1]}">${k}</span>${p[2]}</div>`).join('')+'</div>'}
 function th(t){const r=document.documentElement;if(t)r.dataset.theme=t;else delete r.dataset.theme;
@@ -81,26 +81,26 @@ const dk=t?t=='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.datase
 $('th').textContent=dk?'☀️ Clair':'🌙 Sombre';document.querySelector('meta[name=theme-color]').content=dk?'#0e131c':'#4a63e0'}
 function tg(){const n=document.documentElement.dataset.theme=='dark'?'light':'dark';try{localStorage.setItem('tap_theme',n)}catch(e){}th(n);draw()}
 (()=>{let t=null;try{t=localStorage.getItem('tap_theme')}catch(e){}th(t)})();
-function draw(){tabs();vw=='plan'?plan():vw=='cnt'?cnt():leg()}
+function draw(){const w=document.querySelector('.wrap'),sx=w?w.scrollLeft:0,sy=w?w.scrollTop:0,pm=draw.m;draw.m=mo+vw;tabs();vw=='plan'?plan():vw=='cnt'?cnt():leg();const w2=document.querySelector('.wrap');if(w2&&pm===draw.m){w2.style.scrollBehavior='auto';w2.scrollLeft=sx;w2.scrollTop=sy;w2.style.scrollBehavior=''}}
 function openS(a,k,l){if(ro){$('st').textContent='Lecture seule : vous ne pouvez pas modifier ce planning.';return}if(l!==undefined)line=l;sel=[a,k];const ag=AG.find(x=>x[0]==a),d=+k.slice(8),n=new Date(2027,+k.slice(5,7),0).getDate();
 $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d} ${MOIS[+k.slice(5,7)-1]}</span><button onclick="closeS()">×</button></div>
 <div class="seg"><button class="${line==0?'on':''}" onclick="openS(sel[0],sel[1],0)">Ligne 1</button><button class="${line==1?'on':''}" onclick="openS(sel[0],sel[1],1)">Ligne 2</button><span style="margin-left:auto">jusqu’au <input id="to" type="number" min="${d}" max="${n}" value="${d}"></span></div>
-<div class="pick">${Object.entries(P).map(([c,p])=>`<button style="background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b>${p[2]}</button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b>Effacer</button></div>`;$('sh').classList.add('o')}
-function closeS(){$('sh').classList.remove('o')}
+<div class="pick">${Object.entries(P).map(([c,p])=>`<button style="background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b>${p[2]}</button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b>Effacer</button></div>`;$('sh').classList.add('o');$('ov').classList.add('o')}
+function closeS(){$('sh').classList.remove('o');$('ov').classList.remove('o')}
 function setC(c){const[a,k]=sel,m=+k.slice(5,7)-1,d0=+k.slice(8),d1=Math.max(d0,Math.min(+$('to').value||d0,new Date(2027,m+1,0).getDate()));
 const mp=data[a]=data[a]||{},ks=[];for(let d=d0;d<=d1;d++){const kk=iso(m,d),v=get(a,kk).slice();v[line]=c;mp[kk]=v;ks.push(kk)}
 save(a,ks);draw();closeS()}
 function save(a,ks){try{localStorage.setItem('tap27_'+a,JSON.stringify(data[a]))}catch(e){}
 if(db){const o={};ks.forEach(k=>o[k]=data[a][k]);const r=db.doc('planning/'+a);r.update({d:o}).catch(()=>r.set({d:data[a]})).catch(e=>$('st').textContent='Enregistrement impossible : '+(e.message||e.code))}}
 AG.forEach(a=>{try{const s=localStorage.getItem('tap27_'+a[0]);if(s)data[a[0]]=JSON.parse(s)}catch(e){}});
-draw();$('st').textContent='Mode local (hors ligne)';
+draw();
 const CFG={apiKey:"AIzaSyBz7oH7QZPduFLdQqJHr_QN6f6lh_gQM2Y",authDomain:"tap-goussainville.firebaseapp.com",databaseURL:"https://tap-goussainville-default-rtdb.europe-west1.firebasedatabase.app",projectId:"tap-goussainville",storageBucket:"tap-goussainville.firebasestorage.app",messagingSenderId:"214806325624",appId:"1:214806325624:web:46d57c2f96ba8640d7c08d"}; // ← config Firebase (Realtime Database)
 const ld=u=>new Promise((r,j)=>{const e=document.createElement('script');e.src=u;e.onload=r;e.onerror=j;document.head.appendChild(e)});
-(async()=>{if(!CFG.databaseURL){$('st').textContent='Mode local : saisies enregistrées sur cet appareil uniquement';return}
+(async()=>{if(!CFG.databaseURL){return}
 try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-database-compat.js`);
 firebase.initializeApp(CFG);const rt=firebase.database();
 db={doc:p=>({update:o=>rt.ref(p+'/d').update(o.d),set:o=>rt.ref(p).set(o)})};
-$('st').textContent='✅ Planning partagé : tout le monde voit les modifications en direct';
+$('st').textContent='';
 AG.forEach(a=>rt.ref('planning/'+a[0]+'/d').on('value',s=>{const v=s.val();if(v){const o={};for(const k in v){const x=v[k];o[k]=Array.isArray(x)?[x[0]||'',x[1]||'']:[(x&&x[0])||'',(x&&x[1])||'']}data[a[0]]=o;try{localStorage.setItem('tap27_'+a[0],JSON.stringify(o))}catch(e){}draw()}},()=>{$('st').textContent='⚠️ Connexion impossible : vérifiez les règles Firebase'}))}
 catch(e){$('st').textContent='⚠️ Hors ligne : saisies locales uniquement'}})();
 // ---- Version automatique : 1.0 au premier envoi de index.html sur GitHub, puis 1.1, 1.2... à chaque mise à jour ----
@@ -118,5 +118,6 @@ async function chk(){try{const n=await nbMaj();if(n===null)throw 0;
   else if(n>cur){$('ut').textContent='Nouvelle version v'+vs(n)+' disponible';$('upd').style.display='flex'}}
  catch(e){try{const o=localStorage.getItem('tap_vn');if(o&&cur===null)$('ver').textContent='v'+vs(+o)}catch(_){}}}
 chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
+['gesturestart','gesturechange','gestureend'].forEach(e=>document.addEventListener(e,x=>x.preventDefault(),{passive:false}));document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});let lt=0;document.addEventListener('touchend',e=>{const n=Date.now();if(n-lt<300&&!e.target.closest('input'))e.preventDefault();lt=n},{passive:false});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></body></html>
