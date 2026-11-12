@@ -1,0 +1,113 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3b6fe0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="TAP 2027"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="favicon.png"><title>TAP Goussainville 2027-2028</title>
+<style>
+:root{--bg:#f4f7fa;--card:#fff;--ink:#1f2937;--mut:#6b7280;--line:#e1e7ee;--navy:#1f3a5f;--we:#eaf1f6;--hol:#ffe9c7;--ac:#2f5d8a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#10161f;--card:#18212d;--ink:#e6edf5;--mut:#93a1b3;--line:#27323f;--navy:#0d2038;--we:#1d2937;--hol:#4a3510;--ac:#6aa3d8}}
+:root[data-theme=dark]{--bg:#10161f;--card:#18212d;--ink:#e6edf5;--mut:#93a1b3;--line:#27323f;--navy:#0d2038;--we:#1d2937;--hol:#4a3510;--ac:#6aa3d8}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.3 -apple-system,"Segoe UI",Calibri,sans-serif}
+header{background:var(--navy);color:#fff;padding:12px 14px 8px}
+h1{margin:0;font-size:18px}header small{opacity:.75}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.tabs button,.seg button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:18px;padding:7px 13px;font-size:13px;white-space:nowrap;cursor:pointer}
+.tabs button.on,.seg button.on{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+.view{display:flex;gap:6px;padding:8px 10px}.view button{flex:1}
+.wrap{overflow:auto;margin:0 6px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;max-height:calc(100vh - 190px)}
+table{border-collapse:separate;border-spacing:0}
+th,td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;padding:0}
+thead th{position:sticky;top:0;background:var(--card);z-index:2;font-size:11px;color:var(--mut);min-width:34px;padding:4px 0}
+thead th b{display:block;font-size:13px;color:var(--ink)}
+th.we,td.we{background:var(--we)}th.hol,td.hol{background:var(--hol)}
+th.nm{position:sticky;left:0;z-index:3;background:var(--card);text-align:left;min-width:128px;max-width:128px;padding:6px 8px;font-size:12px;border-right:2px solid var(--line)}
+thead th.nm{z-index:4}
+.h3{color:#4aa3e8}.rq{color:#e11d1d}
+td.c{height:54px;cursor:pointer;vertical-align:middle}
+.a,.b{display:block;margin:2px;border-radius:5px;font-weight:700;font-size:12px;line-height:22px;min-height:22px}.e{border:1px dashed var(--line)}
+.b{font-size:11px;line-height:20px;min-height:20px}
+td.c:active{outline:2px solid var(--ac)}
+.cnt{margin:0 10px 14px;display:grid;gap:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+.card h3{margin:0 0 6px;font-size:14px}.kv{display:flex;flex-wrap:wrap;gap:6px}
+.kv span{background:var(--bg);border-radius:8px;padding:5px 9px;font-size:12px}.kv b{font-size:15px}
+.neg{color:#e11d1d}
+.leg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px;padding:0 10px 16px}
+.leg div{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px}
+.chip{display:inline-block;min-width:42px;text-align:center;border-radius:6px;padding:4px 6px;font-weight:700;font-size:12px}
+#sh{position:fixed;inset:auto 0 0 0;background:var(--card);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -8px 30px #0005;padding:12px 12px calc(12px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .2s;z-index:20;max-height:75vh;overflow:auto}
+#sh.o{transform:none}
+.tt{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600}
+.tt button{border:0;background:none;color:var(--mut);font-size:22px}
+.seg{display:flex;gap:6px;margin:6px 0;align-items:center;flex-wrap:wrap}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:6px;margin-top:8px}
+.pick button{border:0;border-radius:8px;padding:8px 4px;cursor:pointer;font-size:11px;display:flex;flex-direction:column;gap:2px;align-items:center}
+.pick button b{font-size:14px}
+.clr{background:var(--bg)!important;color:var(--ink);border:1px dashed var(--mut)!important}
+input[type=number]{width:62px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
+#st{font-size:11px;color:var(--mut);padding:0 12px 8px}
+</style></head><body>
+<header><h1>TAP 2027-2028 <small>· SES Goussainville</small> <small id="ver" style="float:right;opacity:.8"></small></h1></header>
+<div class="tabs" id="tabs"></div>
+<div class="view seg" id="view"></div>
+<div id="main"></div><div id="st"></div>
+<div id="upd" style="display:none;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));background:#e8871e;color:#fff;padding:10px 14px;border-radius:12px;z-index:30;justify-content:space-between;align-items:center;gap:8px"><span id="ut"></span><button onclick="location.reload()" style="border:0;border-radius:8px;padding:6px 12px;font-weight:700">Actualiser</button></div><div id="sh"></div>
+<script>
+const P={CA:['#8cb4e5','#1f2a44','Congés annuel'],RU:['#bcdeed','#2e7d8c','Repos supplémentaire'],RQ:['#8cb4e5','#1f2a44','Repos compensateur'],RN:['#8cb4e5','#1f2a44','Repos comp. de nuit'],RP:['#bcdeed','#2e7d8c','Repos périodique'],VT:['#8cb4e5','#1f2a44','Repos suppl. temps partiel'],RPS:['#bcdeed','#2e7d8c','Repos suppl. (lundi/vendredi)'],F:['#ffc878','#8a4b00','Jour férié'],VM:['#c9c9c9','#404040','Visite médicale'],MN:['#1f3a5f','#fff','Montée de nuit'],N1:['#17375e','#fff','N1'],N2:['#17375e','#fff','N2'],N3:['#17375e','#fff','N3'],N4:['#17375e','#fff','N4'],CS:['#d99694','#7a1f1f','Congés suppl. (mariage, naissance)'],MA:['#d99694','#7a1f1f','Maladie'],AY:['#d99694','#7a1f1f','Congé syndical'],DC:['#d99694','#7a1f1f','Grève journée complète'],DB:['#d99694','#7a1f1f','Grève 1/2 journée'],DA:['#d99694','#7a1f1f','Grève 1h'],AST:['#00ab35','#fff','Astreinte'],FOR:['#ffff69','#5c5c00','Formation']};
+const AG=[['a0','HOUDAIFA Allan','hmt3','REq'],['a1','ROULLEAU Antony','hmt3'],['a2','GONCALVES FRASCO José','hmt3'],['a3','SOLARZ Christophe','hmt3'],['a4','SIME SANDJON Ethane'],['a5','DUPARC Jimmy']];
+const HOL=['2027-01-01','2027-03-29','2027-05-01','2027-05-06','2027-05-08','2027-05-17','2027-07-14','2027-08-15','2027-11-01','2027-11-11','2027-12-25'];
+const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],JS=['Di','Lu','Ma','Me','Je','Ve','Sa'];
+let data={},mo=new Date().getFullYear()==2027?new Date().getMonth():0,vw='plan',sel=null,line=0,db=null,ro=false;
+const iso=(m,d)=>`2027-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function get(a,k){const v=(data[a]||{})[k];return v?v:(HOL.includes(k)?['F','']:['','']);}
+function chip(c,cls,a,k,l){const h=`onclick="openS('${a}','${k}',${l})"`;if(!c)return`<span class="${cls} e" ${h}></span>`;const p=P[c]||['#ddd','#000'];return`<span class="${cls}" ${h} style="background:${p[0]};color:${p[1]}">${c}</span>`}
+function name(a){return esc(a[1])+(a[2]?` <span class="h3">(${a[2]})</span>`:'')+(a[3]?`<span class="rq">(${a[3]})</span>`:'')}
+function tabs(){$('tabs').innerHTML=MOIS.map((m,i)=>`<button class="${i==mo?'on':''}" onclick="mo=${i};draw()">${m.slice(0,4)}${m.length>4?'.':''}</button>`).join('');$('view').innerHTML=[['plan','Planning'],['cnt','Compteurs'],['leg','Légende']].map(([k,l])=>`<button class="${vw==k?'on':''}" onclick="vw='${k}';draw()">${l}</button>`).join('')}
+function plan(){const n=new Date(2027,mo+1,0).getDate();let h='<tr><th class="nm">'+MOIS[mo]+' 2027</th>',days=[];
+for(let d=1;d<=n;d++){const k=iso(mo,d),w=new Date(2027,mo,d).getDay(),c=HOL.includes(k)?'hol':(w%6==0?'we':'');days.push([k,c]);h+=`<th class="${c}">${JS[w]}<b>${d}</b></th>`}
+h+='</tr>';let b='';for(const a of AG){b+=`<tr><th class="nm">${name(a)}</th>`;for(const[k,c]of days){const v=get(a[0],k);b+=`<td class="c ${c}">${chip(v[0],'a',a[0],k,0)}${chip(v[1],'b',a[0],k,1)}</td>`}b+='</tr>'}
+$('main').innerHTML=`<div class="wrap"><table><thead>${h}</thead><tbody>${b}</tbody></table></div>`}
+function cnt(){let o='';for(const a of AG){const c={};Object.entries(data[a[0]]||{}).forEach(([k,v])=>{if(k.startsWith('2027'))v.forEach(x=>x&&(c[x]=(c[x]||0)+1))});const g=x=>c[x]||0,N=g('N1')+g('N2')+g('N3')+g('N4');
+const r=(l,q,t)=>{const v=t-q;return`<span>${l} <b class="${v<0?'neg':''}">${v}</b></span>`};
+o+=`<div class="card"><h3>${name(a)}</h3><div class="kv">${r('RPS restants',g('RPS'),10)}${r('CA restants',g('CA'),28)}${r('RU restants',g('RU'),8)}${a[0]=='a3'?r('VT restants',g('VT'),67):''}<span>RP <b>${g('RP')}</b></span><span>Nuits (N1-4) <b>${N}</b></span><span>AST <b>${g('AST')}</b></span><span>RQ <b>${g('RQ')}</b></span></div></div>`}
+$('main').innerHTML=`<div class="cnt">${o}</div>`}
+function leg(){$('main').innerHTML='<div class="leg">'+Object.entries(P).map(([k,p])=>`<div><span class="chip" style="background:${p[0]};color:${p[1]}">${k}</span>${p[2]}</div>`).join('')+'</div>'}
+function draw(){tabs();vw=='plan'?plan():vw=='cnt'?cnt():leg()}
+function openS(a,k,l){if(ro){$('st').textContent='Lecture seule : vous ne pouvez pas modifier ce planning.';return}if(l!==undefined)line=l;sel=[a,k];const ag=AG.find(x=>x[0]==a),d=+k.slice(8),n=new Date(2027,+k.slice(5,7),0).getDate();
+$('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d} ${MOIS[+k.slice(5,7)-1]}</span><button onclick="closeS()">×</button></div>
+<div class="seg"><button class="${line==0?'on':''}" onclick="openS(sel[0],sel[1],0)">Ligne 1</button><button class="${line==1?'on':''}" onclick="openS(sel[0],sel[1],1)">Ligne 2</button><span style="margin-left:auto">jusqu’au <input id="to" type="number" min="${d}" max="${n}" value="${d}"></span></div>
+<div class="pick">${Object.entries(P).map(([c,p])=>`<button style="background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b>${p[2]}</button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b>Effacer</button></div>`;$('sh').classList.add('o')}
+function closeS(){$('sh').classList.remove('o')}
+function setC(c){const[a,k]=sel,m=+k.slice(5,7)-1,d0=+k.slice(8),d1=Math.max(d0,Math.min(+$('to').value||d0,new Date(2027,m+1,0).getDate()));
+const mp=data[a]=data[a]||{},ks=[];for(let d=d0;d<=d1;d++){const kk=iso(m,d),v=get(a,kk).slice();v[line]=c;mp[kk]=v;ks.push(kk)}
+save(a,ks);draw();closeS()}
+function save(a,ks){try{localStorage.setItem('tap27_'+a,JSON.stringify(data[a]))}catch(e){}
+if(db){const o={};ks.forEach(k=>o[k]=data[a][k]);const r=db.doc('planning/'+a);r.update({d:o}).catch(()=>r.set({d:data[a]})).catch(e=>$('st').textContent='Enregistrement impossible : '+(e.message||e.code))}}
+AG.forEach(a=>{try{const s=localStorage.getItem('tap27_'+a[0]);if(s)data[a[0]]=JSON.parse(s)}catch(e){}});
+draw();$('st').textContent='Mode local (hors ligne)';
+const CFG={apiKey:"",authDomain:"",projectId:"",appId:""}; // ← à remplir avec votre config Firebase (voir README)
+const ld=u=>new Promise((r,j)=>{const e=document.createElement('script');e.src=u;e.onload=r;e.onerror=j;document.head.appendChild(e)});
+(async()=>{if(!CFG.projectId){$('st').textContent='Mode local : saisies enregistrées sur cet appareil uniquement';return}
+try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-firestore-compat.js`);
+firebase.initializeApp(CFG);const fs=firebase.firestore();
+db={doc:p=>({update:o=>fs.doc(p).set(o,{merge:true}),set:o=>fs.doc(p).set(o)})};
+$('st').textContent='✅ Planning partagé : tout le monde voit les modifications en direct';
+AG.forEach(a=>fs.doc('planning/'+a[0]).onSnapshot(s=>{if(s.exists){data[a[0]]=(s.data()||{}).d||{};draw()}},()=>{$('st').textContent='⚠️ Connexion impossible : saisies locales'}))}
+catch(e){$('st').textContent='⚠️ Hors ligne : saisies locales uniquement'}})();
+// ---- Version automatique : 1.0 au premier envoi de index.html sur GitHub, puis 1.1, 1.2... à chaque mise à jour ----
+let cur=null;
+function repo(){const h=location.hostname,p=location.pathname.split('/').filter(Boolean);
+  if(!h.endsWith('.github.io'))return null;const o=h.replace('.github.io','');return o+'/'+(p[0]||h)}
+async function nbMaj(){const r=repo();if(!r)return null;
+  const res=await fetch(`https://api.github.com/repos/${r}/commits?path=index.html&per_page=1&t=${Date.now()}`,{cache:'no-store'});
+  if(!res.ok)return null;const l=res.headers.get('Link')||'',m=l.match(/[?&]page=(\d+)>;\s*rel="last"/);
+  return m?+m[1]:(await res.json()).length}
+const vs=n=>'1.'+Math.max(0,n-1);
+async function chk(){try{const n=await nbMaj();if(n===null)throw 0;
+  if(cur===null){cur=n;$('ver').textContent='v'+vs(n);let o=null;try{o=localStorage.getItem('tap_vn');localStorage.setItem('tap_vn',n)}catch(e){}
+    if(o&&+o<n){$('ut').textContent='Mise à jour installée : v'+vs(n);$('upd').style.display='flex';setTimeout(()=>$('upd').style.display='none',4000)}}
+  else if(n>cur){$('ut').textContent='Nouvelle version v'+vs(n)+' disponible';$('upd').style.display='flex'}}
+ catch(e){try{const o=localStorage.getItem('tap_vn');if(o&&cur===null)$('ver').textContent='v'+vs(+o)}catch(_){}}}
+chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
