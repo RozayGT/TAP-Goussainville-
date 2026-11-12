@@ -92,14 +92,15 @@ function ago(t){const d=(Date.now()-t)/1000;if(d<60)return"à l'instant";if(d<36
 function logH(a,k0,k1,c,l){const e={by:me||'',ag:a,d0:k0,d1:k1,c:c||'',l:l,t:Date.now()};
  if(RT)RT.ref('historique').push(e).catch(()=>{});else{H.unshift({id:'L'+e.t,...e});saveLH();renderH()}}
 function saveLH(){try{localStorage.setItem('tap_hist',JSON.stringify(H.slice(0,100)))}catch(e){}}
-function delH(id){if(RT&&id[0]!=='L')RT.ref('historique/'+id).remove().catch(()=>{});else{H=H.filter(x=>x.id!==id);saveLH();renderH()}}
+let HID=[];try{HID=JSON.parse(localStorage.getItem('tap_hid')||'[]')}catch(e){}
+function delH(id){if(id[0]==='L'){H=H.filter(x=>x.id!==id);saveLH()}else{HID.push(id);HID=HID.slice(-500);try{localStorage.setItem('tap_hid',JSON.stringify(HID))}catch(e){}}renderH()}
 function renderH(){const el=$('hist');if(vw!=='plan'){el.innerHTML='';return}
  const top=`<div class="hh"><b>Historique</b>${me?`<a onclick="who()">Vous : ${esc(pre(me))} · changer</a>`:''}</div>`;
- if(!H.length){el.innerHTML=top+'<div class="he">Aucune modification pour le moment</div>';return}
- el.innerHTML=top+H.slice(0,60).map(e=>{const p=P[e.c],cd=e.c?`<span class="cd" style="background:${p?p[0]:'#ddd'};color:${p?p[1]:'#000'}">${esc(e.c)}</span>`:'';
+ const V=H.filter(e=>!HID.includes(e.id));if(!V.length){el.innerHTML=top+'<div class="he">Aucune modification pour le moment</div>';return}
+ el.innerHTML=top+V.slice(0,60).map(e=>{const p=P[e.c],cd=e.c?`<span class="cd" style="background:${p?p[0]:'#ddd'};color:${p?p[1]:'#000'}">${esc(e.c)}</span>`:'';
   const qui=e.by?esc(pre(e.by)):'Quelqu’un',pour=e.by===e.ag?'pour lui-même':'pour '+esc(pre(e.ag)),per=e.d0===e.d1?'le '+fd(e.d0):'du '+fd(e.d0)+' au '+fd(e.d1);
   const act=e.c?`a posé ${cd}`:'a effacé';
-  return`<div class="hi"><span class="av">${e.by?iniA(e.by):'?'}</span><div class="tx"><b>${qui}</b> ${act} ${pour} ${per}${e.l?' (ligne 2)':''}<small>${ago(e.t)}</small></div><button class="x" onclick="delH('${e.id}')" aria-label="Supprimer">×</button></div>`}).join('')}
+  return`<div class="hi"><span class="av">${e.by?iniA(e.by):'?'}</span><div class="tx"><b>${qui}</b> ${act} ${pour} ${per}${e.l?' (ligne 2)':''}<small>${ago(e.t)}</small></div><button class="x" onclick="delH('${e.id}')" aria-label="Masquer">×</button></div>`}).join('')}
 try{H=JSON.parse(localStorage.getItem('tap_hist')||'[]')}catch(e){H=[]}
 setInterval(()=>{if(vw==='plan')renderH()},60000);
 function draw(){const w=document.querySelector('.wrap'),sx=w?w.scrollLeft:0,sy=w?w.scrollTop:0,pm=draw.m;draw.m=mo+vw;tabs();vw=='plan'?plan():vw=='cnt'?cnt():leg();renderH();const w2=document.querySelector('.wrap');if(w2&&pm===draw.m){w2.style.scrollBehavior='auto';w2.scrollLeft=sx;w2.scrollTop=sy;w2.style.scrollBehavior=''}}
