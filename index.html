@@ -45,8 +45,8 @@ td.c:active{outline:2px solid var(--ac)}
 .clr{background:var(--bg)!important;color:var(--ink);border:1px dashed var(--mut)!important}
 input[type=number]{width:66px;padding:6px;font-size:16px!important;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
 #st{font-size:11px;color:var(--mut);padding:0 12px 8px}
-</style></head><body>
-<header><h1>TAP 2027</h1><span id="ver"></span><button id="th" onclick="tg()" aria-label="Changer de thème"></button></header>
+#lk{position:fixed;inset:0;z-index:50;background:var(--hd);display:flex;align-items:center;justify-content:center;padding:24px}#lk .bx{background:var(--card);color:var(--ink);border-radius:22px;padding:26px 22px;width:100%;max-width:340px;text-align:center;box-shadow:0 20px 50px #0005}#lk img{width:72px;height:72px;border-radius:18px;margin-bottom:10px}#lk h2{margin:0 0 4px;font-size:20px}#lk p{margin:0 0 16px;color:var(--mut);font-size:13px}#lk input{width:100%;font-size:26px!important;letter-spacing:12px;text-align:center;padding:12px;border:2px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);-webkit-user-select:text;user-select:text}#lk input:focus{outline:none;border-color:var(--ac)}#lk button{margin-top:14px;width:100%;border:0;border-radius:14px;padding:13px;font-size:16px;font-weight:700;background:var(--ac);color:#fff}#lk .er{color:var(--neg);font-size:13px;min-height:18px;margin-top:8px}.shk{animation:shk .35s}@keyframes shk{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}</style></head><body>
+<div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2>TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1>TAP 2027</h1><span id="ver"></span><button id="th" onclick="tg()" aria-label="Changer de thème"></button></header>
 <div class="tabs" id="tabs"></div>
 <div class="view seg" id="view"></div>
 <div id="main"></div><div id="st"></div>
@@ -118,6 +118,12 @@ async function chk(){try{const n=await nbMaj();if(n===null)throw 0;
   else if(n>cur){$('ut').textContent='Nouvelle version v'+vs(n)+' disponible';$('upd').style.display='flex'}}
  catch(e){try{const o=localStorage.getItem('tap_vn');if(o&&cur===null)$('ver').textContent='v'+vs(+o)}catch(_){}}}
 chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
+const PH='d3b14e21250834172dd3a097aa8d7e696799f362fc62fbfe93e4792b62eb9345';
+async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tapgsv:'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function unlock(){const v=$('pin').value.trim();let ok=false;try{ok=(await sha(v))===PH}catch(e){}
+ if(ok){try{localStorage.setItem('tap_ok',PH)}catch(e){}$('lk').style.display='none'}
+ else{$('er').textContent='Code incorrect';$('pin').value='';const b=$('lkb');b.classList.remove('shk');void b.offsetWidth;b.classList.add('shk')}}
+(()=>{let ok=null;try{ok=localStorage.getItem('tap_ok')}catch(e){}if(ok!==PH){$('lk').style.display='flex';setTimeout(()=>$('pin').focus(),300)}})();
 ['gesturestart','gesturechange','gestureend'].forEach(e=>document.addEventListener(e,x=>x.preventDefault(),{passive:false}));document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});let lt=0;document.addEventListener('touchend',e=>{const n=Date.now();if(n-lt<300&&!e.target.closest('input'))e.preventDefault();lt=n},{passive:false});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></body></html>
