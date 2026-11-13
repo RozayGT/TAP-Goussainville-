@@ -223,9 +223,9 @@ $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d} ${MOIS[+k.slice(5,7
 <div class="seg"><button class="${line==0?'on':''}" onclick="openS(sel[0],sel[1],0)">Ligne 1</button><button class="${line==1?'on':''}" onclick="openS(sel[0],sel[1],1)">Ligne 2</button></div><div class="rg"><label>jusqu’au <input id="to" type="date" min="${k}" max="${YR}-12-31" value="${k}"></label>
 <label class="kw"><input type="checkbox" id="kw" ${line==0?'checked':''}> Garder les RP des week-ends et les fériés</label></div>
 <button class="cpw" onclick="copyW()">📋 Copier la semaine ${wnum(wkey(wkS(k)))} de ${esc(pre(a))} vers un autre agent…</button>
-<div class="pick">${Object.entries(P).map(([c,p])=>`<button style="background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b>${p[2]}</button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b>Effacer</button></div>`;markS();$('sh').classList.add('o');$('ov').classList.add('o')}
+<div class="pick">${Object.entries(P).map(([c,p])=>`<button style="background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b>${p[2]}</button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b>Effacer</button></div>`;markS();$('sh').scrollTop=0;$('sh').classList.add('o');requestAnimationFrame(()=>{$('sh').scrollTop=0});$('ov').classList.add('o')}
 function markS(){document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));if(sel){const e=document.querySelector(`[data-s="${sel[0]}|${sel[1]}|${line}"]`);if(e)e.classList.add('sel')}}
-function closeS(){document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));$('sh').classList.remove('o');$('ov').classList.remove('o')}
+function closeS(){$('sh').scrollTop=0;document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));$('sh').classList.remove('o');$('ov').classList.remove('o')}
 function setC(c){const[a,k]=sel;let end=$('to').value||k;if(end<k)end=k;if(end>YR+'-12-31')end=YR+'-12-31';const keep=$('kw')&&$('kw').checked;
 const sn={v:[],nu:{...NU},h:[]};const mp=data[a]=data[a]||{},ks=[];for(let d=wkS(k);ymd(d)<=end;d.setDate(d.getDate()+1)){const kk=ymd(d),w=d.getDay();
  if(keep&&kk!==k&&(w==0||w==6||HOL.includes(kk)))continue;sn.v.push([a,kk,mp[kk]?mp[kk].slice():null]);const v=get(a,kk).slice();v[line]=c;mp[kk]=v;ks.push(kk)}
