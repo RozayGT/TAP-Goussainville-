@@ -398,7 +398,7 @@ async function chk(){try{const n=await nbMaj();if(n===null)throw 0;
   else if(n>cur){$('ut').textContent='Nouvelle version v'+vs(n)+' disponible';$('upd').style.display='flex'}}
  catch(e){try{const o=localStorage.getItem('tap_vn');if(o&&cur===null)$('ver').textContent='v'+vs(+o)}catch(_){}}}
 chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
-const PH='09f370e158fb7dfd064383d8f6915bdc092501695705a7d38d56f7f02964bc37';
+const PH='8074588cbdbdc68f2473284cbb56b14c5809c8846a6ff7dfc126a5dea4b1dba4';
 async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tapgsv:'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 async function unlock(){const v=$('pin').value.trim();let ok=false;try{ok=(await sha(v))===PH}catch(e){}
  if(ok){try{localStorage.setItem('tap_ok',PH)}catch(e){}$('lk').style.display='none';if(!me)who()}
