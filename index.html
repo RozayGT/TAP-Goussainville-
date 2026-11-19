@@ -74,6 +74,11 @@ td.c .a{margin-left:2px!important;margin-right:2px!important}td.c .b:not(.e){mar
 .a.kFOR,.a.kRPS,.a.kRÉU,.a.kRMU,.a.kRDV,.a.kAST,.b.kFOR,.b.kRPS,.b.kRÉU,.b.kRMU,.b.kRDV{font-size:10px!important;letter-spacing:-.3px}
 .a.kRSNCF,.b.kRSNCF{font-size:7.5px!important;letter-spacing:-.5px!important;padding:0!important;overflow:hidden}
 @media(min-width:900px){thead tr.dy th:not(.nm){min-width:40px!important}td.c{min-width:40px!important;max-width:40px!important}.a.kFOR,.a.kRPS,.a.kRÉU,.a.kRMU,.a.kRDV,.a.kAST{font-size:11.5px!important}}
+
+td.c.rsel{background:color-mix(in srgb,var(--ac) 30%,transparent)!important;box-shadow:inset 0 2px 0 var(--ac),inset 0 -2px 0 var(--ac)}
+.rsel-on,.rsel-on *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+td.c{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.rgh{margin-top:6px;font-size:13px;font-weight:700;color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent);border-radius:10px;padding:7px 10px}
 </style></head><body>
 <div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button></header>
 <div class="tabs" id="tabs"></div>
@@ -159,10 +164,32 @@ const chipI=(w,n,c,pv)=>`<button class="nt${pv?' pv':''}" onclick="${isF(c)?`ope
 if(G.some(([w,,f])=>NC.some(c=>on(w,f,c))||pvK(w).length||FK.some(c=>on(w,f,c))))b+=`<tr class="nr"><th class="nm">Programme</th>`+G.map(([w,n,f])=>`<td colspan="${n}"><div class="nw">${NC.filter(c=>on(w,f,c)).map(c=>chipI(w,n,c)).join('')}${pvK(w).map(c=>chipI(w,n,c,1)).join('')}${FK.filter(c=>on(w,f,c)).map(c=>chipI(w,n,c)).join('')}</div></td>`).join('')+'</tr>';
 for(const a of AG){b+=`<tr class="${HL&&me===a[0]?'mine':''}" style="--agc:${AGC[AG.indexOf(a)%AGC.length]}"><th class="nm sn" onclick="this.classList.add('full');clearTimeout(this._t);this._t=setTimeout(()=>this.classList.remove('full'),3000)">${nameS(a)}</th>`;for(const[k,c]of days){const v=get(a[0],k);b+=`<td class="c ${c}${k===TODAY?' tdc':''}">${NT[a[0]+'|'+k]?'<span class="nb">💬</span>':''}${chip(v[0],'a',a[0],k,0)}${chip(v[1],'b',a[0],k,1)}</td>`}b+='</tr>'}
 $('main').innerHTML=`<div class="wrap"><table><thead>${mr}${wr}${h}</thead><tbody>${b}</tbody></table></div>`;
-const w=document.querySelector('.wrap');dragW(w);w.addEventListener('scroll',()=>{if(plan.rq)return;plan.rq=requestAnimationFrame(()=>{plan.rq=0;scMo()})},{passive:true})}
+const w=document.querySelector('.wrap');dragW(w);rangeW(w);w.addEventListener('scroll',()=>{if(plan.rq)return;plan.rq=requestAnimationFrame(()=>{plan.rq=0;scMo()})},{passive:true})}
+
+// ---------- Sélection de plusieurs jours : appui long puis glisser ----------
+let RANGE=null;const DS={on:false};
+function rangeW(w){let t=null,st=null,x0=0,y0=0,cur=null,raf=0,lx=0,ly=0,kill=0;
+ const cellOf=(x,y)=>{const e=document.elementFromPoint(x,y),td=e&&e.closest&&e.closest('td.c');const d=td&&td.querySelector('[data-s]');return d?d.dataset.s.split('|'):null};
+ const paint=()=>{document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'));if(!st||!cur)return;const[a,k0]=st,[k1]=[cur];const lo=k0<k1?k0:k1,hi=k0<k1?k1:k0;
+  w.querySelectorAll(`[data-s^="${a}|"]`).forEach(el=>{const k=el.dataset.s.split('|')[1];if(k>=lo&&k<=hi)el.closest('td').classList.add('rsel')})};
+ const move=(x,y)=>{lx=x;ly=y;const c=cellOf(x,y);if(c&&c[0]===st[0]&&c[1]!==cur){cur=c[1];paint();if(navigator.vibrate)navigator.vibrate(5)}};
+ const edge=()=>{if(!DS.on)return;const r=w.getBoundingClientRect();if(lx>r.right-36){w.scrollLeft+=10;move(lx,ly)}else if(lx<r.left+(document.querySelector('th.nm')||{offsetWidth:0}).offsetWidth+24){w.scrollLeft-=10;move(lx,ly)}raf=requestAnimationFrame(edge)};
+ const start=(x,y)=>{const c=cellOf(x,y);if(!c||ro)return;x0=x;y0=y;st=[c[0],c[1],+c[2]];cur=c[1];clearTimeout(t);t=setTimeout(()=>{DS.on=true;w.classList.add('rsel-on');paint();if(navigator.vibrate)navigator.vibrate(20);lx=x;ly=y;raf=requestAnimationFrame(edge)},380)};
+ const cancel=()=>{clearTimeout(t);t=null};
+ const end=()=>{clearTimeout(t);cancelAnimationFrame(raf);if(!DS.on){st=null;return}DS.on=false;w.classList.remove('rsel-on');kill=Date.now();
+  const[a,k0,l]=st,lo=k0<cur?k0:cur,hi=k0<cur?cur:k0;st=null;if(lo===hi){document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'));openS(a,lo,l);return}RANGE={a,k:lo,end:hi};openS(a,lo,l);paintKeep(a,lo,hi)};
+ const paintKeep=(a,lo,hi)=>w.querySelectorAll(`[data-s^="${a}|"]`).forEach(el=>{const k=el.dataset.s.split('|')[1];if(k>=lo&&k<=hi)el.closest('td').classList.add('rsel')});
+ w.addEventListener('touchstart',e=>{if(e.touches.length!==1)return cancel();const p=e.touches[0];start(p.clientX,p.clientY)},{passive:true});
+ w.addEventListener('touchmove',e=>{const p=e.touches[0];if(DS.on){e.preventDefault();move(p.clientX,p.clientY)}else if(t&&Math.hypot(p.clientX-x0,p.clientY-y0)>8)cancel()},{passive:false});
+ w.addEventListener('touchend',end);w.addEventListener('touchcancel',()=>{cancel();if(DS.on){DS.on=false;w.classList.remove('rsel-on');cancelAnimationFrame(raf);document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'))}});
+ w.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button===0)start(e.clientX,e.clientY)});
+ window.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;if(DS.on)move(e.clientX,e.clientY);else if(t&&Math.hypot(e.clientX-x0,e.clientY-y0)>6)cancel()});
+ window.addEventListener('pointerup',e=>{if(e.pointerType==='mouse')end()});
+ w.addEventListener('click',e=>{if(Date.now()-kill<400){e.stopPropagation();e.preventDefault()}},true);
+ w.addEventListener('contextmenu',e=>{if(t||DS.on)e.preventDefault()})}
 function dragW(w){let x0=0,y0=0,sl=0,st=0,on=false,mv=false;
  w.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;on=true;mv=false;x0=e.clientX;y0=e.clientY;sl=w.scrollLeft;st=w.scrollTop});
- window.addEventListener('pointermove',e=>{if(!on)return;const dx=e.clientX-x0,dy=e.clientY-y0;if(!mv&&Math.abs(dx)+Math.abs(dy)>6){mv=true;w.classList.add('drg');w.style.scrollBehavior='auto'}
+ window.addEventListener('pointermove',e=>{if(!on||DS.on)return;const dx=e.clientX-x0,dy=e.clientY-y0;if(!mv&&Math.abs(dx)+Math.abs(dy)>6){mv=true;w.classList.add('drg');w.style.scrollBehavior='auto'}
   if(mv){w.scrollLeft=sl-dx;w.scrollTop=st-dy;e.preventDefault()}});
  window.addEventListener('pointerup',()=>{if(!on)return;on=false;if(mv){w.classList.remove('drg');w.style.scrollBehavior='';setTimeout(()=>mv=false,0)}});
  w.addEventListener('click',e=>{if(mv){e.stopPropagation();e.preventDefault();mv=false}},true);
@@ -368,7 +395,7 @@ function who(){$('wl').innerHTML=AG.map(a=>`<button onclick="pickMe('${a[0]}')">
 
 const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en direct avec tous les collègues.\n\nGlissez vers la gauche pour avancer.'],
 ['📅','Naviguer','Choisissez le mois en haut, puis faites glisser le planning. En violet : les vacances scolaires. Touchez ⇄ pour changer d’année.'],
-['✏️','Saisir un code','Touchez le haut d’une case pour la ligne 1, le bas pour la ligne 2. AST se place tout seul en ligne 2, sous le RP par exemple. « Jusqu’au » pose le code sur plusieurs jours. 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
+['✏️','Saisir un code','Touchez le haut d’une case pour la ligne 1, le bas pour la ligne 2. AST se place tout seul en ligne 2, sous le RP par exemple. Plusieurs jours ? Appui long sur une case puis glissez le doigt, ou utilisez « Jusqu’au ». 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
 ['📋','Copier une semaine','Dans une case, « Copier la semaine » : choisissez les lignes, les agents (vous compris) et cochez une ou plusieurs semaines d’arrivée.'],
 ['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans la ligne « Programme » de la semaine, avec leur couleur : touchez une étiquette pour lire tout le détail.'],
 ['🚧','Chantiers de nuit','Touchez le numéro de semaine (S12…) pour annoncer un chantier « Prévu ». Touchez-le pour voir ses nuits et l’attribuer : MN, nuits et RP se posent tout seuls.\n\nDéjà attribué ? Touchez-le pour changer d’agents (tout décocher = retour en « Prévu ») ou le supprimer.'],
@@ -460,12 +487,12 @@ function draw(){const w=document.querySelector('.wrap'),sx=w?w.scrollLeft:0,sy=w
 function hideUd(){$('ud').classList.remove('o');clearTimeout(udT)}
 function openS(a,k,l){hideUd();if(ro){$('st').textContent='Lecture seule : vous ne pouvez pas modifier ce planning.';return}if(l!==undefined)line=l;sel=[a,k];const ag=AG.find(x=>x[0]==a),d=+k.slice(8),n=new Date(YR,+k.slice(5,7),0).getDate();
 $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d} ${MOIS[+k.slice(5,7)-1]}</span><button onclick="closeS()">×</button></div>${nInfo(a,k)}<div class="note"><input id="nti" maxlength="120" placeholder="💬 Ajouter une note pour ce jour…" value="${esc(NT[a+'|'+k]||'').replace(/"/g,'&quot;')}" onkeydown="if(event.key==='Enter'){this.blur()}" onblur="saveNote()"><small id="ntb"></small></div>
-<div class="seg"><button class="${line==0?'on':''}" onclick="openS(sel[0],sel[1],0)">Ligne 1</button><button class="${line==1?'on':''}" onclick="openS(sel[0],sel[1],1)">Ligne 2</button></div><div class="rg"><label>jusqu’au <input id="to" type="date" min="${k}" max="${YR}-12-31" value="${k}"></label>
+<div class="seg"><button class="${line==0?'on':''}" onclick="openS(sel[0],sel[1],0)">Ligne 1</button><button class="${line==1?'on':''}" onclick="openS(sel[0],sel[1],1)">Ligne 2</button></div><div class="rg"><label>jusqu’au <input id="to" type="date" min="${k}" max="${YR}-12-31" value="${RANGE&&RANGE.a===a&&RANGE.k===k?RANGE.end:k}"></label>${RANGE&&RANGE.a===a&&RANGE.k===k?`<div class="rgh">✋ ${fd(k)} → ${fd(RANGE.end)} sélectionnés : choisissez le code</div>`:''}
 <label class="kw"><input type="checkbox" id="kw" ${line==0?'checked':''}> Garder les RP des week-ends et les fériés</label></div>
 <button class="cpw" onclick="copyW()">📋 Copier la semaine ${wnum(wkey(wkS(k)))} de ${esc(pre(a))}…</button>
 <div class="pick">${Object.entries(P).map(([c,p])=>`<button style="--cc:${p[0]};background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b><span>${p[2].split(' · ')[0]}</span></button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b><span>Effacer</span></button></div>`;markS();$('sh').scrollTop=0;$('sh').classList.add('o');requestAnimationFrame(()=>{$('sh').scrollTop=0});$('ov').classList.add('o')}
 function markS(){document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));if(sel){const e=document.querySelector(`[data-s="${sel[0]}|${sel[1]}|${line}"]`);if(e)e.classList.add('sel')}}
-function closeS(){$('sh').scrollTop=0;document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));$('sh').classList.remove('o');$('ov').classList.remove('o')}
+function closeS(){RANGE=null;document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'));$('sh').scrollTop=0;document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));$('sh').classList.remove('o');$('ov').classList.remove('o')}
 function setC(c){if(c==='AST')line=1;const[a,k]=sel;let end=$('to').value||k;if(end<k)end=k;if(end>YR+'-12-31')end=YR+'-12-31';const keep=$('kw')&&$('kw').checked;
 const sn={v:[],nu:{...NU},h:[]};const mp=data[a]=data[a]||{},ks=[];for(let d=wkS(k);ymd(d)<=end;d.setDate(d.getDate()+1)){const kk=ymd(d),w=d.getDay();
  if(keep&&kk!==k&&(w==0||w==6||HOL.includes(kk)))continue;sn.v.push([a,kk,mp[kk]?mp[kk].slice():null]);const v=get(a,kk).slice();v[line]=c;mp[kk]=v;ks.push(kk)}
