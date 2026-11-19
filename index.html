@@ -420,7 +420,7 @@ function tuPrev(){if(tuI>0)tuto(tuI-1)}
  document.addEventListener('keydown',e=>{if(el.style.display!=='flex')return;if(e.key==='ArrowRight')tuNext();if(e.key==='ArrowLeft')tuPrev();if(e.key==='Escape')tuEnd()})})();
 function tuEnd(){$('tu').style.display='none';try{localStorage.setItem('tap_tuto9','1')}catch(e){}}
 function tuFirst(){let d=null;try{d=localStorage.getItem('tap_tuto9')}catch(e){}if(!d)tuto(0)}
-function pickMe(id){me=id;try{localStorage.setItem('tap_me',id)}catch(e){}$('who').style.display='none';draw();tuFirst()}
+function pickMe(id){me=id;if(RT&&UID&&MEMBER)RT.ref('membres/'+UID+'/qui').set(pre(id)).catch(()=>{});try{localStorage.setItem('tap_me',id)}catch(e){}$('who').style.display='none';draw();tuFirst()}
 function fd(k){const m=+k.slice(5,7)-1;return +k.slice(8)+' '+MOIS[m].slice(0,4).toLowerCase()+(MOIS[m].length>4?'.':'')}
 function ago(t){const d=(Date.now()-t)/1000;if(d<60)return"à l'instant";if(d<3600)return'il y a '+Math.floor(d/60)+' min';if(d<86400)return'il y a '+Math.floor(d/3600)+' h';const x=new Date(t);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' à '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
 
@@ -503,12 +503,20 @@ yrT();setTimeout(goToday,80);AG.forEach(a=>{try{const s=localStorage.getItem('ta
 draw();
 const CFG={apiKey:"AIzaSyBz7oH7QZPduFLdQqJHr_QN6f6lh_gQM2Y",authDomain:"tap-goussainville.firebaseapp.com",databaseURL:"https://tap-goussainville-default-rtdb.europe-west1.firebasedatabase.app",projectId:"tap-goussainville",storageBucket:"tap-goussainville.firebasestorage.app",messagingSenderId:"214806325624",appId:"1:214806325624:web:46d57c2f96ba8640d7c08d"}; // ← config Firebase (Realtime Database)
 const ld=u=>new Promise((r,j)=>{const e=document.createElement('script');e.src=u;e.onload=r;e.onerror=j;document.head.appendChild(e)});
-(async()=>{if(!CFG.databaseURL){return}
-try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-database-compat.js`);
-firebase.initializeApp(CFG);const rt=firebase.database();RT=rt;H=[];renderH();rt.ref('notes').on('value',s=>{const v=s.val()||{};NT={};for(const a in v)for(const k in v[a])NT[a+'|'+k]=v[a][k];try{localStorage.setItem('tap_notes',JSON.stringify(NT))}catch(e){}draw()},()=>{});rt.ref('nuits').on('value',s=>{const v=s.val()||{};NU={};for(const w in v)for(const c in v[w])NU[w+'|'+c]=v[w][c];try{localStorage.setItem('tap_nuits',JSON.stringify(NU))}catch(e){}draw()},()=>{});rt.ref('imports').on('value',s=>{IMP=s.val()||{};try{localStorage.setItem('tap_imp',JSON.stringify(IMP))}catch(e){}if(vw==='imp')draw()},()=>{});rt.ref('historique').limitToLast(100).on('value',s=>{const v=s.val()||{};H=Object.entries(v).map(([id,e])=>({id,...e})).sort((x,y)=>y.t-x.t);renderH()},()=>{});
+let UID=null,MEMBER=false;
+function startRT(){const rt=RT;if(!rt||startRT.on)return;startRT.on=1;H=[];renderH();rt.ref('notes').on('value',s=>{const v=s.val()||{};NT={};for(const a in v)for(const k in v[a])NT[a+'|'+k]=v[a][k];try{localStorage.setItem('tap_notes',JSON.stringify(NT))}catch(e){}draw()},()=>{});rt.ref('nuits').on('value',s=>{const v=s.val()||{};NU={};for(const w in v)for(const c in v[w])NU[w+'|'+c]=v[w][c];try{localStorage.setItem('tap_nuits',JSON.stringify(NU))}catch(e){}draw()},()=>{});rt.ref('imports').on('value',s=>{IMP=s.val()||{};try{localStorage.setItem('tap_imp',JSON.stringify(IMP))}catch(e){}if(vw==='imp')draw()},()=>{});rt.ref('historique').limitToLast(100).on('value',s=>{const v=s.val()||{};H=Object.entries(v).map(([id,e])=>({id,...e})).sort((x,y)=>y.t-x.t);renderH()},()=>{});
 db={doc:p=>({update:o=>rt.ref(p+'/d').update(o.d),set:o=>rt.ref(p).set(o)})};
 $('st').textContent='';
-AG.forEach(a=>rt.ref('planning/'+a[0]+'/d').on('value',s=>{const v=s.val();if(v){const o={};for(const k in v){const x=v[k];o[k]=Array.isArray(x)?[x[0]||'',x[1]||'']:[(x&&x[0])||'',(x&&x[1])||'']}data[a[0]]=o;try{localStorage.setItem('tap27_'+a[0],JSON.stringify(o))}catch(e){}draw()}},()=>{$('st').textContent='⚠️ Connexion impossible : vérifiez les règles Firebase'}))}
+AG.forEach(a=>rt.ref('planning/'+a[0]+'/d').on('value',s=>{const v=s.val();if(v){const o={};for(const k in v){const x=v[k];o[k]=Array.isArray(x)?[x[0]||'',x[1]||'']:[(x&&x[0])||'',(x&&x[1])||'']}data[a[0]]=o;try{localStorage.setItem('tap27_'+a[0],JSON.stringify(o))}catch(e){}draw()}},e=>{if(e&&/permission/i.test(e.code||e.message||''))lockShow(MEMBER?'🔑 Le code d’équipe a changé : entrez le nouveau code.':'🔒 Sécurité renforcée : entrez le code d’équipe une fois.');else $('st').textContent='⚠️ Connexion impossible : vérifiez les règles Firebase'}))}
+function lockShow(msg){if(!startRT.on&&$('lk').style.display==='flex')return;startRT.on=0;try{RT&&['notes','nuits','imports','historique'].concat(AG.map(a=>'planning/'+a[0]+'/d')).forEach(p=>RT.ref(p).off())}catch(e){}try{localStorage.removeItem('tap_ok')}catch(e){}$('pin').value='';$('lk').style.display='flex';if(msg)$('er').textContent=msg;setTimeout(()=>$('pin').focus(),300)}
+(async()=>{if(!CFG.databaseURL){return}
+try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-database-compat.js`);
+firebase.initializeApp(CFG);RT=firebase.database();
+ // connexion anonyme : chaque appareil a une identité ; Firebase vérifie le code d’équipe lui-même
+ try{await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-auth-compat.js`);const cr=await firebase.auth().signInAnonymously();UID=cr.user&&cr.user.uid}catch(e){UID=null}
+ if(UID){try{MEMBER=(await RT.ref('membres/'+UID).once('value')).exists()}catch(e){}}
+ let ok=null;try{ok=localStorage.getItem('tap_ok')}catch(e){}
+ if(MEMBER||ok===PH)startRT();else lockShow()}
 catch(e){$('st').textContent='⚠️ Hors ligne : saisies locales uniquement'}})();
 // ---- Version automatique : 1.0 au premier envoi de index.html sur GitHub, puis 1.1, 1.2... à chaque mise à jour ----
 let cur=null;
@@ -527,7 +535,11 @@ async function chk(){try{const n=await nbMaj();if(n===null)throw 0;
 chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
 const PH='6cb6796abc23a6fadd39aeefe4ee140f7918957528208267be8cb9d3e77236ae';
 async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tapgsv:'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-async function unlock(){const v=$('pin').value.trim();let ok=false;try{ok=(await sha(v))===PH}catch(e){}
+async function unlock(){const v=$('pin').value.trim();let ok=false;
+ if(RT&&UID){try{await RT.ref('membres/'+UID).set({code:v,t:Date.now(),qui:me?pre(me):'(nom pas encore choisi)'});ok=true;MEMBER=true}catch(e){
+  try{if((await sha(v))===PH){await RT.ref('planning').limitToFirst(1).once('value');ok=true}}catch(_){ok=false}}}
+ else{try{ok=(await sha(v))===PH}catch(e){}}
+ if(ok){$('er').textContent='';startRT()}
  if(ok){try{localStorage.setItem('tap_ok',PH)}catch(e){}$('lk').style.display='none';if(!me)who()}
  else{$('er').textContent='Code incorrect';$('pin').value='';const b=$('lkb');b.classList.remove('shk');void b.offsetWidth;b.classList.add('shk')}}
 (()=>{let ok=null;try{ok=localStorage.getItem('tap_ok')}catch(e){}if(ok!==PH){$('lk').style.display='flex';setTimeout(()=>$('pin').focus(),300)}else if(!me)who()})();
