@@ -215,6 +215,13 @@ function parseX(G,fname){const C=(r,c)=>String((G[r]||[])[c]??'').trim();
  // nuits attribuées : N1…N4 par semaine
  for(const w in nights){const free=NC.filter(c=>!NU[w+'|'+c]);nights[w].forEach((tok,i)=>{const d=dsc(A[tok])||'Chantier de nuit '+tok;let c=NC.find(c=>NU[w+'|'+c]===d)||free.shift()||NC[Math.min(i,NC.length-1)];
   R.ops.forEach(o=>{if(o.kind==='n'&&o.act===tok&&wOf(o.k)===w)o.code=c});R.nu[w+'|'+c]=d;R.ni.push([w,c,d])})}
+ // nuit le week-end : le RP perdu est décalé après la nuit (ex. nuit samedi → RP dimanche + lundi)
+ R.sh=[];const addD=(k,n)=>{const d=new Date(k+'T12:00');d.setDate(d.getDate()+n);return ymd(d)},dow=k=>new Date(k+'T12:00').getDay();
+ for(const a of AG){const M={};R.ops.forEach(o=>{if(o.a===a[0])M[o.k]=o});const done={};
+  for(const k of Object.keys(M).sort()){const o=M[k];if(o.kind!=='n'||(dow(k)!==6&&dow(k)!==0))continue;const sat=dow(k)===6?k:addD(k,-1),sun=addD(sat,1);if(done[sat])continue;done[sat]=1;
+   const nn=[sat,sun].filter(x=>M[x]&&M[x].kind==='n');let lost=nn.length,L=nn[nn.length-1],d=addD(L,1),moved=[];
+   for(let i=0;i<5&&lost>0;i++,d=addD(d,1)){const x=M[d];if(x&&x.code==='RP')continue;if(x&&x.code!==''&&x.code!==null)break;if(!x){if(dow(d)===6||dow(d)===0||HOL.includes(d))break;const y=+d.slice(0,4);if(y!==2027&&y!==2028)break;M[d]={a:a[0],k:d,code:'RP',kind:'r'};R.ops.push(M[d]);R.per[a[0]]++}else{x.code='RP';x.kind='r'}moved.push(d);lost--}
+   if(moved.length)R.sh.push([a[0],nn,moved])}}
  // chantiers de nuit annoncés (semaine dans le libellé), pas encore attribués → « Prévu »
  let pi=0;for(const tok in A){const a=A[tok];if(!isN(a,tok)||isFor(a))continue;const ws=new Set();for(const m of a.lab.matchAll(/\bS\s?0?(\d{1,2})\b/gi)){const n=+m[1];[...fileW].forEach(w=>{if(+w.split('-W')[1]===n)ws.add(w)})}
   for(const w of ws){if((nights[w]||[]).includes(tok))continue;const d=dsc(a);R.pv.push([w,d]);R.nu[w+'|P_x'+(pi++)]=d}}
@@ -230,7 +237,7 @@ function showIx(){const R=IXR,old=Object.entries(IMP).find(([,v])=>v.ti===R.ti);
  h+=ag?`<div class="ixh">👥 Agents trouvés</div><div class="ixgs">${ag}</div>`:'<p class="ixw">Aucun agent de l’équipe trouvé dans ce fichier.</p>';
  if(R.ni.length)h+=`<div class="ixh">🌙 Nuits attribuées</div>`+li(R.ni,([w,c,d])=>`<li><b>${wnum(w)} · ${c}</b> ${esc(d)}</li>`);
  if(R.pv.length)h+=`<div class="ixh">🌙 Chantiers de nuit prévus</div>`+li(R.pv,([w,d])=>`<li><b>${wnum(w)}</b> ${esc(d)}</li>`);
- if(R.fo.length)h+=`<div class="ixh">📚 Formations</div>`+li(R.fo,([w,a,d])=>`<li><b>${wnum(w)} · ${esc(pre(a))}</b> ${esc(d)}</li>`);
+ if(R.sh.length)h+=`<div class="ixh">🔁 RP décalés après une nuit de week-end</div>`+li(R.sh,([a,nn,mv])=>`<li><b>${esc(pre(a))}</b> nuit ${nn.map(fd).join(' + ')} → RP ${mv.map(fd).join(' + ')}</li>`);if(R.fo.length)h+=`<div class="ixh">📚 Formations</div>`+li(R.fo,([w,a,d])=>`<li><b>${wnum(w)} · ${esc(pre(a))}</b> ${esc(d)}</li>`);
  const uk=Object.entries(R.unk);if(uk.length)h+=`<div class="ixh">❓ Codes inconnus (ignorés)</div>`+li(uk,([v,n])=>`<li>${esc(v.replace(/\s+/g,' '))} <small>×${n}</small></li>`);
  const ig=[];if(R.skipN.length)ig.push(R.skipN.length+' agent'+(R.skipN.length>1?'s':'')+' d’autres équipes');if(R.out)ig.push(R.out+' jour'+(R.out>1?'s':'')+' hors 2027-2028');if(ig.length)h+=`<p class="ixs">Ignorés : ${ig.join(', ')}.</p>`;
  if(old)h+=`<label class="ixr"><input type="checkbox" id="ixrep" checked> Remplacer l’extraction « ${esc(old[1].ti)} » déjà importée le ${new Date(old[1].t).toLocaleDateString('fr-FR')}</label>`;
