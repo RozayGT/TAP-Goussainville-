@@ -218,14 +218,14 @@ function parseX(G,fname){const C=(r,c)=>String((G[r]||[])[c]??'').trim();
  // nuits attribuées : N1…N4 par semaine
  for(const w in nights){const free=NC.filter(c=>!NU[w+'|'+c]);nights[w].forEach((tok,i)=>{const d=dsc(A[tok])||'Chantier de nuit '+tok;let c=NC.find(c=>NU[w+'|'+c]===d)||free.shift()||NC[Math.min(i,NC.length-1)];
   R.ops.forEach(o=>{if(o.kind==='n'&&o.act===tok&&wOf(o.k)===w)o.code=c});R.nu[w+'|'+c]=d;R.ni.push([w,c,d])})}
- // semaine de nuit commençant le mardi : le lundi travaillé devient MN (montée de nuit)
- for(const a of AG){const M={};R.ops.forEach(o=>{if(o.a===a[0])M[o.k]=o});for(const k in M){const o=M[k];if(o.kind!=='n'||new Date(k+'T12:00').getDay()!==2)continue;const d=new Date(k+'T12:00');d.setDate(d.getDate()-1);const m=M[ymd(d)];if(m&&m.kind!=='n'&&m.code===''){m.code='MN';m.kind='m'}}}
+ // veille de la 1re nuit (si travaillée, hors dimanche) : MN (montée de nuit)
+ for(const a of AG){const M={};R.ops.forEach(o=>{if(o.a===a[0])M[o.k]=o});for(const k in M){const o=M[k];if(o.kind!=='n')continue;const d=new Date(k+'T12:00');d.setDate(d.getDate()-1);if(d.getDay()===0)continue;const m=M[ymd(d)];if(m&&m.kind!=='n'&&m.code===''&&!nBefore(a[0],ymd(d),M)){m.code='MN';m.kind='m'}}}
  // nuit le week-end : le RP perdu est décalé après la nuit (ex. nuit samedi → RP dimanche + lundi)
  R.sh=[];const addD=(k,n)=>{const d=new Date(k+'T12:00');d.setDate(d.getDate()+n);return ymd(d)},dow=k=>new Date(k+'T12:00').getDay();
  for(const a of AG){const M={};R.ops.forEach(o=>{if(o.a===a[0])M[o.k]=o});const done={};
   for(const k of Object.keys(M).sort()){const o=M[k];if(o.kind!=='n'||(dow(k)!==6&&dow(k)!==0))continue;const sat=dow(k)===6?k:addD(k,-1),sun=addD(sat,1);if(done[sat])continue;done[sat]=1;
    const nn=[sat,sun].filter(x=>M[x]&&M[x].kind==='n');let lost=nn.length,L=nn[nn.length-1],d=addD(L,1),moved=[];
-   for(let i=0;i<5&&lost>0;i++,d=addD(d,1)){const x=M[d];if(x&&x.code==='RP')continue;if(x&&x.code!==''&&x.code!==null)break;if(!x){if(dow(d)===6||dow(d)===0||HOL.includes(d))break;const y=+d.slice(0,4);if(y!==2027&&y!==2028)break;M[d]={a:a[0],k:d,code:'RP',kind:'r'};R.ops.push(M[d]);R.per[a[0]]++}else{x.code='RP';x.kind='r'}moved.push(d);lost--}
+   for(let i=0;i<5&&lost>0;i++,d=addD(d,1)){const x=M[d];if(x&&(x.code==='RP'||x.code==='F'))continue;if(!x&&HOL.includes(d))continue;if(x&&x.code!==''&&x.code!==null)break;if(!x){if(dow(d)===6||dow(d)===0)break;const y=+d.slice(0,4);if(y!==2027&&y!==2028)break;M[d]={a:a[0],k:d,code:'RP',kind:'r'};R.ops.push(M[d]);R.per[a[0]]++}else{x.code='RP';x.kind='r'}moved.push(d);lost--}
    if(moved.length)R.sh.push([a[0],nn,moved])}}
  // chantiers de nuit annoncés (semaine dans le libellé), pas encore attribués → « Prévu »
  let pi=0;R.np=[];for(const tok in A){const a=A[tok];if(!isN(a,tok)||isFor(a))continue;if(G.sty&&!a.red)continue;const ws=new Set();for(const m of a.lab.matchAll(/\bS\s?0?(\d{1,2})\b/gi)){const n=+m[1];[...fileW].forEach(w=>{if(+w.split('-W')[1]===n)ws.add(w)})}
@@ -276,15 +276,16 @@ function nPlan(t){t=String(t||'');const U=t.toUpperCase(),re=/(?:^|[^A-Z])(DI|LU
  while((m=re.exec(U))){const a=NDJ.indexOf(m[1]),b=NDJ.indexOf(m[2]);if((a+1)%7!==b)continue;const st=m.index+m[0].indexOf(m[1]);K.push({i:st,e:re.lastIndex,d:b});re.lastIndex=st+m[1].length}
  const S=new Set(),det={};K.forEach((k,j)=>{S.add(k.d);const nx=K[j+1],mid=nx?U.slice(k.e,nx.i):'';if(nx&&/^\s*(À|A|AU|->|→|-|JUSQU'?\s*À)\s*$/.test(mid))for(let d=k.d;d!==nx.d;d=(d+1)%7)S.add(d);
   const c=t.slice(k.e).match(/^\s*:\s*/);if(c){const x=t.slice(k.e+c[0].length,nx?nx.i:t.length).replace(/[\s·•\-–]*(\bo)?[\s•·]*$/,'').replace(/^[\s·•]+/,'').trim();if(x)det[k.d]=x}});
- const std=!S.size;if(std)[1,2,3,4].forEach(d=>S.add(d));return{S,det,std,mn:!S.has(0)}}
-function nWeek(t,code){const p=nPlan(t),c=code||'N1',lab=d=>d===0&&p.mn?'MN':p.S.has(d)?c:d>=5?'RP':'';
+ const std=!S.size;if(std)[1,2,3,4].forEach(d=>S.add(d));const f=Math.min(...S);return{S,det,std,mn:f>0,mnd:f>0?f-1:-1,lost:[5,6].filter(d=>S.has(d)||(f>0&&d===f-1)).length}}
+function nWeek(t,code){const p=nPlan(t),c=code||'N1',lab=d=>d===p.mnd?'MN':p.S.has(d)?c:d>=5?'RP':'';
  const cell=d=>{const x=lab(d),q=P[x]||(x?P.N1:null);return`<div${q?` style="background:${q[0]};color:${q[1]}"`:''}><span>${NDL[d]}</span><b>${x||'·'}</b></div>`};
- return`<div class="nwk">${[0,1,2,3,4,5,6].map(cell).join('')}</div>`+(p.std?'<p class="nwn">Nuits non précisées : semaine standard (MN lundi, nuits mardi → vendredi).</p>':'')+(p.S.has(5)?'<p class="nwn">Nuit Ve/Sa : RP décalé au dimanche et au lundi suivant.</p>':'')+
+ return`<div class="nwk">${[0,1,2,3,4,5,6].map(cell).join('')}</div>`+(p.std?'<p class="nwn">Nuits non précisées : semaine standard (MN lundi, nuits mardi → vendredi).</p>':'')+(p.lost===2?'<p class="nwn">Week-end travaillé : RP décalés au lundi et au mardi suivants.</p>':p.lost?'<p class="nwn">RP du week-end décalé au lundi suivant.</p>':'')+
   (Object.keys(p.det).length?'<div class="nwd">'+Object.entries(p.det).sort((a,b)=>((+a[0]+6)%7)-((+b[0]+6)%7)).map(([d,x])=>`<div><b>${NDL[(+d+6)%7]}/${NDL[d]}</b>${esc(x)}</div>`).join('')+'</div>':'')}
 let CD=null;
 function openCD(w,c){hideUd();const t=NU[w+'|'+c];if(t==null)return;CD={w,c};const ds=wDays(wFirst(w));
  $('cdt').innerHTML=`🌙 Chantier prévu · ${wnum(w)}`;$('cdp').textContent='Semaine du '+fd(ds[0])+' au '+fd(ds[6]);$('cdw').innerHTML=nWeek(t);$('cdx').textContent=t;
  $('cda').innerHTML=AG.map(a=>`<button data-a="${a[0]}" onclick="this.classList.toggle('on')">${esc(pre(a[0]))}</button>`).join('');$('cda').parentElement.style.display=ro?'none':'';$('cdv').style.display='flex'}
+function nBefore(a,k,M){for(let i=1;i<=4;i++){const d=new Date(k+'T12:00');d.setDate(d.getDate()-i);const x=ymd(d),o=M&&M[x];if(o?o.kind==='n'||NC.includes(o.code):NC.includes(get(a,x)[0]))return true}return false}
 function wFirst(w){const y=+w.slice(0,4),n=+w.split('-W')[1],d=new Date(y,0,4);d.setDate(d.getDate()-((d.getDay()+6)%7)+(n-1)*7);return ymd(d)}
 function closeCD(){$('cdv').style.display='none';CD=null}
 function edCD(){const{w,c}=CD;closeCD();openP(w,wFirst(w));edP(c)}
@@ -293,8 +294,8 @@ function okCD(){if(!CD)return;const T=[...document.querySelectorAll('#cda button
  const{w,c}=CD,t=NU[w+'|'+c],p=nPlan(t),ds=wDays(wFirst(w)),nc=NC.find(x=>!NU[w+'|'+x])||'N1',sn={v:[],nu:{...NU},h:[]};
  const nx=(k,n)=>{const d=new Date(k+'T12:00');d.setDate(d.getDate()+n);return ymd(d)};
  for(const a of T){const mp=data[a]=data[a]||{},ks=[];const put=(k,x)=>{sn.v.push([a,k,mp[k]?mp[k].slice():null]);const v=get(a,k).slice();v[0]=x;mp[k]=v;ks.push(k)};
-  if(p.mn)put(ds[0],'MN');[...p.S].forEach(d=>put(ds[d],nc));
-  let lost=[5,6].filter(d=>p.S.has(d)).length;if(lost){let k=nx(ds[p.S.has(6)?6:5],1);for(let i=0;i<5&&lost>0;i++,k=nx(k,1)){const cur=get(a,k)[0];if(cur==='RP')continue;if(cur!=='')break;put(k,'RP');lost--}}
+  if(p.mnd>=0&&!nBefore(a,ds[p.mnd]))put(ds[p.mnd],'MN');[...p.S].forEach(d=>put(ds[d],nc));
+  let lost=p.lost;if(lost){let k=nx(ds[p.S.has(6)||p.mnd===6?6:5],1);for(let i=0;i<6&&lost>0;i++,k=nx(k,1)){const cur=get(a,k)[0];if(cur==='RP'||cur==='F')continue;if(cur!=='')break;put(k,'RP');lost--}}
   save(a,ks);sn.h.push(logH(a,ks.sort()[0],ks[ks.length-1],nc,0))}
  nuSet(w+'|'+nc,t);setP(w,c,'');try{localStorage.setItem('tap_nuits',JSON.stringify(NU))}catch(e){}closeCD();draw();offerUndo(sn,`<span class="cd" style="background:${P[nc][0]};color:${P[nc][1]}">${nc}</span> attribué à ${T.map(pre).map(esc).join(', ')}`)}
 function th(t){const r=document.documentElement;if(t)r.dataset.theme=t;else delete r.dataset.theme;
