@@ -56,7 +56,7 @@ input[type=number]{width:66px;padding:6px;font-size:16px!important;border:1px so
 .a.e,.b.e,[data-skin] .a.e,[data-skin] .b.e{border:0!important;background:transparent!important;box-shadow:none!important;opacity:1!important}
 .a.e.sel,.b.e.sel{background:color-mix(in srgb,var(--ac) 18%,transparent)!important}
 .b:not(.e){font-size:10.5px!important;line-height:18px!important;min-height:18px!important;margin:2px 7px 0!important;border-radius:5px!important}
-.b.e{min-height:14px!important}
+.b.e{min-height:22px!important;margin:0 2px!important}
 th.nm.sn{cursor:pointer;line-height:1.25}
 th.nm.sn .s1{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 th.nm.sn .s2{display:none}
@@ -84,7 +84,7 @@ let data={},mo=new Date().getFullYear()==YR?new Date().getMonth():0,vw='plan',se
 const iso=(m,d)=>`${YR}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 function get(a,k){const v=(data[a]||{})[k];if(v)return v;if(HOL.includes(k))return['F',''];const w=new Date(k+'T12:00').getDay();return w==0||w==6?['RP','']:['',''];}
-function chip(c,cls,a,k,l){const kc=c&&kcOf(c,a),hn=kc&&NU[wkey(wkS(k))+'|'+kc]?' hn':'';const h=`data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',${l})"`;if(!c)return`<span class="${cls} e" data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',0)"></span>`;const p=P[c]||['#ddd','#000'];return`<span class="${cls}${hn} k${c}" ${h} style="--cc:${p[0]};background:${p[0]};color:${p[1]}">${c}</span>`}
+function chip(c,cls,a,k,l){const kc=c&&kcOf(c,a),hn=kc&&NU[wkey(wkS(k))+'|'+kc]?' hn':'';const h=`data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',${l})"`;if(!c)return`<span class="${cls} e" data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',${l})"></span>`;const p=P[c]||['#ddd','#000'];return`<span class="${cls}${hn} k${c}" ${h} style="--cc:${p[0]};background:${p[0]};color:${p[1]}">${c}</span>`}
 function nameS(a){const w=a[1].split(' '),up=w.filter(x=>/[A-Z]/.test(x)&&x===x.toUpperCase()),fn=w.filter(x=>!up.includes(x)).join(' ');return`<span class="s1">${esc(fn||a[1])} ${esc((up[0]||'')[0]||'')}.</span><span class="s2">${esc(a[1])}</span>${a[2]||a[3]?`<span class="tgs">${a[2]?`<i class="tg3">${esc(a[2])}</i>`:''}${a[3]?`<i class="tgq">${esc(a[3])}</i>`:''}</span>`:''}`}
 function name(a){return esc(a[1])+(a[2]?` <span class="h3">(${a[2]})</span>`:'')+(a[3]?`<span class="rq">(${a[3]})</span>`:'')}
 function ctrTab(sm){const t=$('tabs'),on=t&&t.querySelector('button.on');if(on&&t.scrollWidth>t.clientWidth){const x=on.offsetLeft-(t.clientWidth-on.offsetWidth)/2;if(sm)t.scrollTo({left:x,behavior:'smooth'});else t.scrollLeft=x}}
@@ -361,7 +361,7 @@ function who(){$('wl').innerHTML=AG.map(a=>`<button onclick="pickMe('${a[0]}')">
 
 const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en direct avec tous les collègues.\n\nGlissez vers la gauche pour avancer.'],
 ['📅','Naviguer','Choisissez le mois en haut, puis faites glisser le planning. En violet : les vacances scolaires. Touchez ⇄ pour changer d’année.'],
-['✏️','Saisir un code','Touchez une case : la saisie se fait en ligne 1 (choisissez Ligne 2 dans la fenêtre si besoin). AST se place tout seul en ligne 2, sous le RP par exemple. « Jusqu’au » pose le code sur plusieurs jours. 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
+['✏️','Saisir un code','Touchez le haut d’une case pour la ligne 1, le bas pour la ligne 2. AST se place tout seul en ligne 2, sous le RP par exemple. « Jusqu’au » pose le code sur plusieurs jours. 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
 ['📋','Copier une semaine','Dans une case, « Copier la semaine » : choisissez les lignes, les agents (vous compris) et cochez une ou plusieurs semaines d’arrivée.'],
 ['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans la ligne « Programme » de la semaine, avec leur couleur : touchez une étiquette pour lire tout le détail.'],
 ['🚧','Chantiers de nuit','Touchez le numéro de semaine (S12…) pour annoncer un chantier « Prévu ». Touchez-le pour voir ses nuits et l’attribuer : MN, nuits et RP se posent tout seuls.\n\nDéjà attribué ? Touchez-le pour changer d’agents (tout décocher = retour en « Prévu ») ou le supprimer.'],
