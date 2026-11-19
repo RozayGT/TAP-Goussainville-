@@ -67,6 +67,13 @@ th.nm.sn .tgs i{font-style:normal;font-size:10px;font-weight:700;border-radius:5
 [data-theme=dark] .tg3{color:#7cb4ff}[data-theme=dark] .tgq{color:#ff8a8a}
 td.c.tdc{background:color-mix(in srgb,var(--ac) 13%,transparent)!important;box-shadow:inset 1.5px 0 0 color-mix(in srgb,var(--ac) 55%,transparent),inset -1.5px 0 0 color-mix(in srgb,var(--ac) 55%,transparent)}
 @media(max-width:599px){th.nm{min-width:108px!important;max-width:108px!important}#mlab{font-size:11.5px!important}}
+
+/* jours plus étroits (30 px) ; codes larges un peu plus petits */
+thead tr.dy th:not(.nm){min-width:30px!important}td.c{min-width:30px!important;max-width:30px!important}
+td.c .a{margin-left:2px!important;margin-right:2px!important}td.c .b:not(.e){margin:2px 3px 0!important}
+.a.kFOR,.a.kRPS,.a.kRÉU,.a.kRMU,.a.kRDV,.a.kAST,.b.kFOR,.b.kRPS,.b.kRÉU,.b.kRMU,.b.kRDV{font-size:10px!important;letter-spacing:-.3px}
+.a.kRSNCF,.b.kRSNCF{font-size:7.5px!important;letter-spacing:-.5px!important;padding:0!important;overflow:hidden}
+@media(min-width:900px){thead tr.dy th:not(.nm){min-width:40px!important}td.c{min-width:40px!important;max-width:40px!important}.a.kFOR,.a.kRPS,.a.kRÉU,.a.kRMU,.a.kRDV,.a.kAST{font-size:11.5px!important}}
 </style></head><body>
 <div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button></header>
 <div class="tabs" id="tabs"></div>
