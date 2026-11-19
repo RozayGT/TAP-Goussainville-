@@ -328,11 +328,13 @@ function who(){$('wl').innerHTML=AG.map(a=>`<button onclick="pickMe('${a[0]}')">
 const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en direct avec tous les collègues.\n\nGlissez vers la gauche pour avancer.'],
 ['📅','Naviguer','Choisissez le mois en haut, puis faites glisser le planning. En violet : les vacances scolaires. Touchez ⇄ pour changer d’année.'],
 ['✏️','Saisir un code','Touchez une case : en haut la ligne 1, en bas la ligne 2 (ex. AST sous un RP). « Jusqu’au » pose le code sur plusieurs jours. 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
-['🌙','Nuits et formations','À la première pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Touchez l’étiquette pour la modifier.\n\nChantier pas encore attribué ? Touchez le numéro de semaine (S12…) pour l’annoncer : il s’affiche « Prévu ». Touchez-le pour voir le détail des nuits et l’attribuer : MN, nuits et RP se posent tout seuls.'],
+['📋','Copier une semaine','Dans une case, « Copier la semaine » : choisissez les lignes, les agents (vous compris) et cochez une ou plusieurs semaines d’arrivée.'],
+['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans les lignes 🌙 Nuits et 📚 Formations : touchez-les pour lire tout le détail.'],
+['🚧','Chantiers de nuit','Touchez le numéro de semaine (S12…) pour annoncer un chantier « Prévu ». Touchez-le pour voir ses nuits et l’attribuer : MN, nuits et RP se posent tout seuls.\n\nDéjà attribué ? Touchez-le pour changer d’agents, le remettre en prévu ou le supprimer.'],
 ['🗓️','Mon année','Toute l’année d’un agent sur un écran. Touchez un jour pour voir le détail.'],
 ['📊','Compteurs','Vos CA, RPS, RU restants, vos astreintes et vos nuits.'],
 ['🔔','Historique et options','En bas : qui a modifié quoi. En haut : ★ votre ligne en avant, 🌙 le thème, ? ce tuto, votre pastille pour changer de nom.'],
-['📥','Extractions','Onglet 📥 : importez le programme mensuel (.xlsx). Codes, nuits, formations et chantiers prévus se remplissent tout seuls.\n\nUne extraction est fausse ? Supprimez-la : tout ce qu’elle a posé est retiré.'],
+['📥','Extractions','Onglet 📥 : importez le programme mensuel (.xlsx). Il est recopié tel quel, avec les nuits, formations et chantiers prévus (lignes rouges). La ligne 2 n’est pas touchée.\n\nUne extraction est fausse ? Supprimez-la : tout ce qu’elle a posé est retiré.'],
 ['🖥️','Sur PC','Le bouton ⛶ en haut à droite passe l’appli en plein écran. Échap ou ⛶ pour revenir.']];
 let tuI=0;
 function tuto(i){tuI=i;const t=TU[i];$('tue').textContent=t[0];$('tut').textContent=t[1];$('tup').textContent=t[2];
@@ -348,8 +350,8 @@ function tuPrev(){if(tuI>0)tuto(tuI-1)}
  bx.addEventListener('pointerup',end);bx.addEventListener('pointercancel',end);
  el.addEventListener('click',e=>{if(e.target===el)tuEnd()});
  document.addEventListener('keydown',e=>{if(el.style.display!=='flex')return;if(e.key==='ArrowRight')tuNext();if(e.key==='ArrowLeft')tuPrev();if(e.key==='Escape')tuEnd()})})();
-function tuEnd(){$('tu').style.display='none';try{localStorage.setItem('tap_tuto8','1')}catch(e){}}
-function tuFirst(){let d=null;try{d=localStorage.getItem('tap_tuto8')}catch(e){}if(!d)tuto(0)}
+function tuEnd(){$('tu').style.display='none';try{localStorage.setItem('tap_tuto9','1')}catch(e){}}
+function tuFirst(){let d=null;try{d=localStorage.getItem('tap_tuto9')}catch(e){}if(!d)tuto(0)}
 function pickMe(id){me=id;try{localStorage.setItem('tap_me',id)}catch(e){}$('who').style.display='none';draw();tuFirst()}
 function fd(k){const m=+k.slice(5,7)-1;return +k.slice(8)+' '+MOIS[m].slice(0,4).toLowerCase()+(MOIS[m].length>4?'.':'')}
 function ago(t){const d=(Date.now()-t)/1000;if(d<60)return"à l'instant";if(d<3600)return'il y a '+Math.floor(d/60)+' min';if(d<86400)return'il y a '+Math.floor(d/3600)+' h';const x=new Date(t);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' à '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
