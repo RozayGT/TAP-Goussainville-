@@ -108,7 +108,7 @@ function delP(c){setP(PV.w,c,'');if(PV.ed===c){PV.ed=null;$('pvi').value=''}rP()
 function okP(){const t=$('pvi').value.trim();if(!t){if(!pvK(PV.w).length)$('pvi').focus();else closeP();return}setP(PV.w,PV.ed||('P_'+Date.now().toString(36)),t);PV.ed=null;$('pvi').value='';rP();draw()}
 function closeP(){$('pv').style.display='none';PV=null}
 function closeN(){$('nd').style.display='none';NQ=null}
-function okN(del){if(!NQ)return;if(del){const e=$('ndd');if(!e.classList.contains('cf')){e.classList.add('cf');e.textContent='Confirmer ?';clearTimeout(okN.t);okN.t=setTimeout(()=>{e.classList.remove('cf');e.textContent='Supprimer'},4000);return}}
+function okN(del){if(!NQ)return;if(!del&&isF(NQ.code)&&!$('ndi').value.trim()&&NU[NQ.wks[0]+'|'+NQ.code]){del=true;$('ndd').classList.add('cf')}if(del){const e=$('ndd');if(!e.classList.contains('cf')){e.classList.add('cf');e.textContent='Confirmer ?';clearTimeout(okN.t);okN.t=setTimeout(()=>{e.classList.remove('cf');e.textContent='Supprimer'},4000);return}}
  const NQc=NQ.code,t=del?'':$('ndi').value.trim(),snN={v:[],nu:{...NU},h:[]},dlab=del?kLab(NQ.code):'';
  if(del&&isF(NQ.code)){const a=NQ.code.slice(4),mp=data[a]=data[a]||{},ks=[];const impOld=k=>{for(const r of Object.values(IMP)){const x=(r.c||{})[a+'|'+k];if(x&&x[1]==='FOR')return x[0]}return null};
   for(const w of NQ.wks)for(const k of wDays(wFirst(w))){const v=get(a,k).slice();if(!v.includes('FOR'))continue;snN.v.push([a,k,mp[k]?mp[k].slice():null]);if(v[0]==='FOR'){const o=impOld(k);v[0]=o!=null?o:dflt(k)[0]}if(v[1]==='FOR')v[1]='';mp[k]=v;ks.push(k)}
@@ -130,8 +130,10 @@ for(let m=0;m<12;m++){const n=new Date(YR,m+1,0).getDate();mr+=`<th colspan="${n
 for(let d=1;d<=n;d++){const dt=new Date(YR,m,d),k=iso(m,d),w=dt.getDay(),c=(HOL.includes(k)?'hol':(w%6==0?'we':''))+(d===1?' mf':''),wk=isoW(dt);
  if(wk!==cw){fl();cw=wk;cs=0;cz=vacW(dt);ck=wkey(dt);cf=k}cs++;vd.push(vacD(k));days.push([k,c]);h+=`<th data-d="${k}" class="${c}${k===TODAY?' tdy':''}">${JS[w]}<b>${d}</b></th>`}}
 fl();mr+='</tr>';wr+='</tr>';h+='</tr>';let b='';
-const row=(lab,KS,pv)=>{const on=(w,f,c)=>NU[w+'|'+c]&&used(f,c),pk=w=>pv?pvK(w):[];if(!G.some(([w,,f])=>KS.some(c=>on(w,f,c))||pk(w).length))return'';return`<tr class="nr"><th class="nm">${lab}</th>`+G.map(([w,n,f])=>`<td colspan="${n}"><div class="nw">${KS.filter(c=>on(w,f,c)).map(c=>`<button class="nt" onclick="${isF(c)?`openN(['${w}'],'${c}')`:`openCD('${w}','${c}')`}">${kChip(c)}${n>2?`<span class="x2">${esc(NU[w+'|'+c])}</span>`:''}</button>`).join('')}${pk(w).map(c=>`<button class="nt pv" onclick="openCD('${w}','${c}')"><span class="cd">Prévu</span>${n>2?`<span class="x2">${esc(NU[w+'|'+c])}</span>`:''}</button>`).join('')}</div></td>`).join('')+'</tr>'};
-b+=row('🌙 Nuits',NC,1)+row('📚 Formations',AG.map(a=>'FOR_'+a[0]));for(const a of AG){b+=`<tr class="${HL&&me===a[0]?'mine':''}" style="--agc:${AGC[AG.indexOf(a)%AGC.length]}"><th class="nm">${name(a)}</th>`;for(const[k,c]of days){const v=get(a[0],k);b+=`<td class="c ${c}">${NT[a[0]+'|'+k]?'<span class="nb">💬</span>':''}${chip(v[0],'a',a[0],k,0)}${chip(v[1],'b',a[0],k,1)}</td>`}b+='</tr>'}
+const FK=AG.map(a=>'FOR_'+a[0]),on=(w,f,c)=>NU[w+'|'+c]&&used(f,c),txt=(w,c)=>(isF(c)?pre(c.slice(4))+' · ':'')+NU[w+'|'+c];
+const chipI=(w,n,c,pv)=>`<button class="nt${pv?' pv':''}" onclick="${isF(c)?`openN(['${w}'],'${c}')`:`openCD('${w}','${c}')`}">${pv?'<span class="cd">Prévu</span>':isF(c)?'<span class="cd" style="background:#ffff69;color:#5c5c00">FOR</span>':kChip(c)}${n>2?`<span class="x2">${esc(pv?NU[w+'|'+c]:txt(w,c))}</span>`:''}</button>`;
+if(G.some(([w,,f])=>NC.some(c=>on(w,f,c))||pvK(w).length||FK.some(c=>on(w,f,c))))b+=`<tr class="nr"><th class="nm">📌 Infos</th>`+G.map(([w,n,f])=>`<td colspan="${n}"><div class="nw">${NC.filter(c=>on(w,f,c)).map(c=>chipI(w,n,c)).join('')}${pvK(w).map(c=>chipI(w,n,c,1)).join('')}${FK.filter(c=>on(w,f,c)).map(c=>chipI(w,n,c)).join('')}</div></td>`).join('')+'</tr>';
+for(const a of AG){b+=`<tr class="${HL&&me===a[0]?'mine':''}" style="--agc:${AGC[AG.indexOf(a)%AGC.length]}"><th class="nm">${name(a)}</th>`;for(const[k,c]of days){const v=get(a[0],k);b+=`<td class="c ${c}">${NT[a[0]+'|'+k]?'<span class="nb">💬</span>':''}${chip(v[0],'a',a[0],k,0)}${chip(v[1],'b',a[0],k,1)}</td>`}b+='</tr>'}
 $('main').innerHTML=`<div class="wrap"><table><thead>${mr}${wr}${h}</thead><tbody>${b}</tbody></table></div>`;
 const w=document.querySelector('.wrap');dragW(w);w.addEventListener('scroll',()=>{if(plan.rq)return;plan.rq=requestAnimationFrame(()=>{plan.rq=0;scMo()})},{passive:true})}
 function dragW(w){let x0=0,y0=0,sl=0,st=0,on=false,mv=false;
@@ -344,7 +346,7 @@ const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en d
 ['📅','Naviguer','Choisissez le mois en haut, puis faites glisser le planning. En violet : les vacances scolaires. Touchez ⇄ pour changer d’année.'],
 ['✏️','Saisir un code','Touchez une case : en haut la ligne 1, en bas la ligne 2 (ex. AST sous un RP). « Jusqu’au » pose le code sur plusieurs jours. 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
 ['📋','Copier une semaine','Dans une case, « Copier la semaine » : choisissez les lignes, les agents (vous compris) et cochez une ou plusieurs semaines d’arrivée.'],
-['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans les lignes 🌙 Nuits et 📚 Formations : touchez-les pour lire tout le détail.'],
+['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans la ligne 📌 Infos de la semaine, avec leur couleur : touchez une étiquette pour lire tout le détail.'],
 ['🚧','Chantiers de nuit','Touchez le numéro de semaine (S12…) pour annoncer un chantier « Prévu ». Touchez-le pour voir ses nuits et l’attribuer : MN, nuits et RP se posent tout seuls.\n\nDéjà attribué ? Touchez-le pour changer d’agents (tout décocher = retour en « Prévu ») ou le supprimer.'],
 ['🗓️','Mon année','Toute l’année d’un agent sur un écran. Touchez un jour pour voir le détail.'],
 ['📊','Compteurs','Vos CA, RPS, RU restants, vos astreintes et vos nuits.'],
