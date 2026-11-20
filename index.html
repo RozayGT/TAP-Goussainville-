@@ -85,7 +85,7 @@ td.c{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 #tip:after{content:"";position:absolute;left:var(--ax,50%);bottom:-6px;width:12px;height:12px;margin-left:-6px;background:inherit;transform:rotate(45deg);border-radius:2px}
 #tip.bl:after{bottom:auto;top:-6px}
 [data-theme=light] #tip{background:#ffffff;color:#1b2333;border:1px solid #dbe3f3}[data-theme=light] #tip b{color:#3b4ad0}
-@media(hover:hover) and (pointer:fine){td.c[data-n]{cursor:help}}
+@media(hover:hover) and (pointer:fine){td.c[data-n] .a,td.c[data-n] .nb{cursor:help}}
 </style></head><body>
 <div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button></header>
 <div class="tabs" id="tabs"></div>
@@ -557,7 +557,7 @@ async function unlock(){const v=$('pin').value.trim();let ok=false;
 (()=>{const tip=document.createElement('div');tip.id='tip';document.body.appendChild(tip);let cur=null;
  const hov=()=>window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches;
  const hide=()=>{cur=null;tip.classList.remove('o')};
- document.addEventListener('mouseover',e=>{if(!hov()||DS.on)return;const td=e.target.closest&&e.target.closest('td.c[data-n]');if(!td){if(cur)hide();return}if(td===cur)return;const t=NT[td.dataset.n];if(!t){hide();return}
+ document.addEventListener('mouseover',e=>{if(!hov()||DS.on)return;const hit=e.target.closest&&e.target.closest('td.c[data-n] .a, td.c[data-n] .nb'),td=hit&&hit.closest('td.c[data-n]');if(!td){if(cur)hide();return}if(td===cur)return;const t=NT[td.dataset.n];if(!t){hide();return}
   cur=td;const[a,k]=td.dataset.n.split('|'),d=new Date(k+'T12:00');tip.innerHTML=`<b>💬 ${esc(pre(a))} · ${d.getDate()} ${MOIS[d.getMonth()].toLowerCase()}</b>${esc(t)}`;tip.classList.add('o');
   const r=td.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;let x=r.left+r.width/2-tw/2,y=r.top-th-8,below=false;if(y<8){y=r.bottom+8;below=true}x=Math.max(8,Math.min(x,innerWidth-tw-8));
   tip.style.left=x+'px';tip.style.top=y+'px';tip.style.setProperty('--ax',(r.left+r.width/2-x)+'px');tip.classList.toggle('bl',below)});
