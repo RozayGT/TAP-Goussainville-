@@ -873,13 +873,13 @@ const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en d
 ['📅','Naviguer','Choisissez le mois en haut, puis faites glisser le planning. En violet : les vacances scolaires. Touchez ⇄ pour changer d’année.'],
 ['✏️','Saisir un code','Touchez le haut d’une case pour la ligne 1, le bas pour la ligne 2. AST se place tout seul en ligne 2, sous le RP par exemple. Plusieurs jours ? Appui long sur une case puis glissez (doigt ou souris), ou utilisez « Jusqu’au ». Sur PC, passez la souris sur une case 💬 pour lire la note. 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
 ['📋','Copier une semaine','Dans une case, « Copier la semaine » : choisissez les lignes, les agents (vous compris) et cochez une ou plusieurs semaines d’arrivée.'],
-['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans la ligne « Infos » de la semaine, avec leur couleur : touchez une étiquette pour lire tout le détail.'],
+['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans la ligne « Infos » de la semaine, avec leur couleur : touchez une étiquette pour lire tout le détail. On y voit aussi l’agent de Pierrefitte d’astreinte (AST Pierre S.…).'],
 ['🚧','Chantiers de nuit','Touchez le numéro de semaine (S12…) pour annoncer un chantier « Prévu ». Touchez-le pour voir ses nuits et l’attribuer : MN, nuits et RP se posent tout seuls.\n\nDéjà attribué ? Touchez-le pour changer d’agents (tout décocher = retour en « Prévu ») ou le supprimer.'],
 ['🗓️','Mon année','Toute l’année d’un agent sur un écran. Touchez un jour pour voir le détail.'],
 ['📊','Compteurs','Vos CA, RPS, RU restants, vos astreintes et vos nuits.'],
 ['🔔','Historique et options','En bas : qui a modifié quoi. En haut : votre pastille pour changer de nom, et le menu ≡ pour ★ votre ligne en avant, 🌙 le mode nuit et ce tuto.'],
 ['🏢','Pierrefitte','En haut, basculez entre Goussainville et Pierrefitte. Pierrefitte est en consultation : il se remplit avec les extractions.'],
-['📥','Extractions','Onglet 📥 : importez le programme mensuel (.xlsx). Il est recopié tel quel, avec les nuits, formations et chantiers prévus (lignes rouges). La ligne 2 n’est pas touchée.\n\n🔄 Réappliquer remet le planning comme l’extraction. 🗑 Supprimer retire tout ce qu’elle a posé.'],
+['📥','Extractions','Onglet 📥 : importez le programme mensuel (.xlsx). Il est recopié tel quel pour Goussainville et Pierrefitte : nuits, formations, astreintes (en ligne 2) et chantiers prévus (lignes rouges). Vos RDV, RÉU, ÉCO… saisis à la main sont gardés, et l’aperçu liste les cases saisies à la main qui changeraient : cochez celles à garder.\n\n🔄 Réappliquer remet le planning comme l’extraction. 🗑 Supprimer retire tout ce qu’elle a posé.'],
 ['🖥️','Sur PC','Le bouton ⛶ en haut à droite passe l’appli en plein écran. Échap ou ⛶ pour revenir.']];
 let tuI=0;
 function tuto(i){tuI=i;const t=TU[i];$('tue').textContent=t[0];$('tut').textContent=t[1];$('tup').textContent=t[2];
@@ -1046,7 +1046,8 @@ $('mpan').innerHTML='<div class="it" onclick="tgHL();mnD()"><i>★</i><span>Mon 
 function mnP(){const r=$('mnu').getBoundingClientRect(),p=$('mpan');p.style.top=(r.bottom+8)+'px';p.style.right=Math.max(8,innerWidth-r.right)+'px'}
 function mnC(){$('mpan').style.display='none';$('mnu').classList.remove('on')}
 function mnT(e){e&&e.stopPropagation();const p=$('mpan');if(p.style.display!=='none'){mnC();return}mnD();p.style.display='block';mnP();$('mnu').classList.add('on')}
-document.addEventListener('pointerdown',e=>{const p=$('mpan');if(p&&p.style.display!=='none'&&!p.contains(e.target)&&!$('mnu').contains(e.target))mnC()},true);
+let mnSw=0;document.addEventListener('pointerdown',e=>{const p=$('mpan');if(p&&p.style.display!=='none'&&!p.contains(e.target)&&!$('mnu').contains(e.target)){mnC();mnSw=Date.now();e.preventDefault();e.stopPropagation();e.stopImmediatePropagation()}},true);
+['pointerup','pointermove','mousedown','mouseup','touchstart','touchmove','touchend','click','contextmenu'].forEach(t=>document.addEventListener(t,e=>{if(!mnSw)return;if(Date.now()-mnSw>1500){mnSw=0;return}e.stopPropagation();e.stopImmediatePropagation();if(t!=='pointermove'&&t!=='touchmove'&&e.cancelable)e.preventDefault();if(t==='pointerup'||t==='touchend')setTimeout(()=>mnSw=0,350);if(t==='click')mnSw=0},{capture:true,passive:false}));
 addEventListener('resize',()=>{if($('mpan').style.display!=='none')mnP()});
 addEventListener('keydown',e=>{if(e.key==='Escape')mnC()});
 </script></body></html>
