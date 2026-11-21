@@ -525,8 +525,20 @@ html[data-theme=dark]{--altbg:#111827}
 .ixk .ixd{flex:1;min-width:0}
 .ixk .cd{font-size:11px;padding:2px 6px;border-radius:5px;font-weight:700}
 .ixk .cdv{font-size:11px;color:var(--mut)}
-.ixk .ixa{color:var(--mut)}</style></head><body>
-<div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button></header>
+.ixk .ixa{color:var(--mut)}#hlb,#hlp,#th,#ver{display:none!important}
+#mnu.on{background:#ffffff40!important}
+[data-theme=dark] #mpan{background:#111827f5}
+#mpan{position:fixed;z-index:80;width:250px;border-radius:16px;background:#fffffff5;border:1px solid var(--line);box-shadow:0 18px 40px #0006;padding:6px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#mpan .it{display:flex;align-items:center;gap:12px;padding:12px 10px;border-radius:10px;font-size:15px;color:var(--ink);cursor:pointer;user-select:none;-webkit-user-select:none}
+#mpan .it:active,#mpan .it:hover{background:var(--line)}
+#mpan .it i{font-style:normal;width:22px;text-align:center}
+#mpan .it span{flex:1}
+#mpan .sw{width:38px;height:22px;border-radius:11px;background:#94a3b866;position:relative;transition:background .2s;flex:none}
+#mpan .sw:after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px #0004}
+#mpan .sw.on{background:var(--ac)}#mpan .sw.on:after{left:18px}
+#mpan .vr{padding:8px 10px 4px;color:var(--mut);font-size:11.5px;border-top:1px solid var(--line);margin-top:4px}
+</style></head><body>
+<div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button id="hlp" class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button><button id="mnu" class="hb" onclick="mnT(event)" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></header><div id="mpan" style="display:none"></div>
 <div class="team" id="team"></div>
 <div class="tabs" id="tabs"></div>
 <div class="view seg" id="view"></div>
@@ -865,7 +877,7 @@ const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en d
 ['🚧','Chantiers de nuit','Touchez le numéro de semaine (S12…) pour annoncer un chantier « Prévu ». Touchez-le pour voir ses nuits et l’attribuer : MN, nuits et RP se posent tout seuls.\n\nDéjà attribué ? Touchez-le pour changer d’agents (tout décocher = retour en « Prévu ») ou le supprimer.'],
 ['🗓️','Mon année','Toute l’année d’un agent sur un écran. Touchez un jour pour voir le détail.'],
 ['📊','Compteurs','Vos CA, RPS, RU restants, vos astreintes et vos nuits.'],
-['🔔','Historique et options','En bas : qui a modifié quoi. En haut : ★ votre ligne en avant, 🌙 le thème, ? ce tuto, votre pastille pour changer de nom.'],
+['🔔','Historique et options','En bas : qui a modifié quoi. En haut : votre pastille pour changer de nom, et le menu ≡ pour ★ votre ligne en avant, 🌙 le mode nuit et ce tuto.'],
 ['🏢','Pierrefitte','En haut, basculez entre Goussainville et Pierrefitte. Pierrefitte est en consultation : il se remplit avec les extractions.'],
 ['📥','Extractions','Onglet 📥 : importez le programme mensuel (.xlsx). Il est recopié tel quel, avec les nuits, formations et chantiers prévus (lignes rouges). La ligne 2 n’est pas touchée.\n\n🔄 Réappliquer remet le planning comme l’extraction. 🗑 Supprimer retire tout ce qu’elle a posé.'],
 ['🖥️','Sur PC','Le bouton ⛶ en haut à droite passe l’appli en plein écran. Échap ou ⛶ pour revenir.']];
@@ -1028,4 +1040,13 @@ async function unlock(){const v=$('pin').value.trim();let ok=false;
   tip.style.left=x+'px';tip.style.top=y+'px';tip.style.setProperty('--ax',(r.left+r.width/2-x)+'px');tip.classList.toggle('bl',below)});
  ['scroll','mousedown','wheel','keydown'].forEach(ev=>window.addEventListener(ev,hide,true))})();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+function mnD(){const dk=document.documentElement.dataset.theme=='dark';const v=($('ver')||{}).textContent||'';
+$('mpan').innerHTML='<div class="it" onclick="tgHL();mnD()"><i>★</i><span>Mon nom en avant</span><div class="sw'+(HL&&me?' on':'')+'"></div></div><div class="it" onclick="tg();mnD()"><i>🌙</i><span>Mode nuit</span><div class="sw'+(dk?' on':'')+'"></div></div><div class="it" onclick="mnC();tuto(0)"><i>?</i><span>Tutoriel</span></div>'+(v?'<div class="vr">TAP '+v+'</div>':'')}
+function mnP(){const r=$('mnu').getBoundingClientRect(),p=$('mpan');p.style.top=(r.bottom+8)+'px';p.style.right=Math.max(8,innerWidth-r.right)+'px'}
+function mnC(){$('mpan').style.display='none';$('mnu').classList.remove('on')}
+function mnT(e){e&&e.stopPropagation();const p=$('mpan');if(p.style.display!=='none'){mnC();return}mnD();p.style.display='block';mnP();$('mnu').classList.add('on')}
+document.addEventListener('pointerdown',e=>{const p=$('mpan');if(p&&p.style.display!=='none'&&!p.contains(e.target)&&!$('mnu').contains(e.target))mnC()},true);
+addEventListener('resize',()=>{if($('mpan').style.display!=='none')mnP()});
+addEventListener('keydown',e=>{if(e.key==='Escape')mnC()});
 </script></body></html>
