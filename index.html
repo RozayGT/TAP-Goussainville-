@@ -75,6 +75,7 @@ td.c{height:54px;cursor:pointer;vertical-align:middle}
 .chip{display:inline-block;min-width:42px;text-align:center;border-radius:6px;padding:4px 6px;font-weight:700;font-size:12px}
 #sh{position:fixed;inset:auto 0 0 0;background:var(--card);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -8px 30px #0005;padding:12px 12px calc(12px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .2s;z-index:20;max-height:75vh;overflow:auto}
 #sh.o{transform:none}
+#sh:not(.o){pointer-events:none}
 .tt{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600}
 .tt button{border:0;background:none;color:var(--mut);font-size:22px}
 .seg{display:flex;gap:6px;margin:6px 0;align-items:center;flex-wrap:wrap}
@@ -533,9 +534,9 @@ html[data-theme=dark]{--altbg:#111827}
 #mpan .it:active,#mpan .it:hover{background:var(--line)}
 #mpan .it i{font-style:normal;width:22px;text-align:center}
 #mpan .it span{flex:1}
-#mpan .sw{width:38px;height:22px;border-radius:11px;background:#94a3b866;position:relative;transition:background .2s;flex:none}
-#mpan .sw:after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px #0004}
-#mpan .sw.on{background:var(--ac)}#mpan .sw.on:after{left:18px}
+#mpan .tsw{width:38px;height:22px;border-radius:11px;background:#94a3b866;position:relative;transition:background .2s;flex:none}
+#mpan .tsw:after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px #0004}
+#mpan .tsw.on{background:var(--ac)}#mpan .tsw.on:after{left:18px}
 #mpan .vr{padding:8px 10px 4px;color:var(--mut);font-size:11.5px;border-top:1px solid var(--line);margin-top:4px}
 </style></head><body>
 <div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button id="hlp" class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button><button id="mnu" class="hb" onclick="mnT(event)" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></header><div id="mpan" style="display:none"></div>
@@ -558,7 +559,7 @@ let data={},mo=new Date().getFullYear()==YR?new Date().getMonth():0,vw='plan',se
 const iso=(m,d)=>`${YR}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 function get(a,k){const v=(data[a]||{})[k];if(v)return v;if(HOL.includes(k))return['F',''];const w=new Date(k+'T12:00').getDay();return w==0||w==6?['RP','']:['',''];}
-function chip(c,cls,a,k,l){const kc=c&&kcOf(c,a),hn=kc&&NU[wkey(wkS(k))+'|'+kc]?' hn':'';const h=`data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',${l})"`;if(!c)return`<span class="${cls} e" data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',${l})"></span>`;const p=P[c]||['#ddd','#000'];return`<span class="${cls}${hn} k${c}" ${h} style="--cc:${p[0]};background:${p[0]};color:${p[1]}">${c}</span>`}
+function chip(c,cls,a,k,l){const kc=c&&kcOf(c,a),hn=kc&&NU[wkey(wkS(k))+'|'+kc]?' hn':'';const h=`data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',lnAt(event,${l}))"`;if(!c)return`<span class="${cls} e" data-s="${a}|${k}|${l}" onclick="openS('${a}','${k}',lnAt(event,${l}))"></span>`;const p=P[c]||['#ddd','#000'];return`<span class="${cls}${hn} k${c}" ${h} style="--cc:${p[0]};background:${p[0]};color:${p[1]}">${c}</span>`}
 function nameS(a){const w=a[1].split(' '),up=w.filter(x=>/[A-Z]/.test(x)&&x===x.toUpperCase()),fn=w.filter(x=>!up.includes(x)).join(' ');return`<span class="s1">${esc(fn||a[1])} ${esc((up[0]||'')[0]||'')}.</span><span class="s2">${esc(a[1])}</span>${a[2]||a[3]?`<span class="tgs">${a[2]?`<i class="tg3">${esc(a[2])}</i>`:''}${a[3]?`<i class="tgq">${esc(a[3])}</i>`:''}</span>`:''}`}
 function name(a){return esc(a[1])+(a[2]?` <span class="h3">(${a[2]})</span>`:'')+(a[3]?`<span class="rq">(${a[3]})</span>`:'')}
 function ctrTab(sm){const t=$('tabs'),on=t&&t.querySelector('button.on');if(on&&t.scrollWidth>t.clientWidth){const x=on.offsetLeft-(t.clientWidth-on.offsetWidth)/2;if(sm)t.scrollTo({left:x,behavior:'smooth'});else t.scrollLeft=x}}
@@ -634,9 +635,9 @@ const w=document.querySelector('.wrap');setLab(mo);dragW(w);rangeW(w);w.addEvent
 function sbar(){const w=document.querySelector('#main > .wrap'),b=document.querySelector('#main > .sbar');if(!w||!b)return;const nm=w.querySelector('th.nm'),o=nm?nm.offsetWidth:0;b.style.setProperty('--sbo',o+'px');const vis=w.clientWidth-o,tot=w.scrollWidth-o,max=w.scrollWidth-w.clientWidth,bw=b.clientWidth,tw=Math.max(24,bw*vis/Math.max(tot,1)),x=max>0?(bw-tw)*Math.min(1,Math.max(0,w.scrollLeft/max)):0;const t=b.firstChild;t.style.width=tw+'px';t.style.transform=`translateX(${x}px)`}
 
 // ---------- Sélection de plusieurs jours : appui long puis glisser ----------
-let RANGE=null,RW=null;const RH={},DH={};const DS={on:false};
+let RANGE=null,RW=null,shT=0;document.addEventListener('click',e=>{if(e.target&&e.target.id==='ov'&&Date.now()-shT<600){e.stopPropagation();e.preventDefault()}},true);const RH={},DH={};const DS={on:false};
 function rangeW(w){RW=w;let t=null,st=null,x0=0,y0=0,cur=null,raf=0,lx=0,ly=0,kill=0;
- const cellOf=(x,y)=>{const e=document.elementFromPoint(x,y),td=e&&e.closest&&e.closest('td.c');const d=td&&td.querySelector('[data-s]');return d?d.dataset.s.split('|'):null};
+ const cellOf=(x,y)=>{const e=document.elementFromPoint(x,y),td=e&&e.closest&&e.closest('td.c');const d=td&&((e.closest('[data-s]')&&td.contains(e.closest('[data-s]'))?e.closest('[data-s]'):null)||td.querySelector('[data-s]'));if(!d)return null;const v=d.dataset.s.split('|'),r=td.getBoundingClientRect();v[2]=y<r.top+r.height/2?'0':'1';return v};
  const paint=()=>{document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'));if(!st||!cur)return;const[a,k0]=st,[k1]=[cur];const lo=k0<k1?k0:k1,hi=k0<k1?k1:k0;
   w.querySelectorAll(`[data-s^="${a}|"]`).forEach(el=>{const k=el.dataset.s.split('|')[1];if(k>=lo&&k<=hi)el.closest('td').classList.add('rsel')})};
  const move=(x,y)=>{lx=x;ly=y;const c=cellOf(x,y);if(c&&c[0]===st[0]&&c[1]!==cur){cur=c[1];paint();if(navigator.vibrate)navigator.vibrate(5)}};
@@ -968,14 +969,15 @@ function astInfo(a,w){const ds=wDays(wFirst(w)).filter(k=>get(a,k).includes('AST
 function setTeam(t){if(t===TEAM)return;TEAM=t;AG=t==='P'?AGP:AGG;ro=t==='P';yAg=null;try{localStorage.setItem('tap_team',t)}catch(e){}if(t==='P'&&vw==='cnt')vw='plan';closeS&&$('sh').classList.contains('o')&&closeS();draw();if(vw==='plan')setTimeout(()=>goMo(mo,false),0)}
 function roS(a,k){sel=[a,k];const ag=ALL.find(x=>x[0]==a),d=new Date(k+'T12:00'),v=get(a,k),ex=k=>{const p=P[k];return p?`<div class="roc"><span class="cd" style="background:${p[0]};color:${p[1]}">${k}</span>${esc(p[2])}</div>`:''};
  $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d.getDate()} ${MOIS[d.getMonth()]}</span><button onclick="closeS()">×</button></div><div class="ron">👁️ Consultation : planning rempli par l’extraction</div>${nInfo(a,k)}${v[0]||v[1]?ex(v[0])+ex(v[1]):'<div class="roc" style="color:var(--mut)">Jour travaillé (rien de posé)</div>'}${NT[a+'|'+k]?`<div class="roc">💬 ${esc(NT[a+'|'+k])}</div>`:''}`;
- markS();$('sh').scrollTop=0;$('sh').classList.add('o');$('ov').classList.add('o')}
+ markS();$('sh').scrollTop=0;$('sh').classList.add('o');shT=Date.now();$('ov').classList.add('o')}
 function hideUd(){$('ud').classList.remove('o');clearTimeout(udT)}
+function lnAt(e,l){try{const td=e&&e.target&&e.target.closest&&e.target.closest('td.c');if(!td||!(e.clientX||e.clientY))return l;const r=td.getBoundingClientRect();return e.clientY<r.top+r.height/2?0:1}catch(_){return l}}
 function openS(a,k,l){hideUd();if(ro){roS(a,k);return}if(l!==undefined)line=l;sel=[a,k];const ag=AG.find(x=>x[0]==a),d=+k.slice(8),n=new Date(YR,+k.slice(5,7),0).getDate();
 $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d} ${MOIS[+k.slice(5,7)-1]}</span><button onclick="closeS()">×</button></div>${nInfo(a,k)}<div class="note"><input id="nti" maxlength="120" placeholder="💬 Ajouter une note pour ce jour…" value="${esc(NT[a+'|'+k]||'').replace(/"/g,'&quot;')}" onkeydown="if(event.key==='Enter'){this.blur()}" onblur="saveNote()"><small id="ntb"></small></div>
 <div class="seg"><button class="${line==0?'on':''}" onclick="openS(sel[0],sel[1],0)">Ligne 1</button><button class="${line==1?'on':''}" onclick="openS(sel[0],sel[1],1)">Ligne 2</button></div><div class="rg"><label>jusqu’au <input id="to" type="date" min="${k}" max="${YR}-12-31" value="${RANGE&&RANGE.a===a&&RANGE.k===k?RANGE.end:k}"></label>${RANGE&&RANGE.a===a&&RANGE.k===k?`<div class="rgh">✋ ${fd(k)} → ${fd(RANGE.end)} sélectionnés : choisissez le code</div>`:''}
 <label class="kw"><input type="checkbox" id="kw" ${line==0?'checked':''}> Garder les RP des week-ends et les fériés</label></div>
 <button class="cpw" onclick="copyW()">📋 Copier la semaine ${wnum(wkey(wkS(k)))} de ${esc(pre(a))}…</button>
-<div class="pick">${Object.entries(P).map(([c,p])=>`<button style="--cc:${p[0]};background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b><span>${p[2].split(' · ')[0]}</span></button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b><span>Effacer</span></button></div>`;markS();$('sh').scrollTop=0;$('sh').classList.add('o');requestAnimationFrame(()=>{$('sh').scrollTop=0});$('ov').classList.add('o')}
+<div class="pick">${Object.entries(P).map(([c,p])=>`<button style="--cc:${p[0]};background:${p[0]};color:${p[1]}" onclick="setC('${c}')"><b>${c}</b><span>${p[2].split(' · ')[0]}</span></button>`).join('')}<button class="clr" onclick="setC('')"><b>✕</b><span>Effacer</span></button></div>`;markS();$('sh').scrollTop=0;$('sh').classList.add('o');shT=Date.now();requestAnimationFrame(()=>{$('sh').scrollTop=0});$('ov').classList.add('o')}
 function markS(){document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));if(sel){const e=document.querySelector(`[data-s="${sel[0]}|${sel[1]}|${line}"]`);if(e)e.classList.add('sel')}}
 function closeS(){RANGE=null;document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'));$('sh').scrollTop=0;document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));$('sh').classList.remove('o');$('ov').classList.remove('o')}
 function setC(c){if(c==='AST')line=1;const[a,k]=sel;let end=$('to').value||k;if(end<k)end=k;if(end>YR+'-12-31')end=YR+'-12-31';const keep=$('kw')&&$('kw').checked;
@@ -1042,12 +1044,12 @@ async function unlock(){const v=$('pin').value.trim();let ok=false;
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 
 function mnD(){const dk=document.documentElement.dataset.theme=='dark';const v=($('ver')||{}).textContent||'';
-$('mpan').innerHTML='<div class="it" onclick="tgHL();mnD()"><i>★</i><span>Mon nom en avant</span><div class="sw'+(HL&&me?' on':'')+'"></div></div><div class="it" onclick="tg();mnD()"><i>🌙</i><span>Mode nuit</span><div class="sw'+(dk?' on':'')+'"></div></div><div class="it" onclick="mnC();tuto(0)"><i>?</i><span>Tutoriel</span></div>'+(v?'<div class="vr">TAP '+v+'</div>':'')}
+$('mpan').innerHTML='<div class="it" onclick="tgHL();mnD()"><i>★</i><span>Mon nom en avant</span><div class="tsw'+(HL&&me?' on':'')+'"></div></div><div class="it" onclick="tg();mnD()"><i>🌙</i><span>Mode nuit</span><div class="tsw'+(dk?' on':'')+'"></div></div><div class="it" onclick="mnC();tuto(0)"><i>?</i><span>Tutoriel</span></div>'+(v?'<div class="vr">TAP '+v+'</div>':'')}
 function mnP(){const r=$('mnu').getBoundingClientRect(),p=$('mpan');p.style.top=(r.bottom+8)+'px';p.style.right=Math.max(8,innerWidth-r.right)+'px'}
 function mnC(){$('mpan').style.display='none';$('mnu').classList.remove('on')}
 function mnT(e){e&&e.stopPropagation();const p=$('mpan');if(p.style.display!=='none'){mnC();return}mnD();p.style.display='block';mnP();$('mnu').classList.add('on')}
 let mnSw=0;document.addEventListener('pointerdown',e=>{const p=$('mpan');if(p&&p.style.display!=='none'&&!p.contains(e.target)&&!$('mnu').contains(e.target)){mnC();mnSw=Date.now();e.preventDefault();e.stopPropagation();e.stopImmediatePropagation()}},true);
 ['pointerup','pointermove','mousedown','mouseup','touchstart','touchmove','touchend','click','contextmenu'].forEach(t=>document.addEventListener(t,e=>{if(!mnSw)return;if(Date.now()-mnSw>1500){mnSw=0;return}e.stopPropagation();e.stopImmediatePropagation();if(t!=='pointermove'&&t!=='touchmove'&&e.cancelable)e.preventDefault();if(t==='pointerup'||t==='touchend')setTimeout(()=>mnSw=0,350);if(t==='click')mnSw=0},{capture:true,passive:false}));
 addEventListener('resize',()=>{if($('mpan').style.display!=='none')mnP()});
-addEventListener('keydown',e=>{if(e.key==='Escape')mnC()});
+addEventListener('keydown',e=>{if(e.key==='Escape'){mnC();if($('sh').classList.contains('o')&&$('tu').style.display!=='flex')closeS()}});
 </script></body></html>
