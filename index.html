@@ -121,7 +121,7 @@ function chip(c,cls,a,k,l){const kc=c&&kcOf(c,a),hn=kc&&NU[wkey(wkS(k))+'|'+kc]?
 function nameS(a){const w=a[1].split(' '),up=w.filter(x=>/[A-Z]/.test(x)&&x===x.toUpperCase()),fn=w.filter(x=>!up.includes(x)).join(' ');return`<span class="s1">${esc(fn||a[1])} ${esc((up[0]||'')[0]||'')}.</span><span class="s2">${esc(a[1])}</span>${a[2]||a[3]?`<span class="tgs">${a[2]?`<i class="tg3">${esc(a[2])}</i>`:''}${a[3]?`<i class="tgq">${esc(a[3])}</i>`:''}</span>`:''}`}
 function name(a){return esc(a[1])+(a[2]?` <span class="h3">(${a[2]})</span>`:'')+(a[3]?`<span class="rq">(${a[3]})</span>`:'')}
 function ctrTab(sm){const t=$('tabs'),on=t&&t.querySelector('button.on');if(on&&t.scrollWidth>t.clientWidth){const x=on.offsetLeft-(t.clientWidth-on.offsetWidth)/2;if(sm)t.scrollTo({left:x,behavior:'smooth'});else t.scrollLeft=x}}
-function tabs(){setTimeout(ctrTab,0);$('team').innerHTML=[['G','Goussainville'],['P','Pierrefitte']].map(([t,l])=>`<button class="${TEAM===t?'on':''}" onclick="setTeam('${t}')">${l}</button>`).join('');$('tabs').style.display=vw==='year'||vw==='imp'?'none':'';$('tabs').innerHTML=MOIS.map((m,i)=>`<button class="${i==mo?'on':''}" onclick="if(vw==='plan')goMo(${i},true);else{mo=${i};draw()}">${m.slice(0,4)}${m.length>4?'.':''}</button>`).join('');$('view').innerHTML=[['plan','Planning'],['year',TEAM==='P'?'Année':'Mon année'],['cnt','Compteurs'],['leg','Légende'],['imp','📥<span class="lf"> Extractions</span>']].filter(([k])=>TEAM==='G'||(k!=='cnt'&&k!=='imp')).map(([k,l])=>`<button class="${vw==k?'on':''}" onclick="const pv=vw;vw='${k}';draw();if(vw==='plan'&&pv!=='plan')setTimeout(()=>goMo(mo),0)">${l}</button>`).join('')}
+function tabs(){setTimeout(ctrTab,0);$('team').innerHTML=[['G','Goussainville'],['P','Pierrefitte']].map(([t,l])=>`<button class="${TEAM===t?'on':''}" onclick="setTeam('${t}')">${l}</button>`).join('');$('tabs').style.display=vw==='year'||vw==='imp'?'none':'';$('tabs').innerHTML=MOIS.map((m,i)=>`<button class="${i==mo?'on':''}" onclick="if(vw==='plan')goMo(${i},true);else{mo=${i};draw()}">${m.slice(0,4)}${m.length>4?'.':''}</button>`).join('');$('view').innerHTML=[['plan','Planning'],['year',TEAM==='P'?'Année':'Mon année'],['cnt','Compteurs'],['leg','Légende'],['imp','📥<span class="lf"> Extractions</span>']].filter(([k])=>TEAM==='G'||k!=='cnt').map(([k,l])=>`<button class="${vw==k?'on':''}" onclick="const pv=vw;vw='${k}';draw();if(vw==='plan'&&pv!=='plan')setTimeout(()=>goMo(mo),0)">${l}</button>`).join('')}
 const VAC={B:[['2026-12-19','2027-01-03'],['2027-02-20','2027-03-07'],['2027-04-17','2027-05-02'],['2027-07-03','2027-09-01'],['2027-10-23','2027-11-07'],['2027-12-18','2028-01-02'],['2028-02-05','2028-02-20'],['2028-04-08','2028-04-23'],['2028-07-05','2028-08-31']],
 C:[['2026-12-19','2027-01-03'],['2027-02-06','2027-02-21'],['2027-04-03','2027-04-18'],['2027-07-03','2027-09-01'],['2027-10-23','2027-11-07'],['2027-12-18','2028-01-02'],['2028-02-12','2028-02-27'],['2028-04-15','2028-05-01'],['2028-07-05','2028-08-31']]};
 const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -306,7 +306,7 @@ function parseX(G,fname){const C=(r,c)=>String((G[r]||[])[c]??'').trim();
   if(!ws.size&&a.red&&!Object.values(nights).some(l=>l.includes(tok)))R.np.push(dsc(a));
   for(const w of ws){if((nights[w]||[]).includes(tok))continue;const d=dsc(a);R.pv.push([w,d]);R.nu[w+'|P_x'+(pi++)]=d}}
  return R}
-async function impF(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;if(ro)return;
+async function impF(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;
  try{if(!/\.xlsx$/i.test(f.name))throw new Error('Choisissez un fichier .xlsx (Excel).');const R=parseX(await readX(await f.arrayBuffer()),f.name);IXR=R;showIx()}
  catch(e){ixMsg('⚠️ Import impossible',esc(e.message==='zip'?'Ce fichier n’est pas un fichier Excel .xlsx valide.':e.message||String(e)))}}
 function ixMsg(t,h){$('ixt').textContent=t;$('ixb').innerHTML=h;$('ixo').style.display='none';$('ixc').textContent='Fermer';$('ix').style.display='flex'}
@@ -353,8 +353,8 @@ function askDel(id){const r=IMP[id];if(!r)return;const nc=Object.keys(r.c||{}).l
  $('ixo').textContent='Supprimer';$('ixo').className='dl';$('ixo').style.display='block';$('ixo').onclick=()=>delImp(id);$('ixc').textContent='Annuler';$('ix').style.display='flex'}
 function imp(){const L=Object.entries(IMP).sort((a,b)=>b[1].t-a[1].t);
  $('main').innerHTML=`<div class="imv"><div class="imh"><div class="imi">📥</div><div><b>Extractions</b><p>Importez le programme mensuel (.xlsx) : le planning se remplit tout seul, avec les nuits, les formations et les chantiers prévus. Une extraction est fausse ? Supprimez-la : tout ce qu’elle a posé est retiré.</p></div></div>
- <label class="imb${ro?' off':''}">📥 Importer une extraction<input type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="impF(this)" ${ro?'disabled':''}></label>
- ${L.length?L.map(([id,r])=>{const nc=Object.keys(r.c||{}).length,nn=Object.values(r.n||{}).length,d=new Date(r.t);return`<div class="imc"><div class="imt"><b>${esc(r.ti)}</b><small>${esc(r.f)}${r.ex?' · extraction du '+esc(r.ex):''}</small><small>Importée par ${r.by?esc(pre(r.by)):'?'} le ${d.toLocaleDateString('fr-FR')} à ${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</small><div class="ims"><span>${nc} case${nc>1?'s':''}</span>${nn?`<span>${nn} nuit${nn>1?'s':''}/formation${nn>1?'s':''}</span>`:''}</div></div><div class="imbs"><button class="imr" onclick="askRe('${id}')"${ro?' disabled':''}>🔄 Réappliquer</button><button class="imd" onclick="askDel('${id}')"${ro?' disabled':''}>🗑 Supprimer</button></div></div>`}).join(''):'<div class="he">Aucune extraction importée pour le moment</div>'}</div>`}
+ <label class="imb">📥 Importer une extraction<input type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="impF(this)"></label>
+ ${L.length?L.map(([id,r])=>{const nc=Object.keys(r.c||{}).length,nn=Object.values(r.n||{}).length,d=new Date(r.t);return`<div class="imc"><div class="imt"><b>${esc(r.ti)}</b><small>${esc(r.f)}${r.ex?' · extraction du '+esc(r.ex):''}</small><small>Importée par ${r.by?esc(pre(r.by)):'?'} le ${d.toLocaleDateString('fr-FR')} à ${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</small><div class="ims"><span>${nc} case${nc>1?'s':''}</span>${nn?`<span>${nn} nuit${nn>1?'s':''}/formation${nn>1?'s':''}</span>`:''}</div></div><div class="imbs"><button class="imr" onclick="askRe('${id}')">🔄 Réappliquer</button><button class="imd" onclick="askDel('${id}')">🗑 Supprimer</button></div></div>`}).join(''):'<div class="he">Aucune extraction importée pour le moment</div>'}</div>`}
 // ---------- Semaines de nuit : lecture des nuits (LuMa, MaMe… VeSa) et attribution ----------
 const NDJ=['LU','MA','ME','JE','VE','SA','DI'],NDL=['Lu','Ma','Me','Je','Ve','Sa','Di'];
 function nPlan(t){t=String(t||'');const U=t.toUpperCase(),re=/(?:^|[^A-Z])(DI|LU|MA|ME|JE|VE|SA)\s*\/?\s*(LU|MA|ME|JE|VE|SA|DI)(?![A-Z])/g,K=[];let m;
@@ -512,7 +512,7 @@ function drawSoon(){if(drawSoon.q)return;drawSoon.q=requestAnimationFrame(()=>{d
 function draw(){const w=document.querySelector('.wrap'),sx=w?w.scrollLeft:0,sy=w?w.scrollTop:0,pm=draw.m;draw.m=vw+YR;tabs();vw=='plan'?plan():vw=='cnt'?cnt():vw=='year'?year():vw=='imp'?imp():leg();renderH();const w2=document.querySelector('.wrap');if(w2&&pm===draw.m){w2.style.scrollBehavior='auto';w2.scrollLeft=sx;w2.scrollTop=sy;w2.style.scrollBehavior=''}}
 
 // ---------- Équipe affichée : Goussainville (saisie) / Pierrefitte (consultation) ----------
-function setTeam(t){if(t===TEAM)return;TEAM=t;AG=t==='P'?AGP:AGG;ro=t==='P';yAg=null;try{localStorage.setItem('tap_team',t)}catch(e){}if(t==='P'&&(vw==='cnt'||vw==='imp'))vw='plan';closeS&&$('sh').classList.contains('o')&&closeS();draw();if(vw==='plan')setTimeout(()=>goMo(mo,false),0)}
+function setTeam(t){if(t===TEAM)return;TEAM=t;AG=t==='P'?AGP:AGG;ro=t==='P';yAg=null;try{localStorage.setItem('tap_team',t)}catch(e){}if(t==='P'&&vw==='cnt')vw='plan';closeS&&$('sh').classList.contains('o')&&closeS();draw();if(vw==='plan')setTimeout(()=>goMo(mo,false),0)}
 function roS(a,k){sel=[a,k];const ag=ALL.find(x=>x[0]==a),d=new Date(k+'T12:00'),v=get(a,k),ex=k=>{const p=P[k];return p?`<div class="roc"><span class="cd" style="background:${p[0]};color:${p[1]}">${k}</span>${esc(p[2])}</div>`:''};
  $('sh').innerHTML=`<div class="tt"><span>${name(ag)} · ${d.getDate()} ${MOIS[d.getMonth()]}</span><button onclick="closeS()">×</button></div><div class="ron">👁️ Consultation : planning rempli par l’extraction</div>${nInfo(a,k)}${v[0]||v[1]?ex(v[0])+ex(v[1]):'<div class="roc" style="color:var(--mut)">Jour travaillé (rien de posé)</div>'}${NT[a+'|'+k]?`<div class="roc">💬 ${esc(NT[a+'|'+k])}</div>`:''}`;
  markS();$('sh').scrollTop=0;$('sh').classList.add('o');$('ov').classList.add('o')}
@@ -555,12 +555,12 @@ let cur=null;
 function repo(){const h=location.hostname,p=location.pathname.split('/').filter(Boolean);
   if(!h.endsWith('.github.io'))return null;const o=h.replace('.github.io','');return o+'/'+(p[0]||h)}
 async function nbMaj(){const r=repo();if(!r)return null;
-  const res=await fetch(`https://api.github.com/repos/${r}/commits?path=index.html&per_page=1&t=${Date.now()}`,{cache:'no-store'});
+  const res=await fetch(`https://api.github.com/repos/${r}/commits?path=index.html&since=2026-11-21T11:37:00Z&per_page=1&t=${Date.now()}`,{cache:'no-store'});
   if(!res.ok)return null;const l=res.headers.get('Link')||'',m=l.match(/[?&]page=(\d+)>;\s*rel="last"/);
   return m?+m[1]:(await res.json()).length}
-const vs=n=>{if(n<14)return'1.'+Math.max(0,n-1);const m=n-14;return(2+Math.floor(m/10))+'.'+(m%10)};
+const vs=n=>{const m=Math.max(0,n-1);return(2+Math.floor(m/10))+'.'+(m%10)}; // numérotation repartie à 2.0 le 21/11/2026
 async function chk(){try{const n=await nbMaj();if(n===null)throw 0;
-  if(cur===null){cur=n;$('ver').textContent='v'+vs(n);let o=null;try{o=localStorage.getItem('tap_vn');localStorage.setItem('tap_vn',n)}catch(e){}
+  if(cur===null){cur=n;$('ver').textContent='v'+vs(n);let o=null;try{o=localStorage.getItem('tap_vn2');localStorage.setItem('tap_vn2',n)}catch(e){}
     if(o&&+o<n){$('ut').textContent='Mise à jour installée : v'+vs(n);$('upd').style.display='flex';setTimeout(()=>$('upd').style.display='none',4000)}}
   else if(n>cur){$('ut').textContent='Nouvelle version v'+vs(n)+' disponible';$('upd').style.display='flex'}}
  catch(e){try{const o=localStorage.getItem('tap_vn');if(o&&cur===null)$('ver').textContent='v'+vs(+o)}catch(_){}}}
