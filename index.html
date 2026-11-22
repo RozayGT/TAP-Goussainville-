@@ -545,7 +545,6 @@ html td.c .a.e{left:0;right:0;top:0;height:68%!important;min-height:0!important;
 html td.c .b,html td.c .b:not(.e){position:absolute!important;left:2px;right:2px;top:84%;translate:0 -50%;height:18px!important;min-height:18px!important;line-height:16px!important;font-size:10px!important;margin:0!important;padding:0!important;box-sizing:border-box;letter-spacing:-.3px;text-align:center}
 html td.c .b.kRSNCF{font-size:8.5px!important}
 html td.c .b.e{left:0;right:0;top:68%;bottom:0;height:auto!important;min-height:0!important;translate:none}
-td.c .fz{position:absolute;left:1px;right:1px;border-radius:5px;background:color-mix(in srgb,var(--ac) 45%,transparent);border:1.5px solid var(--ac);pointer-events:none;z-index:3;animation:fz .5s ease-out forwards}
 @keyframes fz{0%,40%{opacity:1}100%{opacity:0}}
 .wrap.rl0 td.c.prs::before,.wrap.rl1 td.c.prs::before,.wrap.rl0 td.c.rsel::before,.wrap.rl1 td.c.rsel::before{content:'';position:absolute;left:1px;right:1px;border-radius:5px;background:color-mix(in srgb,var(--ac) 40%,transparent);border:1.5px solid var(--ac);pointer-events:none;z-index:1}
 .wrap.rl0 td.c.prs::before,.wrap.rl0 td.c.rsel::before{top:2px;height:calc(68% - 5px)}
@@ -913,18 +912,14 @@ const nmA=id=>(ALL.find(x=>x[0]==id)||[0,'?'])[1],pre=id=>{const p=nmA(id).split
 const iniA=id=>{const p=nmA(id).split(' ');return(p[0][0]+p[p.length-1][0]).toUpperCase()};
 function who(){$('wl').innerHTML=AGG.map(a=>`<button onclick="pickMe('${a[0]}')"><span class="av">${iniA(a[0])}</span><span>${name(a)}</span></button>`).join('');$('who').style.display='flex'}
 
-const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en direct avec tous les collègues.\n\nGlissez vers la gauche pour avancer.'],
-['📅','Naviguer','Choisissez le mois en haut, puis faites glisser le planning. En violet : les vacances scolaires. Touchez ⇄ pour changer d’année.'],
-['✏️','Saisir un code','Touchez le haut d’une case pour la ligne 1, le bas pour la ligne 2. AST se place tout seul en ligne 2, sous le RP par exemple. Plusieurs jours ? Appui long sur le premier jour, faites défiler, puis touchez le dernier jour. Vous pouvez aussi glisser le doigt, ou utiliser « Jusqu’au ». Sur PC, passez la souris sur une case 💬 pour lire la note. 💬 Ajoutez une note, et ↶ Annuler en cas d’erreur.'],
-['📋','Copier une semaine','Dans une case, « Copier la semaine » : choisissez les lignes, les agents (vous compris) et cochez une ou plusieurs semaines d’arrivée.'],
-['🌙','Nuits et formations','À la pose d’un N1 à N4 ou d’un FOR, l’appli demande le chantier ou la formation. Ils s’affichent dans la ligne « Infos » de la semaine, avec leur couleur : touchez une étiquette pour lire tout le détail. On y voit aussi l’agent de Pierrefitte d’astreinte (AST Pierre S.…).'],
-['🚧','Chantiers de nuit','Touchez le numéro de semaine (S12…) pour annoncer un chantier « Prévu ». Touchez-le pour voir ses nuits et l’attribuer : MN, nuits et RP se posent tout seuls.\n\nDéjà attribué ? Touchez-le pour changer d’agents (tout décocher = retour en « Prévu ») ou le supprimer.'],
-['🗓️','Mon année','Toute l’année d’un agent sur un écran. Touchez un jour pour voir le détail.'],
-['📊','Compteurs','Vos CA, RPS, RU restants, vos astreintes et vos nuits.'],
-['🔔','Historique et options','En bas : qui a modifié quoi. En haut : votre pastille pour changer de nom, et le menu ≡ pour ★ votre ligne en avant, 🌙 le mode nuit et ce tuto.'],
-['🏢','Pierrefitte','En haut, basculez entre Goussainville et Pierrefitte. Pierrefitte est en consultation : il se remplit avec les extractions.'],
-['📥','Extractions','Onglet 📥 : importez le programme mensuel (.xlsx). Il est recopié tel quel pour Goussainville et Pierrefitte : nuits, formations, astreintes (en ligne 2) et chantiers prévus (lignes rouges). Vos RDV, RÉU, ÉCO… saisis à la main sont gardés, et l’aperçu liste les cases saisies à la main qui changeraient : cochez celles à garder.\n\n🔄 Réappliquer remet le planning comme l’extraction. 🗑 Supprimer retire tout ce qu’elle a posé.'],
-['🖥️','Sur PC','Le bouton ⛶ en haut à droite passe l’appli en plein écran. Échap ou ⛶ pour revenir.']];
+const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en direct.\n\nGlissez pour avancer.'],
+['🧭','Naviguer','Touchez un mois en haut, puis faites glisser le planning.\n\n⇄ change d’année. En violet : les vacances.'],
+['✏️','Saisir un code','Touchez le haut d’une case pour la ligne 1, le bas pour la ligne 2.\n\nPuis choisissez le code.'],
+['📆','Plusieurs jours','Appui long sur le premier jour, défilez, puis touchez le dernier jour.'],
+['💬','Dans la fiche','💬 Ajouter une note\n📋 Copier la semaine\n↶ Annuler une erreur'],
+['🌙','Nuits et chantiers','Touchez le numéro de semaine (S12…) pour annoncer ou attribuer un chantier.\n\nLa ligne « Infos » montre nuits, formations et astreintes.'],
+['📥','Extractions','Onglet 📥 : importez le programme du mois (.xlsx).\n\nVos saisies à la main sont gardées.'],
+['☰','Le haut de l’écran','Votre pastille : changer de nom.\n≡ : ★ ma ligne, 🌙 mode nuit, tuto.\nPierrefitte (en rouge) : consultation seule.'+(matchMedia('(pointer:fine)').matches?'\n⛶ : plein écran.':'')]];
 let tuI=0;
 function tuto(i){tuI=i;const t=TU[i];$('tue').textContent=t[0];$('tut').textContent=t[1];$('tup').textContent=t[2];
  $('tud').innerHTML=TU.map((_,k)=>`<i class="${k==i?'on':''}"></i>`).join('');$('tun').textContent=i==TU.length-1?'Terminer':'Suivant';$('tub').textContent=i?'Précédent':'Passer';$('tu').style.display='flex'}
