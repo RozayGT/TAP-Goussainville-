@@ -515,7 +515,7 @@ html[data-theme=dark]{--altbg:#111827}
 /* barre de défilement précise sur téléphone */
 @media(pointer:coarse){.wrap{scrollbar-width:none}.wrap::-webkit-scrollbar{display:none}
 .sbar{position:relative;height:4px;margin:-6px 14px 10px calc(14px + var(--sbo,0px));border-radius:4px;background:color-mix(in srgb,var(--ink) 10%,transparent)}
-.sbar i{position:absolute;top:0;bottom:0;left:0;border-radius:4px;background:color-mix(in srgb,var(--ink) 45%,transparent)}}
+.sbar i{position:absolute;top:0;bottom:0;left:0;will-change:transform;border-radius:4px;background:color-mix(in srgb,var(--ink) 45%,transparent)}}
 @media(pointer:fine){.sbar{display:none}}
 @media(min-width:900px){.team{max-width:420px;margin:8px auto 0}}
 .ixkb{display:flex;gap:14px;margin:0 0 6px;font-size:12.5px;font-weight:700}
@@ -660,10 +660,10 @@ if(ow&&ow.dataset.yr==YR+TEAM){if(plan.h!==TB){const sx=ow.scrollLeft,sy=ow.scro
  if(R.length===RW2.length&&tr.length===RW2.length){for(let i=0;i<RW2.length;i++)if(R[i]!==RW2[i])tr[i].outerHTML=RW2[i]}else{ow.innerHTML=TB;ow._ms=null}
  ow.scrollLeft=sx;ow.scrollTop=sy;plan.h=TB;plan.R=RW2;ow._sb=null;ow._ms=null;setLab(mo);sbar();vsc();ancRe()}return}
 plan.h=TB;plan.R=RW2;$('main').innerHTML=`${TEAM==='P'?`<div class="pban">${PB}</div>`:''}<div class="wrap" data-yr="${YR}${TEAM}">${TB}</div><div class="sbar"><i></i></div>`;
-const w=document.querySelector('.wrap');setLab(mo);dragW(w);rangeW(w);w.addEventListener('scroll',()=>{if(plan.rq)return;plan.rq=requestAnimationFrame(()=>{plan.rq=0;sbar();if(!DS.on)scMo()})},{passive:true});requestAnimationFrame(()=>{sbar();vsc()})}
+const w=document.querySelector('.wrap');setLab(mo);dragW(w);rangeW(w);w.addEventListener('scroll',()=>{sbar();if(plan.rq)return;plan.rq=requestAnimationFrame(()=>{plan.rq=0;if(!DS.on)scMo()})},{passive:true});requestAnimationFrame(()=>{sbar();vsc()})}
 function vsc(){const w=document.querySelector('#main > .wrap');if(w)w.classList.toggle('vsc',w.scrollHeight>w.clientHeight+1)}
 addEventListener('resize',()=>requestAnimationFrame(vsc));
-function sbar(){const w=document.querySelector('#main > .wrap'),b=document.querySelector('#main > .sbar');if(!w||!b)return;let D=w._sb;if(!D||D.iw!==innerWidth){if(!b.offsetParent){w._sb={iw:innerWidth,off:1};return}const nm=w.querySelector('th.nm'),o=nm?nm.offsetWidth:0;b.style.setProperty('--sbo',o+'px');const vis=w.clientWidth-o,tot=w.scrollWidth-o,bw=b.clientWidth;D=w._sb={iw:innerWidth,max:w.scrollWidth-w.clientWidth,bw,tw:Math.max(24,bw*vis/Math.max(tot,1))};b.firstChild.style.width=D.tw+'px'}if(D.off)return;const x=D.max>0?(D.bw-D.tw)*Math.min(1,Math.max(0,w.scrollLeft/D.max)):0;b.firstChild.style.transform=`translateX(${x}px)`}
+function sbar(){const w=document.querySelector('#main > .wrap'),b=document.querySelector('#main > .sbar');if(!w||!b)return;let D=w._sb;if(!D||D.iw!==innerWidth||(!D.off&&(D.sw!==w.scrollWidth||D.cw!==w.clientWidth))){if(!b.offsetParent){w._sb={iw:innerWidth,off:1};return}const nm=w.querySelector('th.nm'),o=nm?nm.offsetWidth:0;b.style.setProperty('--sbo',o+'px');const vis=w.clientWidth-o,tot=w.scrollWidth-o,bw=b.clientWidth;D=w._sb={iw:innerWidth,sw:w.scrollWidth,cw:w.clientWidth,max:w.scrollWidth-w.clientWidth,bw,tw:Math.max(24,bw*vis/Math.max(tot,1))};b.firstChild.style.width=D.tw+'px'}if(D.off)return;const x=D.max>0?(D.bw-D.tw)*Math.min(1,Math.max(0,w.scrollLeft/D.max)):0;b.firstChild.style.transform=`translateX(${x}px)`}
 
 // ---------- Sélection de plusieurs jours : appui long puis glisser ----------
 let RANGE=null,RW=null,shT=0;document.addEventListener('click',e=>{if(e.target&&e.target.id==='ov'&&Date.now()-shT<600){e.stopPropagation();e.preventDefault()}},true);const RH={},DH={};const DS={on:false};
