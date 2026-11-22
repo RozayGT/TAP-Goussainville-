@@ -488,7 +488,6 @@ td.c .b:not(.e){margin:2px 3px 0!important}
 @media(min-width:900px){thead tr.dy th:not(.nm){min-width:40px!important}
 td.c{min-width:40px!important;max-width:40px!important}
 .a.kFOR,.a.kRPS,.a.kRÉU,.a.kRMU,.a.kRDV,.a.kAST{font-size:11.5px!important}}
-.wrap:not(.rl0):not(.rl1) td.c.rsel{background:color-mix(in srgb,var(--ac) 30%,transparent)!important;box-shadow:inset 0 2px 0 var(--ac),inset 0 -2px 0 var(--ac)}
 .rsel-on,.rsel-on *,td.c,td.c *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 td.c{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .rgh{margin-top:6px;font-size:13px;font-weight:700;color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent);border-radius:10px;padding:7px 10px}
@@ -567,6 +566,7 @@ td.c.anc0::before{top:2px;height:calc(68% - 5px)}td.c.anc1::before{top:calc(68% 
 #anh button{border:0;border-radius:999px;padding:5px 11px;background:var(--line);color:var(--ink);font-weight:700;font-size:12.5px;cursor:pointer}
 #anh span{overflow:hidden;text-overflow:ellipsis}
 button,select,label,a,[onclick]{touch-action:manipulation}
+@media (orientation:landscape) and (max-height:500px){.wrap{max-height:calc(100vh - 12px)!important}}
 </style></head><body>
 <div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button id="hlp" class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button><button id="mnu" class="hb" onclick="mnT(event)" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></header><div id="mpan" style="display:none"></div><div id="sab"></div><div id="anh"><span>📅 Défilez puis touchez le dernier jour</span><button onclick="ancOff()">Annuler</button></div>
 <div class="team" id="team"></div>
@@ -666,12 +666,11 @@ plan.h=TB;plan.R=RW2;$('main').innerHTML=`${TEAM==='P'?`<div class="pban">${PB}<
 const w=document.querySelector('.wrap');setLab(mo);dragW(w);rangeW(w);w.addEventListener('scroll',()=>{sbar();if(plan.rq)return;plan.rq=requestAnimationFrame(()=>{plan.rq=0;if(!DS.on)scMo()})},{passive:true});requestAnimationFrame(()=>{sbar();vsc()})}
 function vsc(){const w=document.querySelector('#main > .wrap');if(w)w.classList.toggle('vsc',w.scrollHeight>w.clientHeight+1)}
 addEventListener('resize',()=>requestAnimationFrame(vsc));
-const SBX=false;
-function sbar(){const w=document.querySelector('#main > .wrap'),b=document.querySelector('#main > .sbar');if(!w||!b)return;let D=w._sb;if(!D||D.iw!==innerWidth||(!D.off&&(D.sw!==w.scrollWidth||D.cw!==w.clientWidth))){if(!b.offsetParent){w._sb={iw:innerWidth,off:1};return}const nm=w.querySelector('th.nm'),o=nm?nm.offsetWidth:0;b.style.setProperty('--sbo',o+'px');const vis=w.clientWidth-o,tot=w.scrollWidth-o,bw=b.clientWidth;D=w._sb={iw:innerWidth,sw:w.scrollWidth,cw:w.clientWidth,max:w.scrollWidth-w.clientWidth,bw,tw:Math.max(24,bw*vis/Math.max(tot,1))};b.firstChild.style.width=D.tw+'px';b.style.setProperty('--sbx',Math.max(0,D.bw-D.tw)+'px');if(SBX){b.classList.add('sd');b.firstChild.style.transform=''}}if(D.off||SBX)return;const x=D.max>0?(D.bw-D.tw)*Math.min(1,Math.max(0,w.scrollLeft/D.max)):0;b.firstChild.style.transform=`translateX(${x}px)`}
+function sbar(){const w=document.querySelector('#main > .wrap'),b=document.querySelector('#main > .sbar');if(!w||!b)return;let D=w._sb;if(!D||D.iw!==innerWidth||(!D.off&&(D.sw!==w.scrollWidth||D.cw!==w.clientWidth))){if(!b.offsetParent){w._sb={iw:innerWidth,off:1};return}const nm=w.querySelector('th.nm'),o=nm?nm.offsetWidth:0;b.style.setProperty('--sbo',o+'px');const vis=w.clientWidth-o,tot=w.scrollWidth-o,bw=b.clientWidth;D=w._sb={iw:innerWidth,sw:w.scrollWidth,cw:w.clientWidth,max:w.scrollWidth-w.clientWidth,bw,tw:Math.max(24,bw*vis/Math.max(tot,1))};b.firstChild.style.width=D.tw+'px';}if(D.off)return;const x=D.max>0?(D.bw-D.tw)*Math.min(1,Math.max(0,w.scrollLeft/D.max)):0;b.firstChild.style.transform=`translateX(${x}px)`}
 
 // ---------- Sélection de plusieurs jours : appui long puis glisser ----------
 let RANGE=null,RW=null,shT=0;document.addEventListener('click',e=>{if(e.target&&e.target.id==='ov'&&Date.now()-shT<600){e.stopPropagation();e.preventDefault()}},true);const RH={},DH={};const DS={on:false};
-const EDGE=false;let ANC=null;
+let ANC=null;
 function ancTd(){if(!ANC)return null;const el=ANC.w.querySelector(`[data-s="${ANC.a}|${ANC.k}|0"]`);return el&&el.closest('td.c')}
 function ancRe(){const td=ancTd();if(td)td.classList.add('anc'+ANC.l)}
 function ancOff(){if(!ANC)return;document.querySelectorAll('td.anc0,td.anc1').forEach(x=>x.classList.remove('anc0','anc1'));ANC=null;$('anh').classList.remove('o')}
@@ -684,18 +683,18 @@ function rangeW(w){RW=w;let t=null,st=null,x0=0,y0=0,cur=null,raf=0,lx=0,ly=0,ki
  let G=null,SEL=new Set();
  const geo=()=>{const a=st[0],WR=w.getBoundingClientRect(),wl=WR.left,sl=w.scrollLeft,stp=w.scrollTop;let ov=w.querySelector(':scope > .selov');if(!ov){ov=document.createElement('div');ov.className='selov';w.appendChild(ov)}ov.textContent='';const c=[...w.querySelectorAll(`[data-s^="${a}|"][data-s$="|0"]`)].map(el=>{const td=el.closest('td'),r=td.getBoundingClientRect();return{k:el.dataset.s.split('|')[1],td,l:r.left-wl+sl-w.clientLeft,r:r.right-wl+sl-w.clientLeft,t:r.top-WR.top+stp-w.clientTop,h:r.height}});G={wl,c,ov,m:new Map()}};
  const ovClear=()=>{const ov=w.querySelector(':scope > .selov');if(ov)ov.textContent=''};
- const atX=x=>{if(!G||!G.c.length)return null;const xx=x-G.wl+(DS.on&&edge.g?edge.g.sl:w.scrollLeft),c=G.c;let lo=0,hi=c.length-1;if(xx<=c[0].l)return c[0].k;if(xx>=c[hi].r)return c[hi].k;while(lo<hi){const m=(lo+hi)>>1;if(c[m].r<=xx)lo=m+1;else hi=m}return c[lo].k};
+ const atX=x=>{if(!G||!G.c.length)return null;const xx=x-G.wl+w.scrollLeft,c=G.c;let lo=0,hi=c.length-1;if(xx<=c[0].l)return c[0].k;if(xx>=c[hi].r)return c[hi].k;while(lo<hi){const m=(lo+hi)>>1;if(c[m].r<=xx)lo=m+1;else hi=m}return c[lo].k};
  const paint=()=>{if(!st||!cur){ovClear();SEL.clear();return}if(!G){document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'));geo()}const k0=st[1],lo=k0<cur?k0:cur,hi=k0<cur?cur:k0,N=new Set(),L1=st[2]===1;for(const o of G.c)if(o.k>=lo&&o.k<=hi)N.add(o);SEL.forEach(o=>{if(!N.has(o)){const e=G.m.get(o);if(e){e.remove();G.m.delete(o)}}});N.forEach(o=>{if(!SEL.has(o)){const e=document.createElement('i');const y0=L1?o.t+o.h*.68+1:o.t+2,y1=L1?o.t+o.h-1:o.t+o.h*.68-3;e.style.cssText=`left:${o.l+1}px;top:${y0}px;width:${o.r-o.l-2}px;height:${y1-y0}px`;G.ov.appendChild(e);G.m.set(o,e)}});SEL=N};
  const move=(x,y)=>{lx=x;ly=y;const k=atX(x);if(k&&k!==cur){cur=k;paint();if(navigator.vibrate)navigator.vibrate(5)}};
- const edge=()=>{if(!DS.on)return;if(!edge.g){const R=w.getBoundingClientRect();edge.g={left:R.left,right:R.right,width:R.width,nm:(w.querySelector('th.nm')||{offsetWidth:0}).offsetWidth,max:w.scrollWidth-w.clientWidth,sl:w.scrollLeft}}const g=edge.g,r=g,L=g.left+g.nm,Z=Math.min(70,g.width*.18);const now=performance.now(),dt=Math.min(50,now-(edge.p||now));edge.p=now;let v=0;if(EDGE&&lx>r.right-Z)v=2+7*Math.min(1,(lx-(r.right-Z))/Z);else if(EDGE&&lx<L+Z*.6)v=-(2+7*Math.min(1,((L+Z*.6)-lx)/(Z*.6)));if(v){edge.t=edge.t||now;edge.f=(edge.f||0)+v*(1+Math.min(1,(now-edge.t)/2000))*dt/16.7;v=Math.trunc(edge.f);edge.f-=v;const ns=Math.max(0,Math.min(g.max,g.sl+v));if(ns===g.sl)v=0;else{g.sl=ns;w.scrollLeft=ns}}else{edge.t=0;edge.f=0}if(v){const k=atX(Math.min(Math.max(lx,L+4),r.right-4));if(k&&k!==cur){cur=k;paint()}}raf=requestAnimationFrame(edge)};
- const start=(x,y)=>{const c=cellOf(x,y);if(!c||ro)return;x0=x;y0=y;st=[c[0],c[1],+c[2]];cur=c[1];w.classList.toggle('rl1',st[2]===1);w.classList.toggle('rl0',st[2]!==1);prsOff();const pe=w.querySelector(`[data-s="${c[0]}|${c[1]}|0"]`),ptd=pe&&pe.closest('td.c');if(ptd){ptd.classList.add('prs');PRS.td=ptd;PRS.at=performance.now()}clearTimeout(t);t=setTimeout(()=>{DS.on=true;w.style.scrollBehavior='auto';w.classList.add('rsel-on');prsOff();ancOff();G=null;SEL=new Set();paint();if(navigator.vibrate)navigator.vibrate(20);lx=x;ly=y;edge.t=0;edge.f=0;edge.p=0;edge.g=null;raf=requestAnimationFrame(edge)},380)};
+ 
+ const start=(x,y)=>{const c=cellOf(x,y);if(!c||ro)return;x0=x;y0=y;st=[c[0],c[1],+c[2]];cur=c[1];w.classList.toggle('rl1',st[2]===1);w.classList.toggle('rl0',st[2]!==1);prsOff();const pe=w.querySelector(`[data-s="${c[0]}|${c[1]}|0"]`),ptd=pe&&pe.closest('td.c');if(ptd){ptd.classList.add('prs');PRS.td=ptd;PRS.at=performance.now()}clearTimeout(t);t=setTimeout(()=>{DS.on=true;w.style.scrollBehavior='auto';w.classList.add('rsel-on');prsOff();ancOff();G=null;SEL=new Set();paint();if(navigator.vibrate)navigator.vibrate(20);lx=x;ly=y},380)};
  const cancel=()=>{clearTimeout(t);t=null;prsOff()};
- const end=()=>{clearTimeout(t);cancelAnimationFrame(raf);const wasOn=DS.on;G=null;edge.g=null;ovClear();SEL=new Set();if(wasOn)requestAnimationFrame(()=>{if(!DS.on)scMo()});if(!DS.on||!st){st=null;const p=PRS.td;if(p){setTimeout(()=>{p.classList.remove('prs');if(PRS.td===p)PRS.td=null},Math.max(120,320-(performance.now()-(PRS.at||0))))}return}prsOff();DS.on=false;w.style.scrollBehavior='';w.classList.remove('rsel-on');kill=Date.now();
+ const end=()=>{clearTimeout(t);cancelAnimationFrame(raf);const wasOn=DS.on;G=null;ovClear();SEL=new Set();if(wasOn)requestAnimationFrame(()=>{if(!DS.on)scMo()});if(!DS.on||!st){st=null;const p=PRS.td;if(p){setTimeout(()=>{p.classList.remove('prs');if(PRS.td===p)PRS.td=null},Math.max(120,320-(performance.now()-(PRS.at||0))))}return}prsOff();DS.on=false;w.style.scrollBehavior='';w.classList.remove('rsel-on');kill=Date.now();
   const[a,k0,l]=st,lo=k0<cur?k0:cur,hi=k0<cur?cur:k0;st=null;if(lo===hi){document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'));ancOn(w,a,lo,l);return}RANGE={a,k:lo,end:hi};_openS(a,lo,l);paintKeep(a,lo,hi)};
  const paintKeep=(a,lo,hi)=>w.querySelectorAll(`[data-s^="${a}|"]`).forEach(el=>{const k=el.dataset.s.split('|')[1];if(k>=lo&&k<=hi)el.closest('td').classList.add('rsel')});
  w.addEventListener('touchstart',e=>{if(e.touches.length!==1)return cancel();const p=e.touches[0];start(p.clientX,p.clientY)},{passive:true});
  w.addEventListener('touchmove',e=>{const p=e.touches[0];if(DS.on){e.preventDefault();move(p.clientX,p.clientY)}else if(t&&Math.hypot(p.clientX-x0,p.clientY-y0)>8)cancel()},{passive:false});
- w.addEventListener('touchend',end);w.addEventListener('touchcancel',()=>{cancel();if(DS.on){DS.on=false;w.classList.remove('rsel-on');cancelAnimationFrame(raf);G=null;edge.g=null;ovClear();SEL=new Set();document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'))}});
+ w.addEventListener('touchend',end);w.addEventListener('touchcancel',()=>{cancel();if(DS.on){DS.on=false;w.classList.remove('rsel-on');cancelAnimationFrame(raf);G=null;ovClear();SEL=new Set();document.querySelectorAll('td.rsel').forEach(x=>x.classList.remove('rsel'))}});
  w.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button===0)start(e.clientX,e.clientY)});
  RH.move=e=>{if(e.pointerType!=='mouse')return;if(DS.on&&st)move(e.clientX,e.clientY);else if(t&&Math.hypot(e.clientX-x0,e.clientY-y0)>6)cancel()};RH.up=e=>{if(e.pointerType==='mouse')end()};
  if(!RH.on){RH.on=1;window.addEventListener('pointermove',e=>RH.move(e));window.addEventListener('pointerup',e=>RH.up(e))}
@@ -874,7 +873,7 @@ const nxD=(k,n)=>{const d=new Date(k+'T12:00');d.setDate(d.getDate()+n);return y
 function cdDays(w){const ds=wDays(wFirst(w));return[nxD(ds[0],-1),...ds,nxD(ds[6],1),nxD(ds[6],2),nxD(ds[6],3)]}
 function asgOf(w,c){if(!NC.includes(c))return[];const ds=wDays(wFirst(w)).concat([nxD(wFirst(w),7)]);return AGG.filter(a=>ds.some(k=>get(a[0],k)[0]===c)).map(a=>a[0])}
 function asRec(w,c){try{return JSON.parse(NU[w+'|AS_'+c]||'{}')}catch(e){return{}}}
-function openCD(w,c){hideUd();const t=NU[w+'|'+c];if(t==null)return;const pv=!NC.includes(c),A0=asgOf(w,c);CD={w,c,A0};const ds=wDays(wFirst(w));
+function openCD(w,c){ancOff();hideUd();const t=NU[w+'|'+c];if(t==null)return;const pv=!NC.includes(c),A0=asgOf(w,c);CD={w,c,A0};const ds=wDays(wFirst(w));
  $('cdt').innerHTML=pv?`🌙 Chantier prévu · ${wnum(w)}`:`${kChip(c)} Chantier de nuit · ${wnum(w)}`;$('cdp').textContent='Semaine du '+fd(ds[0])+' au '+fd(ds[6]);$('cdw').innerHTML=nWeek(t,pv?'N1':c);$('cdx').textContent=t;
  $('cdl').textContent=pv?'Attribuer à :':'Agents sur ce chantier : touchez pour ajouter ou retirer (tout décocher = remis en prévu)';
  $('cda').innerHTML=AGG.map(a=>`<button data-a="${a[0]}" class="${A0.includes(a[0])?'on':''}" onclick="this.classList.toggle('on')">${esc(pre(a[0]))}</button>`).join('');
@@ -914,7 +913,7 @@ function tg(){const n=document.documentElement.dataset.theme=='dark'?'light':'da
 let me=null,H=[],RT=null;try{me=localStorage.getItem('tap_me')}catch(e){}
 const nmA=id=>(ALL.find(x=>x[0]==id)||[0,'?'])[1],pre=id=>{const p=nmA(id).split(' ');return p[p.length-1]};
 const iniA=id=>{const p=nmA(id).split(' ');return(p[0][0]+p[p.length-1][0]).toUpperCase()};
-function who(){$('wl').innerHTML=AGG.map(a=>`<button onclick="pickMe('${a[0]}')"><span class="av">${iniA(a[0])}</span><span>${name(a)}</span></button>`).join('');$('who').style.display='flex'}
+function who(){ancOff();$('wl').innerHTML=AGG.map(a=>`<button onclick="pickMe('${a[0]}')"><span class="av">${iniA(a[0])}</span><span>${name(a)}</span></button>`).join('');$('who').style.display='flex'}
 
 const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en direct.\n\nGlissez pour avancer.'],
 ['🧭','Naviguer','Touchez un mois en haut, puis faites glisser le planning.\n\n⇄ change d’année. En violet : les vacances.'],
@@ -925,7 +924,7 @@ const TU=[['👋','Bienvenue sur TAP','Le planning de l’équipe, partagé en d
 ['📥','Extractions','Onglet 📥 : importez le programme du mois (.xlsx).\n\nVos saisies à la main sont gardées.'],
 ['☰','Le haut de l’écran','Votre pastille : changer de nom.\n≡ : ★ ma ligne, 🌙 mode nuit, tuto.\nPierrefitte (en rouge) : consultation seule.'+(matchMedia('(pointer:fine)').matches?'\n⛶ : plein écran.':'')]];
 let tuI=0;
-function tuto(i){tuI=i;const t=TU[i];$('tue').textContent=t[0];$('tut').textContent=t[1];$('tup').textContent=t[2];
+function tuto(i){ancOff();tuI=i;const t=TU[i];$('tue').textContent=t[0];$('tut').textContent=t[1];$('tup').textContent=t[2];
  $('tud').innerHTML=TU.map((_,k)=>`<i class="${k==i?'on':''}"></i>`).join('');$('tun').textContent=i==TU.length-1?'Terminer':'Suivant';$('tub').textContent=i?'Précédent':'Passer';$('tu').style.display='flex'}
 function tuNext(){tuI<TU.length-1?tuto(tuI+1):tuEnd()}
 function tuBack(){tuI>0?tuto(tuI-1):tuEnd()}
@@ -1093,7 +1092,7 @@ function mnD(){const dk=document.documentElement.dataset.theme=='dark';const v=(
 $('mpan').innerHTML='<div class="it" onclick="tgHL();mnD()"><i>★</i><span>Mon nom en avant</span><div class="tsw'+(HL&&me?' on':'')+'"></div></div><div class="it" onclick="tg();mnD()"><i>🌙</i><span>Mode nuit</span><div class="tsw'+(dk?' on':'')+'"></div></div><div class="it" onclick="mnC();tuto(0)"><i>?</i><span>Tutoriel</span></div>'+(v?'<div class="vr">TAP '+v+'</div>':'')}
 function mnP(){const r=$('mnu').getBoundingClientRect(),p=$('mpan');p.style.top=(r.bottom+8)+'px';p.style.right=Math.max(8,innerWidth-r.right)+'px'}
 function mnC(){$('mpan').style.display='none';$('mnu').classList.remove('on')}
-function mnT(e){e&&e.stopPropagation();const p=$('mpan');if(p.style.display!=='none'){mnC();return}mnD();p.style.display='block';mnP();$('mnu').classList.add('on')}
+function mnT(e){e&&e.stopPropagation();const p=$('mpan');if(p.style.display!=='none'){mnC();return}ancOff();mnD();p.style.display='block';mnP();$('mnu').classList.add('on')}
 let mnSw=0;document.addEventListener('pointerdown',e=>{const p=$('mpan');if(p&&p.style.display!=='none'&&!p.contains(e.target)&&!$('mnu').contains(e.target)){mnC();mnSw=Date.now();e.preventDefault();e.stopPropagation();e.stopImmediatePropagation()}},true);
 ['pointerup','pointermove','mousedown','mouseup','touchstart','touchmove','touchend','click','contextmenu'].forEach(t=>document.addEventListener(t,e=>{if(!mnSw)return;if(Date.now()-mnSw>1500){mnSw=0;return}e.stopPropagation();e.stopImmediatePropagation();if(t!=='pointermove'&&t!=='touchmove'&&e.cancelable)e.preventDefault();if(t==='pointerup'||t==='touchend')setTimeout(()=>mnSw=0,350);if(t==='click')mnSw=0},{capture:true,passive:false}));
 addEventListener('resize',()=>{if($('mpan').style.display!=='none')mnP()});
