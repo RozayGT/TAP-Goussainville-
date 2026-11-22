@@ -515,7 +515,7 @@ html[data-theme=dark]{--altbg:#111827}
 /* barre de défilement précise sur téléphone */
 @media(pointer:coarse){.wrap{scrollbar-width:none}.wrap::-webkit-scrollbar{display:none}
 .sbar{position:relative;height:4px;margin:-6px 14px 10px calc(14px + var(--sbo,0px));border-radius:4px;background:color-mix(in srgb,var(--ink) 10%,transparent)}
-.sbar i{position:absolute;top:0;bottom:0;left:0;will-change:transform;border-radius:4px;background:color-mix(in srgb,var(--ink) 45%,transparent)}}
+.sbar i{position:absolute;top:0;bottom:0;left:0;border-radius:4px;background:color-mix(in srgb,var(--ink) 45%,transparent)}}
 @media(pointer:fine){.sbar{display:none}}
 @media(min-width:900px){.team{max-width:420px;margin:8px auto 0}}
 .ixkb{display:flex;gap:14px;margin:0 0 6px;font-size:12.5px;font-weight:700}
@@ -540,11 +540,13 @@ html[data-theme=dark]{--altbg:#111827}
 #mpan .vr{padding:8px 10px 4px;color:var(--mut);font-size:11.5px;border-top:1px solid var(--line);margin-top:4px}
 .team button.pf.on{background:#d9536a;box-shadow:0 2px 10px #d9536a66}
 [data-theme=dark] .team button.pf.on{background:#c8475e;box-shadow:0 2px 12px #c8475e66}
-html td.c .a{position:absolute!important;left:2px;right:2px;top:34%;translate:0 -50%;margin:0!important}
-html td.c .a.e{left:0;right:0;top:0;height:68%!important;min-height:0!important;translate:none}
-html td.c .b,html td.c .b:not(.e){position:absolute!important;left:2px;right:2px;top:84%;translate:0 -50%;height:18px!important;min-height:18px!important;line-height:16px!important;font-size:10px!important;margin:0!important;padding:0!important;box-sizing:border-box;letter-spacing:-.3px;text-align:center}
+td.c{--ah:26px;--m1:5px;--m2:3.5px}
+@media (min-width:900px){td.c{--ah:28px;--m1:5.5px;--m2:4.5px}}
+html.emb td.c{--ah:24px;--m1:3px;--m2:0px}
+html td.c{vertical-align:top}
+html td.c .a{display:block;margin:var(--m1) 2px 0!important;height:var(--ah)!important;min-height:0!important;box-sizing:border-box}
+html td.c .b,html td.c .b:not(.e){display:block;margin:var(--m2) 2px 0!important;height:18px!important;min-height:18px!important;line-height:16px!important;font-size:10px!important;padding:0!important;box-sizing:border-box;letter-spacing:-.3px;text-align:center}
 html td.c .b.kRSNCF{font-size:8.5px!important}
-html td.c .b.e{left:0;right:0;top:68%;bottom:0;height:auto!important;min-height:0!important;translate:none}
 @keyframes fz{0%,40%{opacity:1}100%{opacity:0}}
 .wrap.rl0 td.c.prs::before,.wrap.rl1 td.c.prs::before,.wrap.rl0 td.c.rsel::before,.wrap.rl1 td.c.rsel::before{content:'';position:absolute;left:1px;right:1px;border-radius:5px;background:color-mix(in srgb,var(--ac) 40%,transparent);border:1.5px solid var(--ac);pointer-events:none;z-index:1}
 .wrap.rl0 td.c.prs::before,.wrap.rl0 td.c.rsel::before{top:2px;height:calc(68% - 5px)}
@@ -552,7 +554,7 @@ html td.c .b.e{left:0;right:0;top:68%;bottom:0;height:auto!important;min-height:
 html[data-skin] thead th,html[data-skin] th.nm{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .fzx{position:fixed;z-index:19;border-radius:5px;background:color-mix(in srgb,var(--ac) 45%,transparent);border:1.5px solid var(--ac);pointer-events:none;animation:fz .4s ease-out forwards}
 .wrap{position:relative}
-.selov{position:absolute;left:0;top:0;width:1px;height:1px;z-index:1;pointer-events:none;will-change:transform;contain:layout size style}
+.selov{position:absolute;left:0;top:0;width:1px;height:1px;z-index:1;pointer-events:none;contain:layout size style}
 .selov i{position:absolute;box-sizing:border-box;border-radius:5px;background:color-mix(in srgb,var(--ac) 40%,transparent);border:1.5px solid var(--ac)}
 .wrap.rsel-on{overflow:hidden!important;touch-action:none}
 .wrap:not(.vsc) thead th:not(.nm){position:relative!important;top:auto!important}
@@ -564,9 +566,7 @@ td.c.anc0::before{top:2px;height:calc(68% - 5px)}td.c.anc1::before{top:calc(68% 
 [data-theme=dark] #anh{background:#111827f5}
 #anh button{border:0;border-radius:999px;padding:5px 11px;background:var(--line);color:var(--ink);font-weight:700;font-size:12.5px;cursor:pointer}
 #anh span{overflow:hidden;text-overflow:ellipsis}
-#main{timeline-scope:--tl}#main > .wrap{scroll-timeline:--tl x}
-.sbar.sd i{animation:sbm linear both;animation-timeline:--tl}
-@keyframes sbm{from{transform:translateX(0)}to{transform:translateX(var(--sbx,0px))}}
+button,select,label,a,[onclick]{touch-action:manipulation}
 </style></head><body>
 <div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button></h1><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button id="hlp" class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button><button id="mnu" class="hb" onclick="mnT(event)" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></header><div id="mpan" style="display:none"></div><div id="sab"></div><div id="anh"><span>📅 Défilez puis touchez le dernier jour</span><button onclick="ancOff()">Annuler</button></div>
 <div class="team" id="team"></div>
@@ -666,7 +666,7 @@ plan.h=TB;plan.R=RW2;$('main').innerHTML=`${TEAM==='P'?`<div class="pban">${PB}<
 const w=document.querySelector('.wrap');setLab(mo);dragW(w);rangeW(w);w.addEventListener('scroll',()=>{sbar();if(plan.rq)return;plan.rq=requestAnimationFrame(()=>{plan.rq=0;if(!DS.on)scMo()})},{passive:true});requestAnimationFrame(()=>{sbar();vsc()})}
 function vsc(){const w=document.querySelector('#main > .wrap');if(w)w.classList.toggle('vsc',w.scrollHeight>w.clientHeight+1)}
 addEventListener('resize',()=>requestAnimationFrame(vsc));
-const SBX=!!(window.CSS&&CSS.supports&&CSS.supports('animation-timeline: --a')&&CSS.supports('timeline-scope: --a'));
+const SBX=false;
 function sbar(){const w=document.querySelector('#main > .wrap'),b=document.querySelector('#main > .sbar');if(!w||!b)return;let D=w._sb;if(!D||D.iw!==innerWidth||(!D.off&&(D.sw!==w.scrollWidth||D.cw!==w.clientWidth))){if(!b.offsetParent){w._sb={iw:innerWidth,off:1};return}const nm=w.querySelector('th.nm'),o=nm?nm.offsetWidth:0;b.style.setProperty('--sbo',o+'px');const vis=w.clientWidth-o,tot=w.scrollWidth-o,bw=b.clientWidth;D=w._sb={iw:innerWidth,sw:w.scrollWidth,cw:w.clientWidth,max:w.scrollWidth-w.clientWidth,bw,tw:Math.max(24,bw*vis/Math.max(tot,1))};b.firstChild.style.width=D.tw+'px';b.style.setProperty('--sbx',Math.max(0,D.bw-D.tw)+'px');if(SBX){b.classList.add('sd');b.firstChild.style.transform=''}}if(D.off||SBX)return;const x=D.max>0?(D.bw-D.tw)*Math.min(1,Math.max(0,w.scrollLeft/D.max)):0;b.firstChild.style.transform=`translateX(${x}px)`}
 
 // ---------- Sélection de plusieurs jours : appui long puis glisser ----------
@@ -1076,7 +1076,7 @@ async function unlock(){const v=$('pin').value.trim();let ok=false;
  if(ok){try{localStorage.setItem('tap_ok',PH)}catch(e){}$('lk').style.display='none';if(!me)who()}
  else{$('er').textContent='Code incorrect';$('pin').value='';const b=$('lkb');b.classList.remove('shk');void b.offsetWidth;b.classList.add('shk')}}
 (()=>{let ok=null;try{ok=localStorage.getItem('tap_ok')}catch(e){}if(ok!==PH){$('lk').style.display='flex';setTimeout(()=>$('pin').focus(),300)}else if(!me)who()})();
-['gesturestart','gesturechange','gestureend'].forEach(e=>document.addEventListener(e,x=>x.preventDefault(),{passive:false}));document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});let lt=0;document.addEventListener('touchend',e=>{const n=Date.now();if(n-lt<300&&!e.target.closest('input'))e.preventDefault();lt=n},{passive:false});
+['gesturestart','gesturechange','gestureend'].forEach(e=>document.addEventListener(e,x=>x.preventDefault(),{passive:false}));document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});let lt=0;document.addEventListener('touchend',e=>{const n=Date.now();if(n-lt<300&&!e.target.closest('input,button,select,label,textarea,a,[onclick]'))e.preventDefault();lt=n},{passive:false});
 
 // ---------- Bulle de note au survol de la souris (PC) ----------
 (()=>{const tip=document.createElement('div');tip.id='tip';document.body.appendChild(tip);let cur=null;
