@@ -751,9 +751,9 @@ async function unzip(buf){const u=new Uint8Array(buf),dv=new DataView(buf);let e
 async function readX(buf){const g=await unzip(buf),DP=new DOMParser(),X=t=>DP.parseFromString(t,'application/xml'),T=(n,t)=>[...n.getElementsByTagName(t)];
  const ss=[],sst=await g('xl/sharedStrings.xml');if(sst)T(X(sst),'si').forEach(si=>ss.push(T(si,'t').map(t=>t.textContent).join('')));
  let path='xl/worksheets/sheet1.xml';try{const wb=X(await g('xl/workbook.xml')),rid=T(wb,'sheet')[0].getAttribute('r:id'),r=T(X(await g('xl/_rels/workbook.xml.rels')),'Relationship').find(r=>r.getAttribute('Id')===rid);if(r){const t=r.getAttribute('Target');path=t.startsWith('/')?t.slice(1):'xl/'+t}}catch(e){}
- const FL=[],XF=[];try{const st=X(await g('xl/styles.xml'));const fs=T(st,'fills')[0];if(fs)T(fs,'fill').forEach(f=>{const fg=T(f,'fgColor')[0];FL.push(fg&&fg.getAttribute('rgb')||'')});const cx=T(st,'cellXfs')[0];if(cx)T(cx,'xf').forEach(x=>XF.push(FL[+x.getAttribute('fillId')||0]||''))}catch(e){}
- const G=[];G.fill=[];G.sty=XF.length>0;for(const c of T(X(await g(path)),'c')){const m=(c.getAttribute('r')||'').match(/^([A-Z]+)(\d+)$/);if(!m)continue;let col=0;for(const ch of m[1])col=col*26+ch.charCodeAt(0)-64;const t=c.getAttribute('t');let v='';
-  if(t==='inlineStr')v=T(c,'t').map(x=>x.textContent).join('');else{const ve=T(c,'v')[0];if(ve){v=ve.textContent;if(t==='s')v=ss[+v]||''}}(G[+m[2]-1]=G[+m[2]-1]||[])[col-1]=v;const si=c.getAttribute('s');if(si&&XF[+si])(G.fill[+m[2]-1]=G.fill[+m[2]-1]||[])[col-1]=XF[+si]}
+ const FL=[],XF=[],HT=[],XH=[];try{const st=X(await g('xl/styles.xml'));const fs=T(st,'fills')[0];if(fs)T(fs,'fill').forEach(f=>{const fg=T(f,'fgColor')[0],pf=T(f,'patternFill')[0],pt=pf&&pf.getAttribute('patternType')||'';FL.push(fg&&fg.getAttribute('rgb')||'');HT.push(/Down|Up|Grid|Trellis/i.test(pt))});const cx=T(st,'cellXfs')[0];if(cx)T(cx,'xf').forEach(x=>{const fi=+x.getAttribute('fillId')||0;XF.push(FL[fi]||'');XH.push(!!HT[fi])})}catch(e){}
+ const G=[];G.fill=[];G.hat=[];G.sty=XF.length>0;for(const c of T(X(await g(path)),'c')){const m=(c.getAttribute('r')||'').match(/^([A-Z]+)(\d+)$/);if(!m)continue;let col=0;for(const ch of m[1])col=col*26+ch.charCodeAt(0)-64;const t=c.getAttribute('t');let v='';
+  if(t==='inlineStr')v=T(c,'t').map(x=>x.textContent).join('');else{const ve=T(c,'v')[0];if(ve){v=ve.textContent;if(t==='s')v=ss[+v]||''}}(G[+m[2]-1]=G[+m[2]-1]||[])[col-1]=v;const si=c.getAttribute('s');if(si&&XF[+si])(G.fill[+m[2]-1]=G.fill[+m[2]-1]||[])[col-1]=XF[+si];if(si&&XH[+si])(G.hat[+m[2]-1]=G.hat[+m[2]-1]||[])[col-1]=1}
  return G}
 const sur=a=>nrm(a[1].split(' ').filter(w=>/[A-Z]/.test(w)&&w===w.toUpperCase()).join(' '));
 function wOf(k){return wkey(wkS(k))}
@@ -767,7 +767,7 @@ function parseX(G,fname){const C=(r,c)=>String((G[r]||[])[c]??'').trim();
  const A={};let ar=-1;for(let r=hr+1;r<G.length;r++)if(C(r,0)==='N°'||nrm(C(r,0))==='N'&&nrm(C(r,1)).startsWith('ACTIVITE')){ar=r;break}
  if(ar>=0){const H=G[ar]||[],ix=n=>H.findIndex(v=>nrm(v).startsWith(n));const iA=ix('ACTIVITE'),iJ=ix('JOUR NUIT'),iC=ix('COMMENTAIRE'),iD=ix('DEBUT'),iF=ix('FIN'),iL=ix('LIEU D EMBAUCHE');
   for(let r=ar+1;r<G.length;r++){const lab=C(r,0);if(!lab)continue;const key=ndA(lab.split(/\s+/)[0]);const fc=((G.fill||[])[r]||[])[0]||'',rr=parseInt(fc.slice(-6,-4),16),gg=parseInt(fc.slice(-4,-2),16),bb=parseInt(fc.slice(-2),16);A[key]={red:fc.length>=6&&rr>190&&gg<90&&bb<90,lab,act:iA>=0?C(r,iA):'',jn:iJ>=0?ndA(C(r,iJ)):'',com:iC>=0?C(r,iC):'',h:(iD>=0&&C(r,iD)?C(r,iD)+'–'+C(r,iF):''),lieu:iL>=0?C(r,iL):''}}}
- const isFor=a=>a&&(/\bFOR\b/.test(ndA(a.lab))||/^FOR\b/.test(ndA(a.act))),isN=(a,tok)=>a?a.jn.startsWith('N'):/^N\d+$/.test(tok);
+ const isFor=a=>a&&(/\bFOR\b/.test(ndA(a.lab))||/^FOR\b/.test(ndA(a.act))),isN=(a,tok)=>/^N\d+$/.test(tok)||!!a&&a.jn.startsWith('N');
  const dsc=(a,f)=>{if(!a)return'';const cl=t=>String(t||'').replace(/\r/g,'').replace(/[ \t\u00a0]+/g,' ').replace(/ *\n */g,'\n').replace(/\n{3,}/g,'\n\n').trim(),cut=t=>(t=cl(t)).length>1500?t.slice(0,1497)+'…':t;if(f){const n=a.act.replace(/^FOR\s*-\s*/i,'');return cut(a.com||(/INFRAPOLE|EQUIPES SE/i.test(n)?'':n))||'Formation'}
   const head=a.lab.split('\n').slice(1).join(' ').replace(/\b(en\s+)?S\s?\d{1,2}(\s*\/\s*S?\s?\d{1,2})*\b/gi,'').replace(/\bWE\b\s*$/i,'WE').replace(/\s+/g,' ').trim();
   const nm=a.act.replace(/^UTM\s+SD\s*-\s*/i,'').replace(/\s+/g,' ').trim();const gen=/voir d[ée]tail si n[ée]cessaire/i.test(a.com);
@@ -777,12 +777,19 @@ function parseX(G,fname){const C=(r,c)=>String((G[r]||[])[c]??'').trim();
  for(let r=hr+1;r<(ar>=0?ar:G.length);r++){const nm=C(r,nc);if(!nm)continue;if(!D.some(([c])=>C(r,c)))continue;
   const toks=nrm(nm).split(' ');if(toks.length>1&&toks[toks.length-1].length===1)toks.pop();const ag=ALL.find(a=>sur(a)===toks.join(' '));
   if(!ag){R.skipN.push(nm);continue}
+  for(const[c,k]of D){if(((G.hat||[])[r-1]||[])[c]&&/^202[78]-/.test(k)){R.ops.push({a:ag[0],k,code:'AST',kind:'a',act:'AST'});R.ast=(R.ast||0)+1}}
   for(const[c,k]of D){const v=C(r,c);if(!v)continue;if(!/^202[78]-/.test(k)||(+k.slice(0,4)!==2027&&+k.slice(0,4)!==2028)){R.out++;continue}
-   const tok=ndA(v.split(/\s+/)[0]),a=A[tok];let code=null,kind='';
-   if(isFor(a)||/\bFOR\b/.test(ndA(v))){code='FOR';kind='f'}
-   else if(isN(a,tok)){code='N';kind='n'}
-   else if(a||/^J\d+$/.test(tok)){code=''}
+   const ids=v.split('\n')[0].split(';').map(x=>ndA(x.trim().split(/\s+/)[0]||'').replace(/-D\d+$/,'')).filter(Boolean);
+   const sub=a=>a?ndA(a.lab.split('\n').slice(1).join(' ')):'',isMN=a=>a&&(/^MN\b/.test(ndA(a.act))||/^MN\b/.test(sub(a))),isSY=a=>a&&(/^SYN\b/.test(ndA(a.act))||/^SYN\b/.test(sub(a))),isRQ=a=>a&&(/\bREQ\b/.test(sub(a))||/REUNION D.?EQUIPE/.test(ndA(a.act)));
+   let tok=ids[0]||'',code=null,kind='';const nt=ids.find(t=>isN(A[t],t));
+   if(nt){code='N';kind='n';tok=nt}
+   else if(ids.some(t=>isMN(A[t])))code='MN';
+   else if(ids.some(t=>isFor(A[t]))||/\bFOR\b/.test(ndA(v))){code='FOR';kind='f';tok=ids.find(t=>isFor(A[t]))||tok}
+   else if(ids.some(t=>isRQ(A[t])))code='RÉU';
+   else if(ids.some(t=>isSY(A[t])))code='AY';
+   else if(ids.some(t=>A[t])||ids.every(t=>/^J\d+$/.test(t))&&ids.length)code='';
    else{const x=XMAP[tok]||tok;if(P[x])code=x;else{R.unk[v]=(R.unk[v]||0)+1;continue}}
+   const a=A[tok];
    const o={a:ag[0],k,code,kind,act:tok};R.ops.push(o);R.per[ag[0]]=(R.per[ag[0]]||0)+1;
    const w=wOf(k);if(kind==='n'){(nights[w]=nights[w]||[]);if(!nights[w].includes(tok))nights[w].push(tok)}
    if(kind==='f'){const d=dsc(a,1)||'Formation';R.nu[w+'|FOR_'+ag[0]]=d;if(!R.fo.some(x=>x[0]===w&&x[1]===ag[0]))R.fo.push([w,ag[0],d])}}}
