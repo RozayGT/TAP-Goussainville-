@@ -1051,7 +1051,7 @@ let UID=null,MEMBER=false;
 function startRT(){const rt=RT;if(!rt||startRT.on)return;startRT.on=1;H=[];renderH();rt.ref('notes').on('value',s=>{const v=s.val()||{};NT={};for(const a in v)for(const k in v[a])NT[a+'|'+k]=v[a][k];try{localStorage.setItem('tap_notes',JSON.stringify(NT))}catch(e){}drawSoon()},()=>{});rt.ref('nuits').on('value',s=>{const v=s.val()||{};NU={};for(const w in v)for(const c in v[w])NU[w+'|'+c]=v[w][c];try{localStorage.setItem('tap_nuits',JSON.stringify(NU))}catch(e){}drawSoon()},()=>{});rt.ref('imports').on('value',s=>{IMP=s.val()||{};try{localStorage.setItem('tap_imp',JSON.stringify(IMP))}catch(e){}if(vw==='imp')drawSoon()},()=>{});rt.ref('historique').limitToLast(100).on('value',s=>{const v=s.val()||{};H=Object.entries(v).map(([id,e])=>({id,...e})).sort((x,y)=>y.t-x.t);renderH()},()=>{});
 db={doc:p=>({update:o=>rt.ref(p+'/d').update(o.d),set:o=>rt.ref(p).set(o)})};
 $('st').textContent='';
-ALL.forEach(a=>rt.ref('planning/'+a[0]+'/d').on('value',s=>{const v=s.val();if(v){const o={};for(const k in v){const x=v[k];o[k]=Array.isArray(x)?[x[0]||'',x[1]||'']:[(x&&x[0])||'',(x&&x[1])||'']}data[a[0]]=o;try{localStorage.setItem('tap27_'+a[0],JSON.stringify(o))}catch(e){}drawSoon()}},e=>{if(e&&/permission/i.test(e.code||e.message||''))lockShow(MEMBER?'🔑 Le code d’équipe a changé : entrez le nouveau code.':'🔒 Sécurité renforcée : entrez le code d’équipe une fois.');else $('st').textContent='⚠️ Connexion impossible : vérifiez les règles Firebase'}))}
+ALL.forEach(a=>rt.ref('planning/'+a[0]+'/d').on('value',s=>{const v=s.val()||{};{const o={};for(const k in v){const x=v[k];o[k]=Array.isArray(x)?[x[0]||'',x[1]||'']:[(x&&x[0])||'',(x&&x[1])||'']}data[a[0]]=o;try{localStorage.setItem('tap27_'+a[0],JSON.stringify(o))}catch(e){}drawSoon()}},e=>{if(e&&/permission/i.test(e.code||e.message||''))lockShow(MEMBER?'🔑 Le code d’équipe a changé : entrez le nouveau code.':'🔒 Sécurité renforcée : entrez le code d’équipe une fois.');else $('st').textContent='⚠️ Connexion impossible : vérifiez les règles Firebase'}))}
 function lockShow(msg){if(!startRT.on&&$('lk').style.display==='flex')return;startRT.on=0;try{RT&&['notes','nuits','imports','historique'].concat(ALL.map(a=>'planning/'+a[0]+'/d')).forEach(p=>RT.ref(p).off())}catch(e){}try{localStorage.removeItem('tap_ok')}catch(e){}$('pin').value='';$('lk').style.display='flex';if(msg)$('er').textContent=msg;setTimeout(()=>$('pin').focus(),300)}
 (async()=>{if(!CFG.databaseURL){return}
 try{const v='10.12.2';await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-app-compat.js`);await ld(`https://www.gstatic.com/firebasejs/${v}/firebase-database-compat.js`);
@@ -1071,12 +1071,13 @@ async function nbMaj(){const r=repo();if(!r)return null;
   if(!res.ok)return null;const l=res.headers.get('Link')||'',m=l.match(/[?&]page=(\d+)>;\s*rel="last"/);
   return m?+m[1]:(await res.json()).length}
 const vs=n=>{const m=Math.max(0,n-1);return(2+Math.floor(m/10))+'.'+(m%10)}; // numérotation repartie à 2.0 le 21/11/2026
-async function chk(){try{const n=await nbMaj();if(n===null)throw 0;
+async function chk(){if(cur!==null&&Date.now()-(chk.t||0)<120000)return;chk.t=Date.now();try{const n=await nbMaj();if(n===null)throw 0;
   if(cur===null){cur=n;$('ver').textContent='v'+vs(n);let o=null;try{o=localStorage.getItem('tap_vn2');localStorage.setItem('tap_vn2',n)}catch(e){}
     if(o&&+o<n){$('ut').textContent='Mise à jour installée : v'+vs(n);$('upd').style.display='flex';setTimeout(()=>$('upd').style.display='none',4000)}}
-  else if(n>cur){$('ut').textContent='Nouvelle version v'+vs(n)+' disponible';$('upd').style.display='flex'}}
+  else if(n>cur){$('ut').textContent='Nouvelle version v'+vs(n)+' disponible';$('upd').style.display='flex';if(!busy())location.reload()}}
  catch(e){try{const o=localStorage.getItem('tap_vn');if(o&&cur===null)$('ver').textContent='v'+vs(+o)}catch(_){}}}
-chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
+function busy(){const on=id=>{const e=$(id);return e&&getComputedStyle(e).display!=='none'};return $('sh').classList.contains('o')||on('ix')||on('cdv')||on('tu')||on('who')||on('nd')||!!ANC||DS.on||document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)}
+chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});addEventListener('focus',chk);addEventListener('online',chk);setInterval(()=>{if(!document.hidden)chk()},10*60*1000);
 const PH='6cb6796abc23a6fadd39aeefe4ee140f7918957528208267be8cb9d3e77236ae';
 async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tapgsv:'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 async function unlock(){const v=$('pin').value.trim();let ok=false;
