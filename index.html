@@ -832,14 +832,19 @@ function closeIx(){$('ix').style.display='none';IXR=null}
 function nuSet(key,t){const[w,c]=key.split('|');if(t)NU[key]=t;else delete NU[key];if(RT)RT.ref('nuits/'+w+'/'+c).set(t||null).catch(()=>{})}
 function saveImp(){try{localStorage.setItem('tap_imp',JSON.stringify(IMP));localStorage.setItem('tap_nuits',JSON.stringify(NU))}catch(e){}}
 function doImp(){const R=IXR;if(!R)return;const KEEP=new Set([...document.querySelectorAll('#ixb .ixk input:checked')].map(i=>+i.dataset.i));if(R.rep&&$('ixrep')&&$('ixrep').checked)delImp(R.rep,1);
- const id='I'+Date.now().toString(36),rec={t:Date.now(),by:me||'',f:R.f,ti:R.ti,ex:R.ex||'',c:{},n:{},o:{},u:{}},by={};
- for(const[oi,o]of R.ops.entries()){if(KEEP.has(oi))continue;const L=o.code==='AST'?1:0,ck=o.a+'|'+o.k+(L?'|2':'');const cur=get(o.a,o.k);if(!L&&keepP(o.code,cur[0]))continue;rec.o[ck]=o.code;if(cur[L]===o.code)continue;rec.c[ck]=[cur[L],o.code];const v=cur.slice();v[L]=o.code;(data[o.a]=data[o.a]||{})[o.k]=v;(by[o.a]=by[o.a]||[]).push(o.k)}
+ const id='I'+Date.now().toString(36),rec={t:Date.now(),by:me||'',f:R.f,ti:R.ti,ex:R.ex||'',c:{},n:{},o:{},u:{},m:{}},by={};
+ for(const[oi,o]of R.ops.entries()){if(KEEP.has(oi))continue;const L=o.code==='AST'?1:0,ck=o.a+'|'+o.k+(L?'|2':'');const cur=get(o.a,o.k);if(!L&&keepP(o.code,cur[0]))continue;rec.o[ck]=o.code;if(L?(cur[1]&&cur[1]!=='AST'):isMan(o.a,o.k,cur[0]))rec.m[ck]=cur[L];if(cur[L]===o.code)continue;rec.c[ck]=[cur[L],o.code];const v=cur.slice();v[L]=o.code;(data[o.a]=data[o.a]||{})[o.k]=v;(by[o.a]=by[o.a]||[]).push(o.k)}
  for(let[key,t]of Object.entries(R.nu)){if(key.includes('|P_x'))key=key.replace('|P_x','|P_'+id.slice(1)+'_');rec.u[key]=t;const old=NU[key]||'';if(old===t)continue;rec.n[key]=[old,t];nuSet(key,t)}
  Object.entries(by).forEach(([a,ks])=>save(a,ks));IMP[id]=rec;saveImp();if(RT){RT.ref('imports/'+id).set(rec).catch(e=>$('st').textContent='⚠️ Extraction non enregistrée : ajoutez « imports » dans les règles Firebase');RT.ref('historique').push({by:me||'',imp:R.ti,nb:Object.keys(rec.c).length,t:Date.now()}).catch(()=>{})}
  closeIx();vw='imp';draw()}
-function delImp(id,silent){const rec=IMP[id];if(!rec)return;const by={};
- for(const[ck,[o,n]]of Object.entries(rec.c||{})){const[a,k,l2]=ck.split('|'),L=l2?1:0,cur=get(a,k);if(cur[L]!==n)continue;const v=cur.slice();v[L]=o||'';(data[a]=data[a]||{})[k]=v;(by[a]=by[a]||[]).push(k)}
- for(const[key,[o,n]]of Object.entries(rec.n||{})){if(NU[key]===n)nuSet(key,o)}
+function delImp(id,silent){const rec=IMP[id];if(!rec)return;const by={},O=rec.o||{},Cc=rec.c||{},M=rec.m||{};
+ // tout ce que l'extraction a écrit est retiré ; seules les saisies faites à la main (avant ou après l'import) restent
+ for(const ck of new Set([...Object.keys(O),...Object.keys(Cc)])){const[a,k,l2]=ck.split('|'),L=l2?1:0,n=ck in O?O[ck]:(Cc[ck]||[])[1],cur=get(a,k);if(cur[L]!==n||Object.entries(IMP).some(([j,r])=>j!==id&&(r.o||{})[ck]===n))continue;
+  let back=M[ck];if(back===undefined){const o=(Cc[ck]||[])[0];back=o&&PROT.includes(o)?o:''}if(!back&&!L)back=dflt(k)[0];
+  const v=cur.slice();v[L]=back;data[a]=data[a]||{};if(v[0]===dflt(k)[0]&&!v[1])delete data[a][k];else data[a][k]=v;(by[a]=by[a]||[]).push(k)}
+ const oth=(key,t)=>Object.entries(IMP).some(([j,r])=>j!==id&&(r.u||{})[key]===t);
+ for(const[key,t]of Object.entries(rec.u||{}))if(NU[key]===t&&!oth(key,t))nuSet(key,'');
+ for(const[key,[o,n]]of Object.entries(rec.n||{}))if(NU[key]===n&&!oth(key,n))nuSet(key,'');
  Object.entries(by).forEach(([a,ks])=>save(a,ks));delete IMP[id];saveImp();if(RT){RT.ref('imports/'+id).remove().catch(()=>{});if(!silent)RT.ref('historique').push({by:me||'',imp:rec.ti,del:1,t:Date.now()}).catch(()=>{})}
  if(!silent){closeIx();draw()}}
 // réappliquer une extraction : tout remettre comme dans le fichier, sans le rechercher
@@ -1037,7 +1042,7 @@ const sn={v:[],nu:{...NU},h:[]};const mp=data[a]=data[a]||{},ks=[];for(let d=wkS
  if(keep&&kk!==k&&(w==0||w==6||HOL.includes(kk)))continue;sn.v.push([a,kk,mp[kk]?mp[kk].slice():null]);const v=get(a,kk).slice();v[line]=c;mp[kk]=v;ks.push(kk)}
 save(a,ks);sn.h.push(logH(a,ks[0],ks[ks.length-1],c,line));cleanN(ks);draw();closeS();offerUndo(sn,(c?`<span class="cd" style="background:${P[c][0]};color:${P[c][1]}">${esc(c)}</span> posé`:'Effacé')+` pour ${esc(pre(a))}`+(ks.length>1?` · ${ks.length} jours`:''));const kc=kcOf(c,a);if(kc){const w=[...new Set(ks.map(x=>wkey(wkS(x))))].filter(x=>!NU[x+'|'+kc]);if(w.length)setTimeout(()=>openN(w,kc,true),250)}}
 function save(a,ks){try{localStorage.setItem('tap27_'+a,JSON.stringify(data[a]))}catch(e){}
-if(db){const o={};ks.forEach(k=>o[k]=data[a][k]);const r=db.doc('planning/'+a);r.update({d:o}).catch(()=>r.set({d:data[a]})).catch(e=>$('st').textContent='Enregistrement impossible : '+(e.message||e.code))}}
+if(db){const o={};ks.forEach(k=>o[k]=data[a][k]===undefined?null:data[a][k]);const r=db.doc('planning/'+a);r.update({d:o}).catch(()=>r.set({d:data[a]})).catch(e=>$('st').textContent='Enregistrement impossible : '+(e.message||e.code))}}
 yrT();setTimeout(goToday,80);ALL.forEach(a=>{try{const s=localStorage.getItem('tap27_'+a[0]);if(s)data[a[0]]=JSON.parse(s)}catch(e){}});
 draw();
 const CFG={apiKey:"AIzaSyBz7oH7QZPduFLdQqJHr_QN6f6lh_gQM2Y",authDomain:"tap-goussainville.firebaseapp.com",databaseURL:"https://tap-goussainville-default-rtdb.europe-west1.firebasedatabase.app",projectId:"tap-goussainville",storageBucket:"tap-goussainville.firebasestorage.app",messagingSenderId:"214806325624",appId:"1:214806325624:web:46d57c2f96ba8640d7c08d"}; // ← config Firebase (Realtime Database)
