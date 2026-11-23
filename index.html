@@ -579,8 +579,30 @@ html[data-sy=sync] #syb{height:3px;background:linear-gradient(90deg,transparent,
 html[data-sy=ok] #syb{background:#22c55e}html:not([data-theme=dark])[data-sy=ok] #syb{background:#16a34a}
 html[data-sy=off] #syb{background:#f59e0b}
 html[data-skin] .wrap{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#svm{position:fixed;inset:0;z-index:60;background:#000b;display:none;align-items:center;justify-content:center;padding:16px}
+#svm .bx2{background:#fffffff7;color:var(--ink);border-radius:22px;padding:20px 16px;width:100%;max-width:380px;max-height:calc(100vh - 32px);overflow:auto;box-shadow:0 20px 50px #0007;border:1px solid var(--line)}
+[data-theme=dark] #svm .bx2{background:#111827f7}
+#svm h2{margin:0 0 4px;text-align:center;font-size:19px}
+#svm .sub{margin:0 0 14px;text-align:center;color:var(--mut);font-size:13px}
+#svm .pin{display:flex;gap:8px;justify-content:center;margin:6px 0 14px}
+#svm .pin i{width:42px;height:50px;border-radius:12px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:26px;font-weight:800;background:var(--bg)}
+#svm .pin i.f{border-color:var(--ac)}#svm .pin.er i{border-color:#ef4444;animation:shk .3s}
+@keyframes shk{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+#svm .kb{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#svm .kb button{height:46px;border-radius:12px;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-size:20px;font-weight:700}
+#svm .kb button:disabled{opacity:.4}
+#svm .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:12px;font-size:15px;font-weight:700;background:var(--ac);color:#fff;margin-bottom:12px}
+#svm .row{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid var(--line);border-radius:14px;margin-top:7px;background:var(--bg)}
+#svm .row .d{flex:1;line-height:1.25}#svm .row .d b{font-size:14px}#svm .row .d small{display:block;color:var(--mut);font-size:11.5px}
+#svm .row button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:7px 10px;font-size:15px}
+#svm .row button.r{color:#f59e0b}
+#svm .ft{margin-top:12px;text-align:center;font-size:12.5px;color:var(--mut);text-decoration:underline;cursor:pointer;background:none;border:0;width:100%}
+#svm .warn{background:#f59e0b22;border:1px solid #f59e0b66;border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.4;margin:4px 0 12px}
+#svm ul{margin:6px 0 12px;padding-left:18px;font-size:13.5px;line-height:1.6}
+#svm .two{display:flex;gap:8px}#svm .two .btn{margin:0}#svm .two .btn.g{background:var(--bg);color:var(--ink);border:1px solid var(--line)}#svm .two .btn.o{background:#f59e0b;color:#111}
+#svm .msg{text-align:center;font-size:13px;color:var(--mut);margin:8px 0 0;min-height:1em}
 </style></head><body>
-<div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button><span id="syt"></span></h1><i id="syb"></i><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button id="hlp" class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button><button id="mnu" class="hb" onclick="mnT(event)" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></header><div id="mpan" style="display:none"></div><div id="sab"></div><div id="anh"><span>📅 Défilez puis touchez le dernier jour</span><button onclick="ancOff()">Annuler</button></div>
+<div id="lk" style="display:none"><div class="bx" id="lkb"><img src="icon-180.png" alt=""><h2 class="yrn">TAP 2027</h2><p>Entrez le code d’équipe</p><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" onkeydown="if(event.key==='Enter')unlock()"><div class="er" id="er"></div><button onclick="unlock()">Entrer</button></div></div><header><h1 id="ttl">TAP <span id="yrt">2027</span> <button class="yrc" onclick="swY()" aria-label="Changer d’année" title="Changer d’année">⇄</button><span id="syt"></span></h1><i id="syb"></i><span id="ver"></span><button id="fsb" class="hb" onclick="fsT()" aria-label="Plein écran" title="Plein écran"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="hlb" class="hb" onclick="tgHL()" aria-label="Mon nom en avant"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.16l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93z"/></svg></button><button id="hlp" class="hb" onclick="tuto(0)" aria-label="Aide">?</button><button id="th" class="hb" onclick="tg()" aria-label="Changer de thème"></button><button id="mebtn" onclick="who()" aria-label="Changer de nom" style="display:none"></button><button id="mnu" class="hb" onclick="mnT(event)" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></header><div id="mpan" style="display:none"></div><div id="sab"></div><div id="svm" onclick="if(event.target===this)svClose()"><div class="bx2" id="svb"></div></div><div id="anh"><span>📅 Défilez puis touchez le dernier jour</span><button onclick="ancOff()">Annuler</button></div>
 <div class="team" id="team"></div>
 <div class="tabs" id="tabs"></div>
 <div class="view seg" id="view"></div>
@@ -1114,7 +1136,7 @@ async function unlock(){const v=$('pin').value.trim();let ok=false;
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 
 function mnD(){const dk=document.documentElement.dataset.theme=='dark';const v=($('ver')||{}).textContent||'';
-$('mpan').innerHTML='<div class="it" onclick="tgHL();mnD()"><i>★</i><span>Mon nom en avant</span><div class="tsw'+(HL&&me?' on':'')+'"></div></div><div class="it" onclick="tg();mnD()"><i>🌙</i><span>Mode nuit</span><div class="tsw'+(dk?' on':'')+'"></div></div><div class="it" onclick="mnC();tuto(0)"><i>?</i><span>Tutoriel</span></div>'+(v?'<div class="vr">TAP '+v+'</div>':'')}
+$('mpan').innerHTML='<div class="it" onclick="tgHL();mnD()"><i>★</i><span>Mon nom en avant</span><div class="tsw'+(HL&&me?' on':'')+'"></div></div><div class="it" onclick="tg();mnD()"><i>🌙</i><span>Mode nuit</span><div class="tsw'+(dk?' on':'')+'"></div></div><div class="it" onclick="mnC();tuto(0)"><i>?</i><span>Tutoriel</span></div><div class="it" onclick="mnC();svOpen()"><i>💾</i><span>Sauvegarde</span><span style="flex:0;font-size:12px">🔒</span></div>'+(v?'<div class="vr">TAP '+v+'</div>':'')}
 function mnP(){const r=$('mnu').getBoundingClientRect(),p=$('mpan');p.style.top=(r.bottom+8)+'px';p.style.right=Math.max(8,innerWidth-r.right)+'px'}
 function mnC(){$('mpan').style.display='none';$('mnu').classList.remove('on')}
 function mnT(e){e&&e.stopPropagation();const p=$('mpan');if(p.style.display!=='none'){mnC();return}ancOff();mnD();p.style.display='block';mnP();$('mnu').classList.add('on')}
@@ -1126,6 +1148,44 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){mnC();ancOff();if($('sh').cl
 // ---- état de la synchronisation (sous le titre + barre sous l'en-tête)
 function syS(st){const t={sync:'⟳ synchronisation…',ok:'● en ligne',off:'⚠ hors ligne'}[st];if(!t)return;document.documentElement.dataset.sy=st;$('syt').textContent=t}
 async function syChk(){const rt=RT;if(!rt||!startRT.on)return;const n=(syChk.n||0)+1;syChk.n=n;syS('sync');
- try{await Promise.race([rt.ref('nuits').get(),new Promise((_,r)=>setTimeout(()=>r(0),10000))]);if(syChk.n===n)syS(navigator.onLine===false?'off':'ok')}catch(e){if(syChk.n===n)syS('off')}}
+ try{await Promise.race([rt.ref('nuits').get(),new Promise((_,r)=>setTimeout(()=>r(0),10000))]);if(syChk.n===n){syS(navigator.onLine===false?'off':'ok');setTimeout(svAuto,4000)}}catch(e){if(syChk.n===n)syS('off')}}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)syChk()});addEventListener('online',syChk);addEventListener('offline',()=>{if(startRT.on)syS('off')});
+
+// ================= Sauvegardes (réservées à l'administrateur, code à 6 chiffres) =================
+const SV_ROOTS=['planning','nuits','notes','imports','historique'];
+function svClose(){$('svm').style.display='none'}
+function svShow(h){$('svb').innerHTML=h;$('svm').style.display='flex'}
+function svAdm(){try{return localStorage.getItem('tap_adm')==='1'}catch(e){return false}}
+function svOpen(){ancOff();if(!RT||!UID){svShow('<h2>💾 Sauvegarde</h2><p class="sub">Connexion nécessaire.</p><button class="btn" onclick="svClose()">Fermer</button>');return}if(svAdm())svList();else svPin()}
+let SVP='',SVE=0,SVL=0;
+function svPin(msg){SVP='';const lock=Date.now()<SVL;svShow(`<h2>🔒 Code admin</h2><p class="sub">Sauvegardes réservées · entrez vos 6 chiffres</p><div class="pin" id="svpin">${'<i></i>'.repeat(6)}</div><div class="kb">${['1','2','3','4','5','6','7','8','9','','0','⌫'].map(x=>x?`<button ${lock?'disabled':''} onclick="svKey('${x}')">${x}</button>`:'<span></span>').join('')}</div><p class="msg" id="svmsg">${msg||(lock?'Trop d’essais · patientez 30 s':'')}</p><button class="ft" style="text-decoration:none" onclick="svClose()">Annuler</button>`);if(lock)setTimeout(()=>{if($('svm').style.display==='flex'&&$('svpin'))svPin()},SVL-Date.now()+50)}
+function svDots(){const p=$('svpin');if(p)[...p.children].forEach((e,i)=>{e.className=i<SVP.length?'f':'';e.textContent=i<SVP.length?'•':''})}
+async function svKey(x){if(Date.now()<SVL)return;if(x==='⌫'){SVP=SVP.slice(0,-1);svDots();return}if(SVP.length>=6)return;SVP+=x;svDots();if(SVP.length<6)return;
+ const code=SVP;try{await RT.ref('admins/'+UID).set({code,t:Date.now()});await RT.ref('sauvegardes_liste').limitToLast(1).get();SVE=0;try{localStorage.setItem('tap_adm','1')}catch(e){}svList()}
+ catch(e){SVE++;const p=$('svpin');if(p){p.classList.add('er')}if(SVE>=3){SVE=0;SVL=Date.now()+30000}setTimeout(()=>svPin(SVL>Date.now()?'':'Code incorrect'),350)}}
+async function svForget(){try{await RT.ref('admins/'+UID).remove()}catch(e){}try{localStorage.removeItem('tap_adm')}catch(e){}svClose()}
+function svWhen(t){const d=new Date(t);return d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short',year:'numeric'})+' · '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
+async function svSnap(kind){const o={};const g=await Promise.all(SV_ROOTS.map(r=>RT.ref(r).get()));SV_ROOTS.forEach((r,i)=>o[r]=g[i].val()||null);
+ const id=String(Date.now()),meta={t:+id,kind,by:me?pre(me):'',size:JSON.stringify(o).length};await RT.ref('sauvegardes/'+id).set(o);await RT.ref('sauvegardes_liste/'+id).set(meta);return id}
+async function svList(note){svShow('<h2>💾 Sauvegardes</h2><p class="sub">Chargement…</p>');let L;
+ try{L=(await RT.ref('sauvegardes_liste').get()).val()||{}}catch(e){try{localStorage.removeItem('tap_adm')}catch(_){}svPin('Code à saisir à nouveau');return}
+ const ids=Object.keys(L).sort().reverse();
+ // ne garder que les 8 dernières
+ ids.slice(8).forEach(id=>{RT.ref('sauvegardes/'+id).remove().catch(()=>{});RT.ref('sauvegardes_liste/'+id).remove().catch(()=>{})});
+ const K={auto:'automatique',man:'manuelle',avant:'avant restauration'};
+ svShow(`<h2>💾 Sauvegardes</h2><p class="sub">Une copie automatique par semaine · 8 gardées</p><button class="btn" id="svnow" onclick="svNow()">＋ Sauvegarder maintenant</button>${note?`<p class="msg">${note}</p>`:''}${ids.slice(0,8).map(id=>{const m=L[id];return `<div class="row"><div class="d"><b>${esc(svWhen(m.t).split(' · ')[0])}</b><small>${esc(svWhen(m.t).split(' · ')[1])} · ${K[m.kind]||esc(m.kind||'')}${m.by?' · '+esc(m.by):''}</small></div><button title="Télécharger" onclick="svDl('${id}')">⬇</button><button class="r" title="Restaurer" onclick="svAsk('${id}')">↺</button></div>`}).join('')||'<p class="msg">Aucune sauvegarde pour le moment.</p>'}<button class="ft" onclick="svForget()">Oublier le code sur cet appareil</button>`)}
+async function svNow(){const b=$('svnow');if(b){b.disabled=true;b.textContent='Sauvegarde…'}try{await svSnap('man');svList('✓ Sauvegarde créée')}catch(e){svList('⚠ Échec de la sauvegarde (connexion ?)')}}
+async function svDl(id){try{const v=(await RT.ref('sauvegardes/'+id).get()).val(),m=(await RT.ref('sauvegardes_liste/'+id).get()).val()||{};const d=new Date(m.t||+id),p=n=>String(n).padStart(2,'0');
+ const blob=new Blob([JSON.stringify({app:'TAP',version:1,t:m.t||+id,kind:m.kind||'',by:m.by||'',data:v},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`TAP-sauvegarde-${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}-${p(d.getHours())}h${p(d.getMinutes())}.json`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)}catch(e){svList('⚠ Téléchargement impossible')}}
+function svCount(a,b){let c=0;const ks=new Set([...Object.keys(a||{}),...Object.keys(b||{})]);ks.forEach(k=>{if(JSON.stringify((a||{})[k]??null)!==JSON.stringify((b||{})[k]??null))c++});return c}
+async function svAsk(id){svShow('<h2>↺ Restaurer ?</h2><p class="sub">Calcul des changements…</p>');try{const v=(await RT.ref('sauvegardes/'+id).get()).val()||{},m=(await RT.ref('sauvegardes_liste/'+id).get()).val()||{};
+ const cur={};const g=await Promise.all(SV_ROOTS.map(r=>RT.ref(r).get()));SV_ROOTS.forEach((r,i)=>cur[r]=g[i].val()||null);
+ let cells=0;const ag=new Set([...Object.keys(cur.planning||{}),...Object.keys(v.planning||{})]);ag.forEach(a=>{cells+=svCount(((cur.planning||{})[a]||{}).d,((v.planning||{})[a]||{}).d)});
+ const nu=svCount(cur.nuits,v.nuits),nt=svCount(cur.notes,v.notes);svAsk.v=v;
+ svShow(`<h2>↺ Restaurer ?</h2><p class="sub">Sauvegarde du ${esc(svWhen(m.t||+id))}</p><div class="warn">⚠ Le planning de <b>toute l’équipe</b> sera remis comme à cette date.</div><ul><li><b>${cells}</b> case${cells>1?'s vont':' va'} changer</li><li><b>${nu}</b> semaine${nu>1?'s':''} de chantiers / Prévu</li><li><b>${nt}</b> note${nt>1?'s':''}</li></ul><p class="sub" style="margin-bottom:12px">Une copie de l’état actuel est enregistrée avant, par sécurité.</p><div class="two"><button class="btn g" onclick="svList()">Annuler</button><button class="btn o" id="svgo" onclick="svDo()">Restaurer</button></div>`)}catch(e){svList('⚠ Impossible de lire cette sauvegarde')}}
+async function svDo(){const v=svAsk.v;if(!v)return;const b=$('svgo');if(b){b.disabled=true;b.textContent='Restauration…'}
+ try{await svSnap('avant');for(const r of ['planning','nuits','notes','imports'])await RT.ref(r).set(v[r]||null);svAsk.v=null;svList('✓ Planning restauré pour toute l’équipe')}catch(e){svList('⚠ Échec de la restauration (connexion ?)')}}
+// sauvegarde automatique : une par semaine, faite par le premier appareil qui ouvre l'appli
+async function svAuto(){if(!RT||svAuto.done)return;svAuto.done=1;try{let go=false;const now=Date.now();
+ await RT.ref('sauvegardes_meta/last').transaction(c=>{if(c&&now-c<7*864e5){go=false;return}go=true;return now});if(go)await svSnap('auto')}catch(e){}}
 </script></body></html>
