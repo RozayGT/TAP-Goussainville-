@@ -259,6 +259,7 @@ th.wkc{cursor:pointer}
 #nd .dl{background:color-mix(in srgb,var(--neg) 15%,var(--card));color:var(--neg)}
 #nd .dl.cf{background:var(--neg);color:#fff}
 .ninfo{display:flex;align-items:center;gap:8px;background:color-mix(in srgb,#5b6fe0 12%,var(--bg));border-radius:10px;padding:7px 10px;margin:4px 0 8px;font-size:13px}
+.nsx{flex:1;min-width:0}.nsh{font-size:11px;font-weight:800;color:var(--ac);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}.nst{font-size:14px;font-weight:600;line-height:1.35}.nsd{margin-top:5px;font-size:12px;color:var(--mut)}.nsd summary{cursor:pointer;color:var(--ac);font-weight:700;list-style:none}.nsd summary::-webkit-details-marker{display:none}.nsd summary::before{content:'▸ '}.nsd[open] summary::before{content:'▾ '}.nsd div{margin-top:4px;line-height:1.35}
 .ninfo a{margin-left:auto;color:var(--ac);font-weight:700;font-size:12px;cursor:pointer}
 .cd.ini{background:var(--bg)!important;color:var(--ink)!important;border:1px solid var(--line)}
 .nt{flex-wrap:nowrap}
@@ -676,7 +677,11 @@ function used(k,kc){const ds=wDays(k);if(isF(kc)){const a=kc.slice(4);return ds.
 function cleanN(ks){const done={};for(const k of ks){const w=wkey(wkS(k));if(done[w])continue;done[w]=1;
  for(const kc of [...NC,...ALL.map(a=>'FOR_'+a[0])]){if(NU[w+'|'+kc]&&!used(k,kc)){delete NU[w+'|'+kc];if(RT)RT.ref('nuits/'+w+'/'+kc).remove().catch(()=>{})}}}
  try{localStorage.setItem('tap_nuits',JSON.stringify(NU))}catch(e){}}
-function nInfo(a,k){const v=get(a,k),w=wkey(wkS(k));return v.map(c=>kcOf(c,a)).filter(kc=>kc&&NU[w+'|'+kc]).map(kc=>`<div class="ninfo">${kChip(kc)}${esc(NU[w+'|'+kc])}<a onclick="closeS();${isF(kc)?`openN(['${w}'],'${kc}')`:`openCD('${w}','${kc}')`}">${ro?'Voir':isF(kc)?'Modifier':'Détail / agents'}</a></div>`).join('')}
+function nFix(t){return String(t).replace(/(\p{L})¿(\p{L})/gu,'$1’$2').replace(/\s¿\s/g,' – ').replace(/¿/g,'')}
+function nSeg(t,k){const J=['Di','Lu','Ma','Me','Je','Ve','Sa'],d=J[new Date(k+'T12:00').getDay()],re=/(?:^|[•·;\n])\s*(Lu|Ma|Me|Je|Ve|Sa|Di)\s*[\/\-]?\s*(Lu|Ma|Me|Je|Ve|Sa|Di)\s*:\s*/g,M=[];let m;while(m=re.exec(t))M.push({a:m[1],b:m[2],s:m.index,e:re.lastIndex});const i=M.findIndex(x=>x.b===d);if(i<0)return null;const x=M[i];return{a:x.a,b:x.b,t:t.slice(x.e,i+1<M.length?M[i+1].s:t.length).replace(/[\s•·;]+$/,'').trim()}}
+const JL={Lu:'lundi',Ma:'mardi',Me:'mercredi',Je:'jeudi',Ve:'vendredi',Sa:'samedi',Di:'dimanche'};
+function nTxt(kc,k,full){const t=nFix(full),g=nSeg(t,k);if(!g||!g.t)return esc(t);return `<div class="nsx"><div class="nsh">🌙 Nuit du ${JL[g.a]} au ${JL[g.b]}</div><div class="nst">${esc(g.t)}</div><details class="nsd"><summary>Toute la semaine</summary><div>${esc(t)}</div></details></div>`}
+function nInfo(a,k){const v=get(a,k),w=wkey(wkS(k));return v.map(c=>kcOf(c,a)).filter(kc=>kc&&NU[w+'|'+kc]).map(kc=>`<div class="ninfo">${kChip(kc)}${nTxt(kc,k,NU[w+'|'+kc])}<a onclick="closeS();${isF(kc)?`openN(['${w}'],'${kc}')`:`openCD('${w}','${kc}')`}">${ro?'Voir':isF(kc)?'Modifier':'Détail / agents'}</a></div>`).join('')}
 function plan(){hlB();let mr='<tr class="mr"><th class="nm" id="mlab"><span class="mph">Septembre '+YR+'</span>'+MOIS.map((x,i)=>'<span class="ml">'+x+' '+YR+'</span>').join('')+'</th>',h='<tr class="dy"><th class="nm">Jour</th>',wr='<tr class="wk"><th class="nm">Semaine</th>',days=[],cw=null,cs=0,cz=[],G=[],ck='',cf='';
 let vd=[];const fl=()=>{if(!cs)return;G.push([ck,cs,cf]);const nv=vd.filter(z=>z.length).length,zs=[...new Set(vd.flat())].sort();
  let st='',cl='';if(nv===cs)cl='v';else if(nv){const seg=[];let i=0;while(i<cs){const on=!!vd[i].length;let j=i;while(j<cs&&!!vd[j].length===on)j++;seg.push(`${on?'var(--wkv)':'var(--wkn)'} ${(i/cs*100).toFixed(2)}% ${(j/cs*100).toFixed(2)}%`);i=j}st=` style="background:linear-gradient(90deg,${seg.join(',')})!important"`}
